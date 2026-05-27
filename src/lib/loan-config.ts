@@ -6,7 +6,7 @@ export const LOAN_FEES = {
   legal: 1_500,
   // processing fee is calculated as 5% of take-home amount (see calculateTotalFees)
   logbookTransfer: 2_500,
-  tracker: 25_000,
+  tracker: 15_000,
 } as const;
 
 export const LOAN_PROCESSING_FEE_PERCENTAGE = 0.05; // 5% of take-home
