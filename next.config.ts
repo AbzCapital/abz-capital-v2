@@ -1,15 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  typescript: {
-    // Ignore build errors temporarily to unblock deployment
-    ignoreBuildErrors: false,
-  },
-  // Skip ISR/static generation for routes with database
-  onDemandEntries: {
-    maxInactiveAge: 60 * 1000,
-    pagesBufferLength: 5,
-  },
+  // Externalize Prisma from bundling – it's server-only and shouldn't be bundled
+  serverExternalPackages: ["@prisma/client", "prisma"],
 };
 
 export default nextConfig;
