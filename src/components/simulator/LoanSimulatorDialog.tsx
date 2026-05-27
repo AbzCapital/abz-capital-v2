@@ -24,6 +24,14 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
   const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleOpenDialog = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setOpen(true);
+  };
+
   const handleGenerate = async () => {
     if (takeHome <= 0) {
       toast.error("Please enter a loan amount");
@@ -72,7 +80,12 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
         handleReset();
       }
     }}>
-      <div onClick={() => setOpen(true)}>
+      <div
+        onClick={handleOpenDialog}
+        onTouchStart={handleOpenDialog}
+        className="cursor-pointer"
+        style={{ WebkitTouchCallout: "none" } as React.CSSProperties}
+      >
         {trigger}
       </div>
 

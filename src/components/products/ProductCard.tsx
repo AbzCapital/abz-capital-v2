@@ -58,7 +58,8 @@ export function ProductCard({ product, category }: ProductCardProps) {
               trigger={
                 <button
                   type="button"
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-indigo transition hover:brightness-105 active:brightness-95 touch-manipulation"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-indigo transition active:brightness-95 touch-manipulation"
+                  style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
                 >
                   <Calculator className="size-4" />
                   Simulate
@@ -68,7 +69,8 @@ export function ProductCard({ product, category }: ProductCardProps) {
           )}
           <a
             href={mailto}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-indigo px-3 py-3 text-xs sm:text-sm font-semibold text-white transition hover:brightness-110 active:brightness-95 touch-manipulation"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-indigo px-3 py-3 text-xs sm:text-sm font-semibold text-white transition active:brightness-95 touch-manipulation"
+            style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
           >
             <Mail className="size-4" />
             Email
@@ -77,7 +79,8 @@ export function ProductCard({ product, category }: ProductCardProps) {
             href={whatsappUrl(waMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-whatsapp)] px-3 py-3 text-xs sm:text-sm font-semibold text-white transition hover:brightness-95 active:brightness-90 touch-manipulation"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-whatsapp)] px-3 py-3 text-xs sm:text-sm font-semibold text-white transition active:brightness-90 touch-manipulation"
+            style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
           >
             <WhatsAppIcon className="size-4" />
             WhatsApp
