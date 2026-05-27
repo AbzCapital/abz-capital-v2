@@ -32,7 +32,7 @@ export function calculateTotalFees(takeHome: number): number {
 
 export const LOAN_MONTHLY_RATE = 0.06; // 6% per month reducing balance
 export const LOAN_MIN_MONTHS = 1;
-export const LOAN_MAX_MONTHS = 6;
+export const LOAN_MAX_MONTHS = 12;
 export const LOAN_MIN_TAKE_HOME = 50_000;
 export const LOAN_MAX_TAKE_HOME = 5_000_000;
 
