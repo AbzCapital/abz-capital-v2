@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { calculateSchedule, type LoanSchedule, LoanInputError } from "@/lib/loan-calc";
-import { LOAN_MIN_MONTHS } from "@/lib/loan-config";
+import { type LoanSchedule, LoanInputError } from "@/lib/loan-calc";
 import { toast } from "sonner";
 import { InputsSection } from "./InputsSection";
 import { LoanBreakdown } from "./LoanBreakdown";
@@ -15,14 +14,45 @@ export interface LoanSimulatorDialogProps {
 
 type SimulatorStep = "input" | "breakdown" | "schedule";
 
+export interface LoanConfigData {
+  valuationFee: number;
+  legalFee: number;
+  processingFeePercentage: number;
+  logbookTransferFee: number;
+  trackerFee: number;
+  monthlyRate: number;
+  minMonths: number;
+  maxMonths: number;
+}
+
 export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<SimulatorStep>("input");
   const [takeHome, setTakeHome] = useState(0);
   const [insurancePremium, setInsurancePremium] = useState(0);
-  const [months, setMonths] = useState(LOAN_MIN_MONTHS);
+  const [months, setMonths] = useState(1);
   const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [loanConfig, setLoanConfig] = useState<LoanConfigData | null>(null);
+
+  // Fetch loan config when dialog opens
+  useEffect(() => {
+    if (!open) return;
+
+    const fetchConfig = async () => {
+      try {
+        const response = await fetch("/api/loan-config");
+        const data = await response.json();
+        setLoanConfig(data);
+        setMonths(data.minMonths || 1);
+      } catch (error) {
+        console.error("Failed to fetch loan config:", error);
+        toast.error("Failed to load loan configuration");
+      }
+    };
+
+    fetchConfig();
+  }, [open]);
 
   const handleOpenDialog = (e?: React.MouseEvent | React.TouchEvent) => {
     if (e) {
@@ -43,13 +73,64 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
       return;
     }
 
+    if (!loanConfig) {
+      toast.error("Loan configuration not loaded");
+      return;
+    }
+
     setIsLoading(true);
     try {
-      const result = calculateSchedule({
+      // Calculate fees using database config
+      const processingFee = Math.round(takeHome * loanConfig.processingFeePercentage);
+      const feesTotal =
+        loanConfig.valuationFee +
+        loanConfig.legalFee +
+        processingFee +
+        loanConfig.logbookTransferFee +
+        loanConfig.trackerFee;
+
+      const principal = takeHome + insurancePremium + feesTotal;
+
+      // Fixed principal payment each month (reducing balance method)
+      const fixedPrincipalPayment = principal / months;
+
+      const rows = [];
+      let outstandingBalance = principal;
+      let totalInterestCharged = 0;
+
+      for (let m = 1; m <= months; m++) {
+        const interest = Math.round(outstandingBalance * loanConfig.monthlyRate);
+        const principalPayment = fixedPrincipalPayment;
+        const monthlyPayment = interest + principalPayment;
+        const newBalance = Math.max(0, outstandingBalance - principalPayment);
+
+        totalInterestCharged += interest;
+
+        rows.push({
+          month: m,
+          outstandingBalance: Math.round(outstandingBalance),
+          interest,
+          principal: Math.round(principalPayment),
+          monthlyPayment: Math.round(monthlyPayment),
+          newBalance: Math.round(newBalance),
+        });
+
+        outstandingBalance = newBalance;
+      }
+
+      const result: LoanSchedule = {
         takeHome,
         insurancePremium,
+        feesTotal,
+        principal,
         months,
-      });
+        monthlyRate: loanConfig.monthlyRate,
+        fixedPrincipalPayment,
+        totalRepayment: principal + totalInterestCharged,
+        totalInterest: totalInterestCharged,
+        rows,
+      };
+
       setSchedule(result);
       setStep("breakdown");
       toast.success("Schedule generated");

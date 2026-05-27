@@ -10,7 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ArrowRight, Info } from "lucide-react";
-import { LOAN_MIN_MONTHS, LOAN_MAX_MONTHS } from "@/lib/loan-config";
 import {
   Tooltip,
   TooltipContent,
@@ -26,6 +25,8 @@ export interface InputsSectionProps {
   onMonthsChange: (value: number) => void;
   onGenerate: () => void;
   isLoading?: boolean;
+  minMonths?: number;
+  maxMonths?: number;
 }
 
 export function InputsSection({
@@ -37,10 +38,12 @@ export function InputsSection({
   onMonthsChange,
   onGenerate,
   isLoading,
+  minMonths = 1,
+  maxMonths = 12,
 }: InputsSectionProps) {
   const monthOptions = Array.from(
-    { length: LOAN_MAX_MONTHS - LOAN_MIN_MONTHS + 1 },
-    (_, i) => LOAN_MIN_MONTHS + i
+    { length: maxMonths - minMonths + 1 },
+    (_, i) => minMonths + i
   );
 
   return (
@@ -188,8 +191,8 @@ export function InputsSection({
           isLoading ||
           takeHome <= 0 ||
           insurancePremium <= 0 ||
-          months < LOAN_MIN_MONTHS ||
-          months > LOAN_MAX_MONTHS
+          months < minMonths ||
+          months > maxMonths
         }
         className="w-full bg-peach text-indigo font-semibold hover:brightness-95 py-6 text-base"
       >

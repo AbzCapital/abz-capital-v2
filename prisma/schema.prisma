@@ -43,17 +43,17 @@ model Product {
 }
 
 model LoanConfig {
-  id                  String   @id @default(cuid())
-  valuationFee        Int      @default(1500)
-  legalFee            Int      @default(1500)
-  processingFee       Int      @default(15000)
-  logbookTransferFee  Int      @default(2500)
-  trackerFee          Int      @default(25000)
-  monthlyRate         Float    @default(0.06)
-  minMonths           Int      @default(1)
-  maxMonths           Int      @default(6)
-  updatedAt           DateTime @updatedAt
-  updatedBy           String   @default("system")
+  id                      String   @id @default(cuid())
+  valuationFee            Int      @default(1500)
+  legalFee                Int      @default(1500)
+  processingFeePercentage Float    @default(0.05)
+  logbookTransferFee      Int      @default(2500)
+  trackerFee              Int      @default(15000)
+  monthlyRate             Float    @default(0.06)
+  minMonths               Int      @default(1)
+  maxMonths               Int      @default(12)
+  updatedAt               DateTime @updatedAt
+  updatedBy               String   @default("system")
 }
 
 model Lead {

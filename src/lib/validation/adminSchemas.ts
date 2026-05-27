@@ -30,7 +30,7 @@ export type ProductInput = z.infer<typeof productSchema>;
 export const loanConfigSchema = z.object({
   valuationFee: z.number().int().min(0),
   legalFee: z.number().int().min(0),
-  processingFee: z.number().int().min(0),
+  processingFeePercentage: z.number().min(0).max(1),
   logbookTransferFee: z.number().int().min(0),
   trackerFee: z.number().int().min(0),
   monthlyRate: z.number().min(0).max(1),

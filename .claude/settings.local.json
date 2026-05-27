@@ -36,7 +36,8 @@
       "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator responsiveness *)",
       "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator button responsiveness *)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(xargs grep -l \"hasSimulator\")"
+      "Bash(xargs grep -l \"hasSimulator\")",
+      "Bash(git commit *)"
     ]
   }
 }

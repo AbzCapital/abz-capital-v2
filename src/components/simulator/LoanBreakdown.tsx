@@ -2,17 +2,32 @@
 
 import { Button } from "@/components/ui/button";
 import { LoanSchedule, formatKES } from "@/lib/loan-calc";
-import { LOAN_FEES, LOAN_PROCESSING_FEE_PERCENTAGE } from "@/lib/loan-config";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+
+interface LoanConfigData {
+  valuationFee: number;
+  legalFee: number;
+  processingFeePercentage: number;
+  logbookTransferFee: number;
+  trackerFee: number;
+}
 
 export interface LoanBreakdownProps {
   schedule: LoanSchedule;
   onBackToInput: () => void;
   onViewSchedule: () => void;
+  loanConfig?: LoanConfigData | null;
 }
 
-export function LoanBreakdown({ schedule, onBackToInput, onViewSchedule }: LoanBreakdownProps) {
-  const processingFee = schedule.takeHome * LOAN_PROCESSING_FEE_PERCENTAGE;
+export function LoanBreakdown({
+  schedule,
+  onBackToInput,
+  onViewSchedule,
+  loanConfig,
+}: LoanBreakdownProps) {
+  const processingFee = loanConfig
+    ? Math.round(schedule.takeHome * loanConfig.processingFeePercentage)
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -51,17 +66,19 @@ export function LoanBreakdown({ schedule, onBackToInput, onViewSchedule }: LoanB
             <tr className="bg-white">
               <td className="pl-8 pr-4 py-2 text-muted-ink text-sm">Car Valuation Fee</td>
               <td className="px-4 py-2 text-right text-muted-ink font-medium">
-                {formatKES(LOAN_FEES.valuation)}
+                {loanConfig ? formatKES(loanConfig.valuationFee) : "—"}
               </td>
             </tr>
             <tr className="bg-white">
               <td className="pl-8 pr-4 py-2 text-muted-ink text-sm">Legal Fee</td>
               <td className="px-4 py-2 text-right text-muted-ink font-medium">
-                {formatKES(LOAN_FEES.legal)}
+                {loanConfig ? formatKES(loanConfig.legalFee) : "—"}
               </td>
             </tr>
             <tr className="bg-white">
-              <td className="pl-8 pr-4 py-2 text-muted-ink text-sm">Loan Processing Fee (5%)</td>
+              <td className="pl-8 pr-4 py-2 text-muted-ink text-sm">
+                Loan Processing Fee ({loanConfig ? `${(loanConfig.processingFeePercentage * 100).toFixed(1)}%` : "N/A"})
+              </td>
               <td className="px-4 py-2 text-right text-muted-ink font-medium">
                 {formatKES(processingFee)}
               </td>
@@ -69,13 +86,13 @@ export function LoanBreakdown({ schedule, onBackToInput, onViewSchedule }: LoanB
             <tr className="bg-white">
               <td className="pl-8 pr-4 py-2 text-muted-ink text-sm">Logbook Transfer Fee</td>
               <td className="px-4 py-2 text-right text-muted-ink font-medium">
-                {formatKES(LOAN_FEES.logbookTransfer)}
+                {loanConfig ? formatKES(loanConfig.logbookTransferFee) : "—"}
               </td>
             </tr>
             <tr className="bg-white">
               <td className="pl-8 pr-4 py-2 text-muted-ink text-sm">Car Tracker Purchase Fee</td>
               <td className="px-4 py-2 text-right text-muted-ink font-medium">
-                {formatKES(LOAN_FEES.tracker)}
+                {loanConfig ? formatKES(loanConfig.trackerFee) : "—"}
               </td>
             </tr>
             <tr className="bg-peach/10">
