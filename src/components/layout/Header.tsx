@@ -98,43 +98,40 @@ export function Header() {
         </div>
       </Container>
 
-      <div
-        className={cn(
-          "fixed top-16 sm:top-20 left-0 right-0 border-t border-line bg-white lg:hidden z-50",
-          open ? "block" : "hidden"
-        )}
-      >
-        <Container className="py-6">
-          <nav className="flex flex-col gap-1">
-            {NAV.map((item) => {
-              const active =
-                pathname === item.href ||
-                (item.href !== "/" && pathname.startsWith(item.href));
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium transition",
-                    active
-                      ? "bg-indigo/5 text-indigo"
-                      : "text-ink/80 hover:bg-indigo/5 hover:text-indigo"
-                  )}
-                >
-                  {item.label}
-                  <span aria-hidden>→</span>
-                </Link>
-              );
-            })}
-          </nav>
-          <Link
-            href="/products#asset-backed"
-            className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-indigo px-4 py-3 text-base font-semibold text-white shadow-button"
-          >
-            Apply for a loan now
-          </Link>
-        </Container>
-      </div>
+      {open && (
+        <div className="fixed top-16 sm:top-20 left-0 right-0 bottom-0 border-t border-line bg-white lg:hidden z-50 overflow-y-auto">
+          <Container className="py-6">
+            <nav className="flex flex-col gap-1">
+              {NAV.map((item) => {
+                const active =
+                  pathname === item.href ||
+                  (item.href !== "/" && pathname.startsWith(item.href));
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium transition",
+                      active
+                        ? "bg-indigo/5 text-indigo"
+                        : "text-ink/80 hover:bg-indigo/5 hover:text-indigo"
+                    )}
+                  >
+                    {item.label}
+                    <span aria-hidden>→</span>
+                  </Link>
+                );
+              })}
+            </nav>
+            <Link
+              href="/products#asset-backed"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-indigo px-4 py-3 text-base font-semibold text-white shadow-button"
+            >
+              Apply for a loan now
+            </Link>
+          </Container>
+        </div>
+      )}
     </header>
   );
 }

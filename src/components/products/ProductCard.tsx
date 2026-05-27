@@ -52,15 +52,15 @@ export function ProductCard({ product, category }: ProductCardProps) {
           </ul>
         )}
 
-        <div className="mt-5 flex flex-wrap items-center gap-2">
+        <div className="mt-5 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
           {product.hasSimulator && (
             <LoanSimulatorDialog
               trigger={
                 <button
                   type="button"
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-2 text-xs font-semibold text-indigo transition hover:brightness-105"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 sm:py-2 text-xs sm:text-sm font-semibold text-indigo transition hover:brightness-105"
                 >
-                  <Calculator className="size-3.5" />
+                  <Calculator className="size-4" />
                   Simulate
                 </button>
               }
@@ -68,18 +68,18 @@ export function ProductCard({ product, category }: ProductCardProps) {
           )}
           <a
             href={mailto}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-indigo px-3 py-2 text-xs font-semibold text-white transition hover:brightness-110"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-lg bg-indigo px-3 py-3 sm:py-2 text-xs sm:text-sm font-semibold text-white transition hover:brightness-110"
           >
-            <Mail className="size-3.5" />
+            <Mail className="size-4" />
             Email
           </a>
           <a
             href={whatsappUrl(waMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[color:var(--color-whatsapp)] px-3 py-2 text-xs font-semibold text-white transition hover:brightness-95"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-whatsapp)] px-3 py-3 sm:py-2 text-xs sm:text-sm font-semibold text-white transition hover:brightness-95"
           >
-            <WhatsAppIcon className="size-3.5" />
+            <WhatsAppIcon className="size-4" />
             WhatsApp
           </a>
         </div>
