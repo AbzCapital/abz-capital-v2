@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "PowerShell(python --version; python3 --version 2>&1 | Out-String; $target = \"$env:USERPROFILE\\\\.claude\\\\skills\\\\ui-ux-pro-max\"; New-Item -ItemType Directory -Path \"$target\\\\scripts\",\"$target\\\\data\\\\stacks\" -Force | Out-Null; Get-ChildItem $env:USERPROFILE\\\\.claude\\\\skills -Directory | Select-Object -ExpandProperty Name)",
+      "Bash(bash \"C:/Users/elitebook/.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Users/elitebook/Documents/ABZ CAPITAL/ABZCAPITALWEBSITE\")",
+      "Bash(npx shadcn@latest add dialog sheet form input label textarea select sonner card tabs separator --yes --overwrite)",
+      "Bash(npm list *)",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(git commit -m 'Fix build and linting issues *)",
+      "Bash(npx prisma *)",
+      "Bash(git commit -m 'Phase 2: Database & Admin Dashboard MVP *)",
+      "Bash(git commit -m 'Document Phase 2 completion *)",
+      "Bash(git commit -m 'Project completion summary *)",
+      "Bash(cat)",
+      "Read(//tmp/**)"
+    ]
+  }
+}

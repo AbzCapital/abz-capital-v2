@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ABZ brand tokens — primary palette */
+  --color-indigo: #1800ad;
+  --color-indigo-50: #f5f3ff;
+  --color-indigo-100: #ebe6ff;
+  --color-indigo-600: #1e0bc4;
+  --color-indigo-700: #1800ad;
+  --color-indigo-900: #0d0a2c;
+  --color-peach: #ffbd59;
+  --color-peach-50: #fff5e3;
+  --color-peach-100: #ffeac2;
+  --color-peach-400: #ffc874;
+  --color-peach-500: #ffbd59;
+  --color-ink: #0d0a2c;
+  --color-muted-ink: #4b5563;
+  --color-whatsapp: #25d366;
+  --color-line: #e5e7eb;
+
+  /* shadcn semantic mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Shadows */
+  --shadow-card: 0 4px 16px rgba(13, 10, 44, 0.05);
+  --shadow-elev: 0 12px 32px rgba(24, 0, 173, 0.10);
+  --shadow-button: 0 4px 12px rgba(24, 0, 173, 0.2);
+}
+
+:root {
+  /* shadcn primitives map onto ABZ brand */
+  --background: #ffffff;
+  --foreground: #0d0a2c;
+  --card: #ffffff;
+  --card-foreground: #0d0a2c;
+  --popover: #ffffff;
+  --popover-foreground: #0d0a2c;
+  --primary: #1800ad;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f3ff;
+  --secondary-foreground: #1800ad;
+  --muted: #f5f3ff;
+  --muted-foreground: #4b5563;
+  --accent: #fff5e3;
+  --accent-foreground: #0d0a2c;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #1800ad;
+  --chart-1: #1800ad;
+  --chart-2: #ffbd59;
+  --chart-3: #4a2bcc;
+  --chart-4: #ffc874;
+  --chart-5: #0d0a2c;
+  --radius: 0.625rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0d0a2c;
+  --sidebar-primary: #1800ad;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fff5e3;
+  --sidebar-accent-foreground: #0d0a2c;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #1800ad;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: #1800ad;
+    color: #ffffff;
+  }
+}
+
+/* Brand utilities */
+@layer utilities {
+  .text-gradient-brand {
+    background: linear-gradient(90deg, #1800ad 0%, #ffbd59 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-mesh {
+    background:
+      radial-gradient(circle at 20% 10%, rgba(24, 0, 173, 0.10), transparent 50%),
+      radial-gradient(circle at 80% 90%, rgba(255, 189, 89, 0.18), transparent 55%),
+      linear-gradient(135deg, #faf7ff 0%, #ffffff 50%, #fff5e3 100%);
+  }
+  .bg-mesh-soft {
+    background:
+      radial-gradient(circle at 90% 10%, rgba(24, 0, 173, 0.06), transparent 60%),
+      radial-gradient(circle at 10% 90%, rgba(255, 189, 89, 0.10), transparent 60%),
+      #ffffff;
+  }
+  .ring-brand {
+    box-shadow: 0 0 0 4px rgba(24, 0, 173, 0.15);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
