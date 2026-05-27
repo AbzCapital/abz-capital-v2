@@ -20,7 +20,14 @@
       "Bash(git commit -m 'Document Phase 2 completion *)",
       "Bash(git commit -m 'Project completion summary *)",
       "Bash(cat)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(xargs grep -l \"Apply via WhatsApp\\\\|WhatsApp\")",
+      "Bash(xargs grep -l \"6%\\\\|reducing balance\")",
+      "Bash(xargs grep -l \"Apply via WhatsApp\")",
+      "Bash(xargs grep -l \"Chat on WhatsApp\\\\|ABZ CAPITAL\")",
+      "Bash(xargs grep -l \"Apply now\")",
+      "Bash(git commit -m 'Frontend: Remove 6% rate, fix WhatsApp button, center logo, update CTA copy, and fix nested button error *)",
+      "Bash(git push *)"
     ]
   }
 }

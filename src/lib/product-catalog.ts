@@ -75,7 +75,7 @@ export const PRODUCTS: Product[] = [
     title: "Logbook Loan",
     category: "asset-backed",
     description:
-      "Borrow against your vehicle logbook with 6% monthly reducing balance. Keep driving while you repay.",
+      "Borrow against your vehicle logbook. Keep driving while you repay.",
     highlights: ["1–6 month terms", "KES 50K – 5M"],
     hasSimulator: true,
     termLabel: "1–6 mo",

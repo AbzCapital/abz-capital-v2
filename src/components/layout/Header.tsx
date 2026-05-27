@@ -79,10 +79,10 @@ export function Header() {
 
           <div className="hidden lg:flex">
             <Link
-              href="/funding"
+              href="/products#asset-backed"
               className="inline-flex items-center justify-center rounded-lg bg-indigo px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30"
             >
-              Apply now
+              Apply for a loan now
             </Link>
           </div>
 
@@ -128,10 +128,10 @@ export function Header() {
             })}
           </nav>
           <Link
-            href="/funding"
+            href="/products#asset-backed"
             className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-indigo px-4 py-3 text-base font-semibold text-white shadow-button"
           >
-            Apply now
+            Apply for a loan now
           </Link>
         </Container>
       </div>

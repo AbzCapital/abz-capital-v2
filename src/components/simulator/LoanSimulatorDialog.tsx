@@ -49,13 +49,9 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="contents"
-      >
+      <div onClick={() => setOpen(true)}>
         {trigger}
-      </button>
+      </div>
 
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>

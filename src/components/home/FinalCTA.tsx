@@ -38,7 +38,7 @@ export function FinalCTA() {
               size="lg"
               className="border-white/30 text-white hover:bg-white/5"
             >
-              Chat on WhatsApp
+              Talk to a representative
             </WhatsAppButton>
           </div>
         </div>

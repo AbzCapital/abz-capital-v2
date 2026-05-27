@@ -8,51 +8,54 @@ export interface FullLockupProps {
 export function FullLockup({ className, width = 220 }: FullLockupProps) {
   return (
     <svg
-      viewBox="0 0 320 110"
+      viewBox="0 0 360 115"
       width={width}
-      height={(width * 110) / 320}
+      height={(width * 115) / 360}
       role="img"
       aria-label="ABZ Capital Limited — Unlocking Opportunities, Securing Futures"
       className={cn("inline-block", className)}
     >
       {/* chevrons */}
-      <path d="M6 18 L46 50 L6 82 L22 82 L62 50 L22 18 Z" fill="#ffbd59" />
-      <path d="M46 18 L86 50 L46 82 L62 82 L102 50 L62 18 Z" fill="#1800ad" />
-      {/* ABZ CAPITAL line */}
+      <path d="M6 20 L42 52 L6 84 L20 84 L56 52 L20 20 Z" fill="#ffbd59" />
+      <path d="M42 20 L78 52 L42 84 L56 84 L92 52 L56 20 Z" fill="#1800ad" />
+
+      {/* ABZ CAPITAL text - centered */}
       <text
-        x="115"
-        y="55"
+        x="215"
+        y="58"
+        textAnchor="middle"
         fontFamily="Inter, system-ui, sans-serif"
         fontWeight="800"
-        fontSize="34"
+        fontSize="36"
         fill="#1800ad"
-        letterSpacing="-0.5"
+        letterSpacing="-0.3"
       >
         ABZ CAPITAL
       </text>
-      {/* LIMITED with peach underline ticks */}
-      <line x1="115" y1="76" x2="143" y2="76" stroke="#ffbd59" strokeWidth="3" strokeLinecap="round" />
+
+      {/* LIMITED text - centered below ABZ CAPITAL */}
       <text
-        x="148"
-        y="82"
+        x="215"
+        y="85"
+        textAnchor="middle"
         fontFamily="Inter, system-ui, sans-serif"
         fontWeight="700"
-        fontSize="18"
+        fontSize="20"
         fill="#1800ad"
-        letterSpacing="3"
+        letterSpacing="2"
       >
         LIMITED
       </text>
-      <line x1="222" y1="76" x2="250" y2="76" stroke="#ffbd59" strokeWidth="3" strokeLinecap="round" />
+
       {/* tagline */}
       <text
-        x="115"
-        y="103"
+        x="105"
+        y="107"
         fontFamily="Inter, system-ui, sans-serif"
         fontWeight="500"
-        fontSize="11"
+        fontSize="10"
         fill="#1800ad"
-        letterSpacing="2"
+        letterSpacing="1.5"
       >
         UNLOCKING OPPORTUNITIES, SECURING FUTURES
       </text>

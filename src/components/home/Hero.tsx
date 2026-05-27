@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { RotatingWord } from "@/components/shared/RotatingWord";
+import { whatsappUrl, PRODUCT_WA_MESSAGES } from "@/lib/whatsapp";
 
 const CHIPS = [
   { href: "/products#asset-backed", label: "Asset-backed lending" },
@@ -107,7 +108,7 @@ function HeroVisual() {
           <span className="rounded-full bg-peach-50 px-2 py-0.5 text-[10px] text-indigo">Logbook</span>
         </div>
         <div className="mt-3 text-2xl font-extrabold text-ink">KES 500,000</div>
-        <div className="mt-1 text-xs text-muted-ink">4-month reducing balance · 6%/mo</div>
+        <div className="mt-1 text-xs text-muted-ink">4-month reducing balance</div>
         <div className="mt-4 grid grid-cols-3 gap-3 border-t border-line pt-3 text-[10px] text-muted-ink">
           <div>
             <div className="text-[9px] uppercase tracking-wide">Monthly</div>
@@ -145,14 +146,19 @@ function HeroVisual() {
         </div>
       </div>
 
-      <div className="absolute bottom-[-12px] right-8 flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-elev">
+      <a
+        href={whatsappUrl("Hello ABZ Capital, I would like to apply for a loan.")}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-[-12px] right-8 flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-elev transition hover:shadow-lg"
+      >
         <span className="flex size-7 items-center justify-center rounded-full bg-[color:var(--color-whatsapp)] text-white">
           <svg viewBox="0 0 24 24" className="size-4" fill="currentColor" aria-hidden>
             <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9s-.5-.1-.7.1c-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.4-1.5c-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6l.5-.5c.1-.2.2-.3.3-.5s0-.4 0-.5c-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.3 3.1c.1.2 2.2 3.3 5.3 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.6.2-1.2.1-1.4 0-.1-.2-.2-.5-.4z" />
           </svg>
         </span>
         <span className="text-[11px] font-semibold text-ink">Apply via WhatsApp</span>
-      </div>
+      </a>
     </div>
   );
 }

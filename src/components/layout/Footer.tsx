@@ -47,7 +47,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-whatsapp)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_4px_18px_rgba(37,211,102,0.35)] transition hover:brightness-110"
             >
-              <span aria-hidden>📱</span> Chat on WhatsApp · +254 141 576 254
+              <span aria-hidden>📱</span> Talk to a representative
             </a>
           </div>
 
