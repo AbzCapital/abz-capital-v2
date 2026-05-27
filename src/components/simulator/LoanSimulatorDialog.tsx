@@ -76,7 +76,7 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
         {trigger}
       </div>
 
-      <DialogContent className="w-full max-w-2xl md:max-w-5xl max-h-[95vh] overflow-y-auto p-4 md:p-6">
+      <DialogContent className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-5xl max-h-[95vh] overflow-y-auto p-3 sm:p-4 md:p-6">
         <DialogHeader>
           <DialogTitle>Loan Terms Simulation</DialogTitle>
         </DialogHeader>
