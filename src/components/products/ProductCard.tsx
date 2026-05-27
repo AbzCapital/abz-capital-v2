@@ -52,13 +52,13 @@ export function ProductCard({ product, category }: ProductCardProps) {
           </ul>
         )}
 
-        <div className="mt-5 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
+        <div className="mt-5 flex flex-col sm:flex-row gap-2 w-full">
           {product.hasSimulator && (
             <LoanSimulatorDialog
               trigger={
                 <button
                   type="button"
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 sm:py-2 text-xs sm:text-sm font-semibold text-indigo transition hover:brightness-105"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-indigo transition hover:brightness-105 active:brightness-95 touch-manipulation"
                 >
                   <Calculator className="size-4" />
                   Simulate
@@ -68,7 +68,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
           )}
           <a
             href={mailto}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-lg bg-indigo px-3 py-3 sm:py-2 text-xs sm:text-sm font-semibold text-white transition hover:brightness-110"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-indigo px-3 py-3 text-xs sm:text-sm font-semibold text-white transition hover:brightness-110 active:brightness-95 touch-manipulation"
           >
             <Mail className="size-4" />
             Email
@@ -77,7 +77,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
             href={whatsappUrl(waMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-whatsapp)] px-3 py-3 sm:py-2 text-xs sm:text-sm font-semibold text-white transition hover:brightness-95"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-[color:var(--color-whatsapp)] px-3 py-3 text-xs sm:text-sm font-semibold text-white transition hover:brightness-95 active:brightness-90 touch-manipulation"
           >
             <WhatsAppIcon className="size-4" />
             WhatsApp

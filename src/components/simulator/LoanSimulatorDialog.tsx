@@ -72,9 +72,17 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
         handleReset();
       }
     }}>
-      <div onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpen(true);
+        }}
+        className="w-full"
+      >
         {trigger}
-      </div>
+      </button>
 
       <DialogContent className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-5xl max-h-[95vh] overflow-y-auto p-3 sm:p-4 md:p-6">
         <DialogHeader>

@@ -27,7 +27,14 @@
       "Bash(xargs grep -l \"Chat on WhatsApp\\\\|ABZ CAPITAL\")",
       "Bash(xargs grep -l \"Apply now\")",
       "Bash(git commit -m 'Frontend: Remove 6% rate, fix WhatsApp button, center logo, update CTA copy, and fix nested button error *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(npx shadcn@latest add tooltip)",
+      "Bash(git checkout *)",
+      "Bash(git commit -m 'Fix car tracker purchase fee: 15,000 \\(not 25,000\\) *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(git restore *)",
+      "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator responsiveness *)",
+      "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator button responsiveness *)"
     ]
   }
 }
