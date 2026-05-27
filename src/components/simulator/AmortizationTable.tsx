@@ -18,11 +18,12 @@ export function AmortizationTable({ schedule }: AmortizationTableProps) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-line bg-indigo/5">
-              <th className="px-3 py-2.5 text-left font-semibold text-ink">Month</th>
-              <th className="px-3 py-2.5 text-right font-semibold text-ink">Payment</th>
+              <th className="px-3 py-2.5 text-center font-semibold text-ink">Month</th>
+              <th className="px-3 py-2.5 text-right font-semibold text-ink">Outstanding Balance</th>
+              <th className="px-3 py-2.5 text-right font-semibold text-ink">Interest (6%)</th>
               <th className="px-3 py-2.5 text-right font-semibold text-ink">Principal</th>
-              <th className="px-3 py-2.5 text-right font-semibold text-ink">Interest</th>
-              <th className="px-3 py-2.5 text-right font-semibold text-ink">Balance</th>
+              <th className="px-3 py-2.5 text-right font-semibold text-ink">Monthly Payment</th>
+              <th className="px-3 py-2.5 text-right font-semibold text-ink">New Balance</th>
             </tr>
           </thead>
           <tbody>
@@ -31,18 +32,21 @@ export function AmortizationTable({ schedule }: AmortizationTableProps) {
                 key={row.month}
                 className="border-b border-line/50 hover:bg-indigo/2.5 transition"
               >
-                <td className="px-3 py-2 text-ink font-medium">{row.month}</td>
-                <td className="px-3 py-2 text-right text-ink font-semibold">
-                  {formatKESCompact(row.payment)}
-                </td>
+                <td className="px-3 py-2 text-center text-ink font-medium">{row.month}</td>
                 <td className="px-3 py-2 text-right text-muted-ink">
-                  {formatKESCompact(row.principal)}
+                  {formatKESCompact(row.outstandingBalance)}
                 </td>
                 <td className="px-3 py-2 text-right text-muted-ink">
                   {formatKESCompact(row.interest)}
                 </td>
+                <td className="px-3 py-2 text-right text-muted-ink">
+                  {formatKESCompact(row.principal)}
+                </td>
+                <td className="px-3 py-2 text-right font-semibold text-ink">
+                  {formatKESCompact(row.monthlyPayment)}
+                </td>
                 <td className="px-3 py-2 text-right font-semibold text-indigo">
-                  {formatKESCompact(row.balance)}
+                  {formatKESCompact(row.newBalance)}
                 </td>
               </tr>
             ))}

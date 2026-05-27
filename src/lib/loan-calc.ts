@@ -13,10 +13,11 @@ export interface LoanInput {
 
 export interface AmortizationRow {
   month: number;
-  payment: number;
+  outstandingBalance: number;
   interest: number;
   principal: number;
-  balance: number;
+  monthlyPayment: number;
+  newBalance: number;
 }
 
 export interface LoanSchedule {
@@ -26,7 +27,7 @@ export interface LoanSchedule {
   principal: number;
   months: number;
   monthlyRate: number;
-  monthlyPayment: number;
+  fixedPrincipalPayment: number;
   totalRepayment: number;
   totalInterest: number;
   rows: AmortizationRow[];
@@ -40,21 +41,6 @@ export function calculatePrincipal(
   feesTotal: number
 ): number {
   return takeHome + insurancePremium + feesTotal;
-}
-
-export function calculateMonthlyPayment(
-  principal: number,
-  monthlyRate: number,
-  months: number
-): number {
-  if (months <= 0) {
-    throw new LoanInputError("months must be greater than 0");
-  }
-  if (monthlyRate <= 0) {
-    return principal / months;
-  }
-  const factor = Math.pow(1 + monthlyRate, -months);
-  return (principal * monthlyRate) / (1 - factor);
 }
 
 export function calculateSchedule(input: LoanInput): LoanSchedule {
@@ -76,29 +62,43 @@ export function calculateSchedule(input: LoanInput): LoanSchedule {
   const feesTotal = calculateTotalFees(takeHome);
   const principal = calculatePrincipal(takeHome, insurancePremium, feesTotal);
   const monthlyRate = LOAN_MONTHLY_RATE;
-  const monthlyPayment = calculateMonthlyPayment(principal, monthlyRate, months);
+
+  // Fixed principal payment each month (reducing balance method)
+  const fixedPrincipalPayment = principal / months;
 
   const rows: AmortizationRow[] = [];
-  let balance = principal;
+  let outstandingBalance = principal;
+  let totalInterestCharged = 0;
+
   for (let m = 1; m <= months; m++) {
-    const interest = balance * monthlyRate;
-    let principalPaid = monthlyPayment - interest;
-    if (m === months) {
-      // Final row settles any rounding remainder
-      principalPaid = balance;
-    }
-    balance -= principalPaid;
+    // Interest on outstanding balance
+    const interest = Math.round(outstandingBalance * monthlyRate);
+
+    // Principal is fixed each month
+    const principalPayment = fixedPrincipalPayment;
+
+    // Total monthly payment
+    const monthlyPayment = interest + principalPayment;
+
+    // New balance after payment
+    const newBalance = Math.max(0, outstandingBalance - principalPayment);
+
+    totalInterestCharged += interest;
+
     rows.push({
       month: m,
-      payment: m === months ? principalPaid + interest : monthlyPayment,
+      outstandingBalance: Math.round(outstandingBalance),
       interest,
-      principal: principalPaid,
-      balance: Math.max(0, balance),
+      principal: Math.round(principalPayment),
+      monthlyPayment: Math.round(monthlyPayment),
+      newBalance: Math.round(newBalance),
     });
+
+    // Update outstanding balance for next iteration
+    outstandingBalance = newBalance;
   }
 
-  const totalRepayment = rows.reduce((sum, r) => sum + r.payment, 0);
-  const totalInterest = totalRepayment - principal;
+  const totalRepayment = principal + totalInterestCharged;
 
   return {
     takeHome,
@@ -107,9 +107,9 @@ export function calculateSchedule(input: LoanInput): LoanSchedule {
     principal,
     months,
     monthlyRate,
-    monthlyPayment,
+    fixedPrincipalPayment,
     totalRepayment,
-    totalInterest,
+    totalInterest: totalInterestCharged,
     rows,
   };
 }

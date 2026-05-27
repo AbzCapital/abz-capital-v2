@@ -53,10 +53,10 @@ export function CostSummary({ schedule }: CostSummaryProps) {
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-indigo/5 p-4 border border-indigo/10">
           <p className="text-xs font-semibold uppercase tracking-widest text-indigo mb-1">
-            Monthly payment
+            Fixed Principal
           </p>
           <p className="text-2xl font-extrabold text-indigo">
-            {formatKES(schedule.monthlyPayment)}
+            {formatKES(schedule.fixedPrincipalPayment)}
           </p>
         </div>
 

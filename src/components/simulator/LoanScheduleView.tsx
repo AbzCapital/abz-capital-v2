@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { LoanSchedule, formatKES } from "@/lib/loan-calc";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { ArrowLeft, Download, MessageSquare } from "lucide-react";
+import { generatePDF } from "@/lib/pdf-generator";
 
 export interface LoanScheduleViewProps {
   schedule: LoanSchedule;
@@ -11,9 +12,13 @@ export interface LoanScheduleViewProps {
 }
 
 export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleViewProps) {
-  const handleDownloadPDF = () => {
-    // TODO: Implement PDF generation and download
-    alert("PDF download coming soon");
+  const handleDownloadPDF = async () => {
+    try {
+      await generatePDF(schedule);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Error generating PDF. Please try again.");
+    }
   };
 
   const applyMessage = `Hello, I am interested in a loan of "${formatKES(schedule.principal)}" with a payment period of "${schedule.months} month${schedule.months !== 1 ? "s" : ""}"`;
@@ -21,49 +26,49 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold text-ink">Repayment Schedule</h3>
+      <div>
+        <h2 className="text-2xl font-bold text-ink mb-1">Payment Schedule</h2>
         <p className="text-sm text-muted-ink">
-          Interest is charged monthly on the remaining loan balance at {(schedule.monthlyRate * 100).toFixed(0)}% per month.
+          Monthly installments calculated at 6% reducing balance interest rate
         </p>
       </div>
 
       {/* Amortization Table */}
-      <div className="overflow-x-auto rounded-lg border border-line">
-        <table className="w-full text-sm">
-          <thead className="bg-indigo text-white">
+      <div className="overflow-x-auto rounded-lg border border-line bg-white">
+        <table className="w-full text-xs sm:text-sm">
+          <thead className="bg-indigo text-white sticky top-0">
             <tr>
-              <th className="px-3 py-3 text-center font-semibold">Month</th>
-              <th className="px-3 py-3 text-right font-semibold">Loan Balance</th>
-              <th className="px-3 py-3 text-right font-semibold">Interest (6%)</th>
-              <th className="px-3 py-3 text-right font-semibold">Principal</th>
-              <th className="px-3 py-3 text-right font-semibold">Monthly Instalment</th>
-              <th className="px-3 py-3 text-right font-semibold">Remaining Balance</th>
+              <th className="px-2 sm:px-3 py-3 text-center font-bold">Month</th>
+              <th className="px-2 sm:px-3 py-3 text-right font-bold">Outstanding Balance</th>
+              <th className="px-2 sm:px-3 py-3 text-right font-bold">Interest (6%)</th>
+              <th className="px-2 sm:px-3 py-3 text-right font-bold">Principal</th>
+              <th className="px-2 sm:px-3 py-3 text-right font-bold">Monthly Payment</th>
+              <th className="px-2 sm:px-3 py-3 text-right font-bold">New Balance</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
             {schedule.rows.map((row, idx) => (
               <tr
                 key={row.month}
-                className={idx % 2 === 0 ? "bg-white" : "bg-mesh hover:bg-gray-100"}
+                className={idx % 2 === 0 ? "bg-white" : "bg-mesh"}
               >
-                <td className="px-3 py-3 text-center font-semibold text-ink">
+                <td className="px-2 sm:px-3 py-2 sm:py-3 text-center font-semibold text-ink">
                   {row.month}
                 </td>
-                <td className="px-3 py-3 text-right text-muted-ink">
-                  {formatKES(row.balance + row.principal)}
+                <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink font-medium">
+                  {formatKES(row.outstandingBalance)}
                 </td>
-                <td className="px-3 py-3 text-right text-muted-ink">
+                <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink font-medium">
                   {formatKES(row.interest)}
                 </td>
-                <td className="px-3 py-3 text-right text-muted-ink">
+                <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink font-medium">
                   {formatKES(row.principal)}
                 </td>
-                <td className="px-3 py-3 text-right font-semibold text-ink">
-                  {formatKES(row.payment)}
+                <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-ink font-bold">
+                  {formatKES(row.monthlyPayment)}
                 </td>
-                <td className="px-3 py-3 text-right font-semibold text-ink">
-                  {formatKES(row.balance)}
+                <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-ink font-bold">
+                  {formatKES(row.newBalance)}
                 </td>
               </tr>
             ))}
@@ -72,21 +77,21 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-lg bg-indigo p-6 text-white">
-          <p className="text-xs font-semibold uppercase tracking-widest opacity-90 mb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="rounded-lg bg-indigo p-4 sm:p-6 text-white">
+          <p className="text-xs font-bold uppercase tracking-widest opacity-90 mb-2">
             Total Repayment
           </p>
-          <p className="text-3xl font-bold">
+          <p className="text-2xl sm:text-3xl font-bold">
             {formatKES(schedule.totalRepayment)}
           </p>
         </div>
 
-        <div className="rounded-lg bg-peach p-6 text-white">
-          <p className="text-xs font-semibold uppercase tracking-widest opacity-90 mb-2">
+        <div className="rounded-lg bg-peach p-4 sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-widest text-indigo/80 mb-2">
             Total Interest Paid
           </p>
-          <p className="text-3xl font-bold">
+          <p className="text-2xl sm:text-3xl font-bold text-indigo">
             {formatKES(schedule.totalInterest)}
           </p>
         </div>
@@ -105,7 +110,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
 
         <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="w-full">
           <Button
-            className="w-full bg-indigo text-white hover:brightness-110"
+            className="w-full bg-indigo text-white hover:brightness-110 font-semibold"
           >
             <MessageSquare className="size-4 mr-2" />
             Apply for This Loan
