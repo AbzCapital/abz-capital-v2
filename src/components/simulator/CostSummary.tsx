@@ -1,7 +1,6 @@
 "use client";
 
 import { LoanSchedule, formatKES } from "@/lib/loan-calc";
-import { LOAN_FEES_TOTAL } from "@/lib/loan-config";
 
 export interface CostSummaryProps {
   schedule: LoanSchedule | null;
@@ -18,12 +17,12 @@ export function CostSummary({ schedule }: CostSummaryProps) {
       value: schedule.takeHome,
     },
     {
-      label: "Insurance",
+      label: "Comprehensive Insurance Premium",
       value: schedule.insurancePremium,
     },
     {
       label: "Fees",
-      value: LOAN_FEES_TOTAL,
+      value: schedule.feesTotal,
     },
     {
       label: "Principal",

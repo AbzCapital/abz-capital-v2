@@ -27,6 +27,11 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
       return;
     }
 
+    if (insurancePremium <= 0) {
+      toast.error("Comprehensive insurance premium is required");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const result = calculateSchedule({

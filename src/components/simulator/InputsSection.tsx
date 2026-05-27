@@ -2,8 +2,13 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 import { LOAN_MIN_MONTHS, LOAN_MAX_MONTHS } from "@/lib/loan-config";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface InputsSectionProps {
   takeHome: number;
@@ -47,21 +52,45 @@ export function InputsSection({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="insurance" className="text-sm font-semibold text-ink">
-          Insurance premium (optional)
-        </label>
+        <div className="flex items-center gap-2">
+          <label htmlFor="insurance" className="text-sm font-semibold text-ink">
+            Comprehensive Insurance Premium
+          </label>
+          <Tooltip>
+            <TooltipTrigger
+              type="button"
+              className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30"
+              aria-label="Information about comprehensive insurance premium"
+            >
+              <Info className="size-3" />
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs">
+              Enter the amount you normally pay for comprehensive insurance for your vehicle.
+            </TooltipContent>
+          </Tooltip>
+        </div>
         <Input
           id="insurance"
           type="number"
           inputMode="numeric"
-          placeholder="e.g. 0"
+          placeholder="e.g. 25000"
           value={insurancePremium || ""}
-          onChange={(e) => onInsurancePremiumChange(Number(e.target.value) || 0)}
+          onChange={(e) => {
+            const val = Number(e.target.value);
+            onInsurancePremiumChange(Math.max(0, val) || 0);
+          }}
           min="0"
           step="1000"
           className="text-base"
         />
-        <p className="text-xs text-muted-ink">Loan protection insurance (optional)</p>
+        {insurancePremium === 0 && (
+          <p className="text-xs text-red-500 font-medium">
+            Comprehensive insurance premium is required.
+          </p>
+        )}
+        <p className="text-xs text-muted-ink">
+          This helps calculate the total financing structure and required loan charges.
+        </p>
       </div>
 
       <div className="grid gap-2">
@@ -93,7 +122,13 @@ export function InputsSection({
       <Button
         type="button"
         onClick={onGenerate}
-        disabled={isLoading || takeHome <= 0 || months < LOAN_MIN_MONTHS || months > LOAN_MAX_MONTHS}
+        disabled={
+          isLoading ||
+          takeHome <= 0 ||
+          insurancePremium <= 0 ||
+          months < LOAN_MIN_MONTHS ||
+          months > LOAN_MAX_MONTHS
+        }
         className="mt-2 bg-indigo text-white hover:brightness-110"
       >
         {isLoading ? "Generating..." : "Generate Schedule"}

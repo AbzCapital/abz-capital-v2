@@ -1,5 +1,5 @@
 import {
-  LOAN_FEES_TOTAL,
+  calculateTotalFees,
   LOAN_MONTHLY_RATE,
   LOAN_MIN_MONTHS,
   LOAN_MAX_MONTHS,
@@ -37,7 +37,7 @@ export class LoanInputError extends Error {}
 export function calculatePrincipal(
   takeHome: number,
   insurancePremium: number,
-  feesTotal: number = LOAN_FEES_TOTAL
+  feesTotal: number
 ): number {
   return takeHome + insurancePremium + feesTotal;
 }
@@ -72,7 +72,8 @@ export function calculateSchedule(input: LoanInput): LoanSchedule {
     throw new LoanInputError("insurancePremium must be a non-negative number");
   }
 
-  const feesTotal = LOAN_FEES_TOTAL;
+  // Calculate fees dynamically (processing fee is 5% of takeHome)
+  const feesTotal = calculateTotalFees(takeHome);
   const principal = calculatePrincipal(takeHome, insurancePremium, feesTotal);
   const monthlyRate = LOAN_MONTHLY_RATE;
   const monthlyPayment = calculateMonthlyPayment(principal, monthlyRate, months);
