@@ -111,7 +111,7 @@ export function Header() {
       <nav
         id="mobile-menu"
         className={cn(
-          "fixed inset-0 top-16 sm:top-20 lg:hidden transition-opacity duration-300 pointer-events-none",
+          "fixed inset-0 top-16 sm:top-20 lg:hidden z-40 transition-opacity duration-300 pointer-events-none",
           open && "pointer-events-auto"
         )}
         style={{
@@ -120,7 +120,7 @@ export function Header() {
       >
         <div className="border-t border-line bg-white h-full overflow-y-auto">
           <Container className="py-6">
-            <nav className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1">
               {NAV.map((item) => {
                 const active =
                   pathname === item.href ||
@@ -142,7 +142,7 @@ export function Header() {
                   </Link>
                 );
               })}
-            </nav>
+            </div>
             <Link
               href="/products#asset-backed"
               onClick={handleMenuLinkClick}

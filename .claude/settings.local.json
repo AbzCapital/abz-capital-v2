@@ -34,7 +34,9 @@
       "Bash(curl -s http://localhost:3000)",
       "Bash(git restore *)",
       "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator responsiveness *)",
-      "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator button responsiveness *)"
+      "Bash(git commit -m 'Fix mobile hamburger menu and loan simulator button responsiveness *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(xargs grep -l \"hasSimulator\")"
     ]
   }
 }
