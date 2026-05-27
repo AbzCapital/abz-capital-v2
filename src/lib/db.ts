@@ -4,15 +4,20 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-let prisma: PrismaClient;
+let prisma: PrismaClient | null = null;
 
-if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-} else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient();
+try {
+  if (process.env.NODE_ENV === "production") {
+    prisma = new PrismaClient();
+  } else {
+    if (!global.prisma) {
+      global.prisma = new PrismaClient();
+    }
+    prisma = global.prisma;
   }
-  prisma = global.prisma;
+} catch (error) {
+  // Fail silently during build time
+  console.warn("Prisma initialization deferred:", error instanceof Error ? error.message : "Unknown error");
 }
 
-export default prisma;
+export default prisma as any;
