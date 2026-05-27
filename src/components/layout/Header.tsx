@@ -100,7 +100,7 @@ export function Header() {
 
       <div
         className={cn(
-          "border-t border-line bg-white lg:hidden",
+          "border-t border-line bg-white lg:hidden relative z-50",
           open ? "block" : "hidden"
         )}
       >

@@ -44,10 +44,10 @@ export function InputsSection({
   );
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-ink mb-2">Loan Terms Simulation</h2>
-        <p className="text-muted-ink">
+        <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2">Loan Terms Simulation</h2>
+        <p className="text-sm sm:text-base text-muted-ink">
           Estimate your loan amount, applicable charges, and repayment schedule instantly.
         </p>
       </div>

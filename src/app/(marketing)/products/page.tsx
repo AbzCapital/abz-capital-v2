@@ -26,7 +26,7 @@ export default function ProductsPage() {
                 Structured products for <span className="text-gradient-brand">every stage of growth.</span>
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-ink sm:text-lg">
-                Four categories. Sixteen products. Every card includes a direct email to the right team and a one-tap WhatsApp.
+                Structured solutions across asset-backed loans, SME financing, contractor solutions, and insurance. Direct access to the right team.
               </p>
             </div>
 

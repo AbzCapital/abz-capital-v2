@@ -17,8 +17,8 @@ export function LoanBreakdown({ schedule, onBackToInput, onViewSchedule }: LoanB
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-ink mb-1">Loan Summary</h2>
-        <p className="text-sm text-muted-ink">How your total loan amount is calculated</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-ink mb-1">Loan Summary</h2>
+        <p className="text-xs sm:text-sm text-muted-ink">How your total loan amount is calculated</p>
       </div>
 
       {/* Breakdown Table */}
@@ -95,18 +95,18 @@ export function LoanBreakdown({ schedule, onBackToInput, onViewSchedule }: LoanB
       </div>
 
       {/* Actions */}
-      <div className="flex gap-3 pt-4 border-t border-line">
+      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-line">
         <Button
           variant="outline"
           onClick={onBackToInput}
-          className="flex-1"
+          className="flex-1 py-3 sm:py-2 text-sm sm:text-base"
         >
           <ArrowLeft className="size-4 mr-2" />
           Back
         </Button>
         <Button
           onClick={onViewSchedule}
-          className="flex-1 bg-indigo text-white hover:brightness-110"
+          className="flex-1 bg-indigo text-white hover:brightness-110 py-3 sm:py-2 text-sm sm:text-base"
         >
           View Payment Schedule
           <ArrowRight className="size-4 ml-2" />

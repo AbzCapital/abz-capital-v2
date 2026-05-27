@@ -27,8 +27,8 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-ink mb-1">Payment Schedule</h2>
-        <p className="text-sm text-muted-ink">
+        <h2 className="text-xl sm:text-2xl font-bold text-ink mb-1">Payment Schedule</h2>
+        <p className="text-xs sm:text-sm text-muted-ink">
           Monthly installments calculated at 6% reducing balance interest rate
         </p>
       </div>
@@ -102,7 +102,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
         <Button
           variant="outline"
           onClick={handleDownloadPDF}
-          className="w-full"
+          className="w-full py-3 sm:py-2 text-sm sm:text-base"
         >
           <Download className="size-4 mr-2" />
           Download PDF Schedule
@@ -110,7 +110,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
 
         <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="w-full">
           <Button
-            className="w-full bg-indigo text-white hover:brightness-110 font-semibold"
+            className="w-full bg-indigo text-white hover:brightness-110 font-semibold py-3 sm:py-2 text-sm sm:text-base"
           >
             <MessageSquare className="size-4 mr-2" />
             Apply for This Loan
@@ -120,7 +120,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
         <Button
           variant="outline"
           onClick={onBackToBreakdown}
-          className="w-full"
+          className="w-full py-3 sm:py-2 text-sm sm:text-base"
         >
           <ArrowLeft className="size-4 mr-2" />
           Back to Breakdown
