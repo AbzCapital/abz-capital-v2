@@ -1,7 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export interface InputsSectionProps {
@@ -37,125 +35,120 @@ export function InputsSection({
       <div className="space-y-8">
         {/* Take Home Amount */}
         <div className="space-y-3">
-          <div>
-            <label htmlFor="takeHome" className="text-base font-semibold text-ink block mb-1">
-              Amount to Take Home (KES)
-            </label>
+          <label className="block">
+            <span className="text-base font-semibold text-ink mb-1 block">Amount to Take Home (KES)</span>
             <p className="text-xs text-muted-ink mb-2">
               The net cash amount you need after all fees
             </p>
-          </div>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
-              KES
-            </span>
-            <Input
-              id="takeHome"
-              type="number"
-              inputMode="numeric"
-              placeholder="e.g. 500000"
-              value={takeHome || ""}
-              onChange={(e) => onTakeHomeChange(Number(e.target.value) || 0)}
-              min="1"
-              step="10000"
-              className="text-base pl-12 touch-manipulation"
-              style={{
-                WebkitUserSelect: "none",
-                WebkitTouchCallout: "none",
-              } as React.CSSProperties}
-            />
-          </div>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
+                KES
+              </span>
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder="e.g. 500000"
+                value={takeHome || ""}
+                onChange={(e) => onTakeHomeChange(Number(e.target.value) || 0)}
+                min="1"
+                step="10000"
+                className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+                style={{
+                  WebkitAppearance: "none",
+                  MozAppearance: "textfield",
+                  WebkitUserSelect: "text",
+                } as React.CSSProperties}
+              />
+            </div>
+          </label>
         </div>
 
         {/* Insurance Premium */}
         <div className="space-y-3">
-          <div>
-            <label htmlFor="insurance" className="text-base font-semibold text-ink block mb-1">
-              Insurance Premium (KES)
-            </label>
+          <label className="block">
+            <span className="text-base font-semibold text-ink mb-1 block">Insurance Premium (KES)</span>
             <p className="text-xs text-muted-ink mb-2">
               Your estimated annual comprehensive vehicle insurance cost
             </p>
-          </div>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
-              KES
-            </span>
-            <Input
-              id="insurance"
-              type="number"
-              inputMode="numeric"
-              placeholder="e.g. 50000"
-              value={insurancePremium || ""}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                onInsurancePremiumChange(Math.max(0, val) || 0);
-              }}
-              min="1"
-              step="10000"
-              className="text-base pl-12 touch-manipulation"
-              style={{
-                WebkitUserSelect: "none",
-                WebkitTouchCallout: "none",
-              } as React.CSSProperties}
-            />
-          </div>
-          {insurancePremium === 0 && (
-            <p className="text-xs text-red-500 font-medium">
-              ⚠️ Please enter an insurance amount
-            </p>
-          )}
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
+                KES
+              </span>
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder="e.g. 50000"
+                value={insurancePremium || ""}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  onInsurancePremiumChange(Math.max(0, val) || 0);
+                }}
+                min="1"
+                step="10000"
+                className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+                style={{
+                  WebkitAppearance: "none",
+                  MozAppearance: "textfield",
+                  WebkitUserSelect: "text",
+                } as React.CSSProperties}
+              />
+            </div>
+            {insurancePremium === 0 && (
+              <p className="text-xs text-red-500 font-medium mt-1">
+                ⚠️ Please enter an insurance amount
+              </p>
+            )}
+          </label>
         </div>
 
         {/* Loan Period */}
         <div className="space-y-3">
-          <div>
-            <label htmlFor="months" className="text-base font-semibold text-ink block mb-1">
-              Loan Period (Months)
-            </label>
+          <label className="block">
+            <span className="text-base font-semibold text-ink mb-1 block">Loan Period (Months)</span>
             <p className="text-xs text-muted-ink mb-2">
               How many months to repay (e.g., 1, 6, 12, 24, 36)
             </p>
-          </div>
-          <Input
-            id="months"
-            type="number"
-            inputMode="numeric"
-            placeholder="e.g. 12"
-            value={months || ""}
-            onChange={(e) => {
-              const val = Number(e.target.value);
-              onMonthsChange(Math.max(1, val) || 1);
-            }}
-            min="1"
-            step="1"
-            className="text-base touch-manipulation"
-            style={{
-              WebkitUserSelect: "none",
-              WebkitTouchCallout: "none",
-            } as React.CSSProperties}
-          />
-          {months < 1 && (
-            <p className="text-xs text-red-500 font-medium">
-              ⚠️ Loan period must be at least 1 month
-            </p>
-          )}
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="e.g. 12"
+              value={months || ""}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                onMonthsChange(Math.max(1, val) || 1);
+              }}
+              min="1"
+              step="1"
+              className="w-full h-10 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+              style={{
+                WebkitAppearance: "none",
+                MozAppearance: "textfield",
+                WebkitUserSelect: "text",
+              } as React.CSSProperties}
+            />
+            {months < 1 && (
+              <p className="text-xs text-red-500 font-medium mt-1">
+                ⚠️ Loan period must be at least 1 month
+              </p>
+            )}
+          </label>
         </div>
       </div>
 
-      <Button
+      <button
         type="button"
         onClick={onGenerate}
         disabled={isLoading || takeHome <= 0 || insurancePremium <= 0 || months < 1}
-        className="w-full bg-peach text-indigo font-semibold hover:brightness-95 active:brightness-90 py-6 text-base touch-manipulation"
+        className="w-full bg-peach text-indigo font-semibold hover:brightness-95 active:brightness-90 py-6 text-base rounded-lg border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
         style={{
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
+          touchAction: "manipulation",
         } as React.CSSProperties}
       >
         {isLoading ? "Simulating..." : "Simulate Loan Schedule"}
-        {!isLoading && <ArrowRight className="size-4 ml-2" />}
-      </Button>
+        {!isLoading && <ArrowRight className="size-4" />}
+      </button>
 
       {/* Info Box */}
       <div className="bg-indigo/5 rounded-lg p-4 border border-indigo/10">
