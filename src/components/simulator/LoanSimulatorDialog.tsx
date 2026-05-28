@@ -163,6 +163,8 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
     }}>
       <div
         onPointerDown={handleOpenDialog}
+        onClick={handleOpenDialog}
+        onTouchEnd={handleOpenDialog}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
@@ -174,7 +176,8 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
         style={{
           WebkitTouchCallout: "none",
           WebkitUserSelect: "none",
-          pointerEvents: "auto"
+          pointerEvents: "auto",
+          WebkitUserSelectNone: "none"
         } as React.CSSProperties}
       >
         {trigger}

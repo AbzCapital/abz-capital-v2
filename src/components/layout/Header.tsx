@@ -102,6 +102,11 @@ export function Header() {
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="mobile-menu"
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setOpen(!open);
+              }}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -112,7 +117,8 @@ export function Header() {
                 WebkitTouchCallout: "none",
                 WebkitUserSelect: "none",
                 cursor: "pointer",
-                pointerEvents: "auto"
+                pointerEvents: "auto",
+                WebkitUserSelectNone: "none"
               } as React.CSSProperties}
             >
               {open ? <X className="size-5" /> : <Menu className="size-5" />}
