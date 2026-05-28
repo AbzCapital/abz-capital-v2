@@ -50,7 +50,11 @@
       "Bash(rm -rf .next)",
       "Bash(rm -rf .next node_modules/.cache)",
       "Bash(curl -s -w '\\\\nStatus: %{http_code}\\\\n' -X POST http://localhost:3000/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')",
-      "Bash(curl -v -X POST http://localhost:3000/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')"
+      "Bash(curl -v -X POST http://localhost:3000/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')",
+      "Bash(taskkill /PID 2020 /F)",
+      "Bash(timeout 3 taskkill /F /IM node.exe)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(taskkill /F /IM npm.exe)"
     ]
   }
 }
