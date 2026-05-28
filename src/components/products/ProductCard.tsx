@@ -1,146 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Calculator, Mail } from "lucide-react";
+import Link from "next/link";
+import { Mail } from "lucide-react";
 import type { Product, ProductCategory } from "@/lib/product-catalog";
 import { PRODUCT_WA_MESSAGES, whatsappUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppButton";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { InputsSection } from "@/components/simulator/InputsSection";
-import { LoanBreakdown } from "@/components/simulator/LoanBreakdown";
-import { LoanScheduleView } from "@/components/simulator/LoanScheduleView";
-import { type LoanSchedule, LoanInputError } from "@/lib/loan-calc";
-import { toast } from "sonner";
 
 export interface ProductCardProps {
   product: Product;
   category: ProductCategory;
 }
 
-interface LoanConfigData {
-  valuationFee: number;
-  legalFee: number;
-  processingFeePercentage: number;
-  logbookTransferFee: number;
-  trackerFee: number;
-  monthlyRate: number;
-  minMonths: number;
-  maxMonths: number;
-}
-
 export function ProductCard({ product, category }: ProductCardProps) {
   const mailto = buildMailto(category.emailRecipient, product.title);
   const waMessage = PRODUCT_WA_MESSAGES.product(product.title);
-
-  // Loan Simulator State
-  const [simulatorOpen, setSimulatorOpen] = useState(false);
-  const [simulatorStep, setSimulatorStep] = useState<"input" | "breakdown" | "schedule">("input");
-  const [takeHome, setTakeHome] = useState(0);
-  const [insurancePremium, setInsurancePremium] = useState(0);
-  const [months, setMonths] = useState(1);
-  const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loanConfig, setLoanConfig] = useState<LoanConfigData | null>(null);
-
-  const handleSimulatorOpen = () => {
-    setSimulatorOpen(true);
-    // Fetch loan config
-    fetch("/api/loan-config")
-      .then(res => res.json())
-      .then(data => {
-        setLoanConfig(data);
-        setMonths(data.minMonths || 1);
-      })
-      .catch(error => {
-        console.error("Failed to fetch loan config:", error);
-        toast.error("Failed to load loan configuration");
-      });
-  };
-
-  const handleGenerate = async () => {
-    if (takeHome <= 0) {
-      toast.error("Please enter a loan amount");
-      return;
-    }
-    if (insurancePremium <= 0) {
-      toast.error("Comprehensive insurance premium is required");
-      return;
-    }
-    if (!loanConfig) {
-      toast.error("Loan configuration not loaded");
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const processingFee = Math.round(takeHome * loanConfig.processingFeePercentage);
-      const feesTotal =
-        loanConfig.valuationFee +
-        loanConfig.legalFee +
-        processingFee +
-        loanConfig.logbookTransferFee +
-        loanConfig.trackerFee;
-
-      const principal = takeHome + insurancePremium + feesTotal;
-      const fixedPrincipalPayment = principal / months;
-
-      const rows = [];
-      let outstandingBalance = principal;
-      let totalInterestCharged = 0;
-
-      for (let m = 1; m <= months; m++) {
-        const interest = Math.round(outstandingBalance * loanConfig.monthlyRate);
-        const principalPayment = fixedPrincipalPayment;
-        const monthlyPayment = interest + principalPayment;
-        const newBalance = Math.max(0, outstandingBalance - principalPayment);
-
-        totalInterestCharged += interest;
-
-        rows.push({
-          month: m,
-          outstandingBalance: Math.round(outstandingBalance),
-          interest,
-          principal: Math.round(principalPayment),
-          monthlyPayment: Math.round(monthlyPayment),
-          newBalance: Math.round(newBalance),
-        });
-
-        outstandingBalance = newBalance;
-      }
-
-      const result: LoanSchedule = {
-        takeHome,
-        insurancePremium,
-        feesTotal,
-        principal,
-        months,
-        monthlyRate: loanConfig.monthlyRate,
-        fixedPrincipalPayment,
-        totalRepayment: principal + totalInterestCharged,
-        totalInterest: totalInterestCharged,
-        rows,
-      };
-
-      setSchedule(result);
-      setSimulatorStep("breakdown");
-      toast.success("Schedule generated");
-    } catch (error) {
-      if (error instanceof LoanInputError) {
-        toast.error(error.message);
-      } else {
-        toast.error("Failed to generate schedule");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSimulatorClose = () => {
-    setSimulatorOpen(false);
-    setSimulatorStep("input");
-    setSchedule(null);
-  };
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card transition hover:-translate-y-1 hover:border-indigo/30 hover:shadow-elev">
@@ -180,15 +54,13 @@ export function ProductCard({ product, category }: ProductCardProps) {
 
         <div className="mt-5 flex flex-col sm:flex-row gap-2 w-full">
           {product.hasSimulator && (
-            <button
-              type="button"
-              onClick={handleSimulatorOpen}
+            <Link
+              href="/simulator"
               className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-indigo transition active:brightness-95 touch-manipulation"
               style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
             >
-              <Calculator className="size-4" />
-              Simulate
-            </button>
+              💰 Calculate Now
+            </Link>
           )}
           <a
             href={mailto}
@@ -209,43 +81,6 @@ export function ProductCard({ product, category }: ProductCardProps) {
             WhatsApp
           </a>
         </div>
-
-        {/* Loan Simulator Dialog */}
-        <Dialog open={simulatorOpen} onOpenChange={handleSimulatorClose}>
-          <DialogContent className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-5xl max-h-[95vh] overflow-y-auto p-3 sm:p-4 md:p-6">
-            <DialogHeader>
-              <DialogTitle>Loan Terms Simulation</DialogTitle>
-            </DialogHeader>
-
-            {simulatorStep === "input" && (
-              <InputsSection
-                takeHome={takeHome}
-                insurancePremium={insurancePremium}
-                months={months}
-                onTakeHomeChange={setTakeHome}
-                onInsurancePremiumChange={setInsurancePremium}
-                onMonthsChange={setMonths}
-                onGenerate={handleGenerate}
-                isLoading={isLoading}
-              />
-            )}
-
-            {simulatorStep === "breakdown" && schedule && (
-              <LoanBreakdown
-                schedule={schedule}
-                onBackToInput={() => setSimulatorStep("input")}
-                onViewSchedule={() => setSimulatorStep("schedule")}
-              />
-            )}
-
-            {simulatorStep === "schedule" && schedule && (
-              <LoanScheduleView
-                schedule={schedule}
-                onBackToBreakdown={() => setSimulatorStep("breakdown")}
-              />
-            )}
-          </DialogContent>
-        </Dialog>
       </div>
     </article>
   );
