@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { SimulatorPageContent } from "@/components/simulator/SimulatorPageContent";
 
 export const metadata: Metadata = {
-  title: "Loan Calculator — ABZ Capital",
+  title: "View Loan Terms & Schedule — ABZ Capital",
   description:
-    "Calculate your loan terms instantly. See monthly payments, interest, and schedule for ABZ Capital products.",
+    "Simulate your loan schedule instantly. See exactly how much you'll pay each month, total interest, and full repayment schedule.",
 };
 
 export default function SimulatorPage() {

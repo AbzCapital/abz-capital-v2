@@ -59,7 +59,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
               className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-indigo transition active:brightness-95 touch-manipulation"
               style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
             >
-              💰 Calculate Now
+              View Loan Terms
             </Link>
           )}
           <a

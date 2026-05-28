@@ -147,8 +147,8 @@ export function SimulatorPageContent() {
               <ArrowLeft className="size-5" />
             </Link>
             <div>
-              <h1 className="text-xl font-extrabold text-indigo">Loan Calculator</h1>
-              <p className="text-sm text-muted-ink">Calculate your loan terms instantly</p>
+              <h1 className="text-xl font-extrabold text-indigo">Loan Terms Simulator</h1>
+              <p className="text-sm text-muted-ink">See your monthly payments & schedule</p>
             </div>
           </div>
         </Container>

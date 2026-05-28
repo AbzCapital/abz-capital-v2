@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingBag, TrendingUp, Calculator, PhoneCall, Info } from "lucide-react";
+import { Home, ShoppingBag, TrendingUp, DollarSign, PhoneCall } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/products", icon: ShoppingBag, label: "Products" },
-  { href: "/simulator", icon: Calculator, label: "Calculate" },
   { href: "/invest", icon: TrendingUp, label: "Invest" },
+  { href: "/funding", icon: DollarSign, label: "Funding" },
   { href: "/contact", icon: PhoneCall, label: "Contact" },
 ];
 
