@@ -20,25 +20,24 @@ interface LoanConfigData {
   maxMonths: number;
 }
 
+// Default loan configuration - no API call needed
+const DEFAULT_LOAN_CONFIG: LoanConfigData = {
+  valuationFee: 1500,
+  legalFee: 1500,
+  processingFeePercentage: 0.05,
+  logbookTransferFee: 2500,
+  trackerFee: 15000,
+  monthlyRate: 0.06,
+  minMonths: 1,
+  maxMonths: 12,
+};
+
 export function SimulatorPageContent() {
   const [takeHome, setTakeHome] = useState(0);
   const [insurancePremium, setInsurancePremium] = useState(0);
   const [months, setMonths] = useState(1);
   const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
-  const [loanConfig, setLoanConfig] = useState<LoanConfigData | null>(null);
-
-  // Fetch loan config on page load
-  useEffect(() => {
-    fetch("/api/loan-config")
-      .then(res => res.json())
-      .then(data => {
-        setLoanConfig(data);
-      })
-      .catch(error => {
-        console.error("Failed to fetch loan config:", error);
-        toast.error("Failed to load loan configuration");
-      });
-  }, []);
+  const [loanConfig] = useState<LoanConfigData>(DEFAULT_LOAN_CONFIG);
 
   // Auto-calculate when values change
   useEffect(() => {
