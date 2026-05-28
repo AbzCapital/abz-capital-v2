@@ -435,7 +435,7 @@ export function SimulatorPageContent() {
                       <p>Interest Rate: 6% per month (Reducing Balance)</p>
                       <p><strong>Contact ABZ Capital:</strong></p>
                       <p>WhatsApp: +254141576254</p>
-                      <p>Email: loan@abzcapital.co.ke</p>
+                      <p>Email: loans@abzcapital.co.ke</p>
                     </div>
                   </body>
                   </html>
