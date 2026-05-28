@@ -161,21 +161,20 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
         handleReset();
       }
     }}>
-      <div
-        onTouchStart={() => setOpen(true)}
+      <button
+        type="button"
         onClick={() => setOpen(true)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            setOpen(true);
-          }
-        }}
-        role="button"
-        tabIndex={0}
-        className="cursor-pointer inline-block"
-        style={{ touchAction: 'manipulation' }}
+        className="cursor-pointer touch-manipulation"
+        style={{
+          WebkitUserSelect: "none",
+          WebkitTouchCallout: "none",
+          background: "none",
+          border: "none",
+          padding: 0
+        } as React.CSSProperties}
       >
         {trigger}
-      </div>
+      </button>
 
       <DialogContent className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-5xl max-h-[95vh] overflow-y-auto p-3 sm:p-4 md:p-6">
         <DialogHeader>
