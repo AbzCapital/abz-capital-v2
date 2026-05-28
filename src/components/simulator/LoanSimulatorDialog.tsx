@@ -163,9 +163,15 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
     }}>
       <div
         onClick={handleOpenDialog}
-        onTouchStart={handleOpenDialog}
-        className="cursor-pointer"
-        style={{ WebkitTouchCallout: "none" } as React.CSSProperties}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            handleOpenDialog();
+          }
+        }}
+        className="cursor-pointer inline-block"
+        style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none" } as React.CSSProperties}
       >
         {trigger}
       </div>
