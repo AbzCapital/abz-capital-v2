@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { BottomNav } from "@/components/layout/BottomNav";
 import "./globals.css";
 
 const inter = Inter({
@@ -50,10 +51,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground pb-16 lg:pb-0">
         <TooltipProvider>
           <SessionProvider>
             {children}
+            <BottomNav />
           </SessionProvider>
         </TooltipProvider>
       </body>
