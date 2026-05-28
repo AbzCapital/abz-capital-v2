@@ -57,7 +57,9 @@
       "Bash(taskkill /F /IM npm.exe)",
       "Bash(git revert *)",
       "Bash(git stash *)",
-      "Bash(curl -X POST http://localhost:3001/api/leads/contact -H 'Content-Type: application/json' -d '{ *)"
+      "Bash(curl -X POST http://localhost:3001/api/leads/contact -H 'Content-Type: application/json' -d '{ *)",
+      "Bash(curl -s -X POST http://localhost:3001/api/leads/contact -H 'Content-Type: application/json' -d '{ *)",
+      "Bash(python3 -m json.tool)"
     ]
   }
 }
