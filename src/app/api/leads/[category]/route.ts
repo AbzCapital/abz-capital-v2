@@ -224,6 +224,11 @@ export async function POST(
 
     if (internalResult.error) {
       console.error("Resend internal send failed", internalResult.error);
+      // In development, allow submission even if email domain isn't verified
+      if (process.env.NODE_ENV !== "production") {
+        console.log(`[Development] Form submission accepted despite email error: ${internalResult.error.message}`);
+        return NextResponse.json({ ok: true, id: `dev-${Date.now()}` }, { status: 200 });
+      }
       return NextResponse.json(
         { ok: false, error: "We couldn't send your message. Please try again or WhatsApp us." },
         { status: 502 }
