@@ -163,7 +163,6 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
     }}>
       <div
         onClick={handleOpenDialog}
-        onTouchEnd={handleOpenDialog}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
