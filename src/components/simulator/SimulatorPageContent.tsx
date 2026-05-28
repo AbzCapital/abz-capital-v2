@@ -142,14 +142,14 @@ export function SimulatorPageContent() {
               <div className="flex gap-3 mt-6">
                 <button
                   id="downloadPdfBtn"
-                  className="flex-1 h-12 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation"
+                  className="flex-1 h-12 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation text-sm"
                   style={{
                     WebkitUserSelect: "none",
                     WebkitTouchCallout: "none",
                     touchAction: "manipulation",
                   }}
                 >
-                  📥 Download Schedule
+                  📥 Download PDF
                 </button>
                 <a
                   id="whatsappBtn"
