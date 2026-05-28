@@ -162,6 +162,7 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
       }
     }}>
       <div
+        onTouchStart={() => setOpen(true)}
         onClick={() => setOpen(true)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -171,6 +172,7 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
         role="button"
         tabIndex={0}
         className="cursor-pointer inline-block"
+        style={{ touchAction: 'manipulation' }}
       >
         {trigger}
       </div>

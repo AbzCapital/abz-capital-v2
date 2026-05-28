@@ -102,8 +102,10 @@ export function Header() {
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               aria-controls="mobile-menu"
+              onTouchStart={() => setOpen(!open)}
               onClick={() => setOpen(!open)}
               className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-indigo/5 active:bg-indigo/10 lg:hidden transition-colors"
+              style={{ touchAction: 'manipulation' }}
             >
               {open ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
