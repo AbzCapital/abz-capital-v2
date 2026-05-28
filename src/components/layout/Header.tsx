@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
 import { ChevronMark } from "@/components/brand/ChevronMark";
 import { Container } from "@/components/shared/Container";
 import { cn } from "@/lib/utils";
@@ -18,7 +17,6 @@ const NAV = [
 
 export function Header() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,22 +25,6 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  const toggleMenu = (e?: React.MouseEvent | React.TouchEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setOpen((prev) => !prev);
-  };
-
-  const handleMenuLinkClick = () => {
-    setOpen(false);
-  };
 
   return (
     <>
@@ -97,79 +79,10 @@ export function Header() {
               </Link>
             </div>
 
-            <button
-              type="button"
-              aria-label={open ? "Close menu" : "Open menu"}
-              aria-expanded={open}
-              aria-controls="mobile-menu"
-              onClick={() => setOpen(!open)}
-              className="relative z-50 inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-indigo/5 active:brightness-95 lg:hidden transition-colors touch-manipulation"
-              style={{
-                WebkitUserSelect: "none",
-                WebkitTouchCallout: "none",
-                pointerEvents: "auto"
-              } as React.CSSProperties}
-            >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
-            </button>
           </div>
         </Container>
       </header>
 
-      {/* Mobile Menu - Fresh Implementation */}
-      <nav
-        id="mobile-menu"
-        className={cn(
-          "fixed inset-0 top-16 sm:top-20 lg:hidden z-40 transition-opacity duration-300 pointer-events-none",
-          open && "pointer-events-auto"
-        )}
-        style={{
-          display: open ? "block" : "none",
-        }}
-      >
-        <div className="border-t border-line bg-white h-full overflow-y-auto">
-          <Container className="py-6">
-            <div className="flex flex-col gap-1">
-              {NAV.map((item) => {
-                const active =
-                  pathname === item.href ||
-                  (item.href !== "/" && pathname.startsWith(item.href));
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={handleMenuLinkClick}
-                    className={cn(
-                      "flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium transition",
-                      active
-                        ? "bg-indigo/5 text-indigo"
-                        : "text-ink/80 hover:bg-indigo/5 hover:text-indigo"
-                    )}
-                  >
-                    {item.label}
-                    <span aria-hidden>→</span>
-                  </Link>
-                );
-              })}
-            </div>
-            <Link
-              href="/products#asset-backed"
-              onClick={handleMenuLinkClick}
-              className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-indigo px-4 py-3 text-base font-semibold text-white shadow-button transition hover:brightness-110"
-            >
-              Apply for a loan now
-            </Link>
-          </Container>
-        </div>
-      </nav>
-
-      {/* Mobile Menu Backdrop */}
-      {open && (
-        <div
-          className="fixed inset-0 top-16 sm:top-20 lg:hidden z-30 bg-black/20"
-          onClick={() => setOpen(false)}
-        />
-      )}
     </>
   );
 }

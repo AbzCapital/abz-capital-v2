@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { Calculator, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import type { Product, ProductCategory } from "@/lib/product-catalog";
 import { PRODUCT_WA_MESSAGES, whatsappUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppButton";
-import { LoanSimulatorDialog } from "@/components/simulator/LoanSimulatorDialog";
 
 export interface ProductCardProps {
   product: Product;
@@ -53,20 +52,6 @@ export function ProductCard({ product, category }: ProductCardProps) {
         )}
 
         <div className="mt-5 flex flex-col sm:flex-row gap-2 w-full">
-          {product.hasSimulator && (
-            <LoanSimulatorDialog
-              trigger={
-                <button
-                  type="button"
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-indigo transition active:brightness-95 touch-manipulation"
-                  style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
-                >
-                  <Calculator className="size-4" />
-                  Simulate
-                </button>
-              }
-            />
-          )}
           <a
             href={mailto}
             className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-indigo px-3 py-3 text-xs sm:text-sm font-semibold text-white transition active:brightness-95 touch-manipulation"
