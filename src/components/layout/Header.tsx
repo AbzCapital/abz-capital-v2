@@ -103,10 +103,11 @@ export function Header() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               onClick={() => setOpen(!open)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-indigo/5 active:brightness-95 lg:hidden transition-colors touch-manipulation"
+              className="relative z-50 inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-indigo/5 active:brightness-95 lg:hidden transition-colors touch-manipulation"
               style={{
                 WebkitUserSelect: "none",
-                WebkitTouchCallout: "none"
+                WebkitTouchCallout: "none",
+                pointerEvents: "auto"
               } as React.CSSProperties}
             >
               {open ? <X className="size-5" /> : <Menu className="size-5" />}

@@ -158,4 +158,31 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* Mobile Button Fixes - Hamburger & Simulate Loan */
+  button[aria-controls="mobile-menu"],
+  button[type="button"][aria-expanded],
+  [role="button"][data-loan-simulator],
+  button[class*="touch-manipulation"] {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Ensure no hover interference on mobile */
+  @media (hover: none) and (pointer: coarse) {
+    button[aria-controls="mobile-menu"],
+    button[type="button"][aria-expanded],
+    [role="button"][data-loan-simulator],
+    button[class*="touch-manipulation"] {
+      pointer-events: auto;
+      -webkit-user-select: none;
+    }
+  }
 }

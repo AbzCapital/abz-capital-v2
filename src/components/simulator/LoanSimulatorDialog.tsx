@@ -164,13 +164,14 @@ export function LoanSimulatorDialog({ trigger }: LoanSimulatorDialogProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="cursor-pointer touch-manipulation"
+        className="relative z-10 cursor-pointer touch-manipulation inline-block"
         style={{
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
           background: "none",
           border: "none",
-          padding: 0
+          padding: 0,
+          pointerEvents: "auto"
         } as React.CSSProperties}
       >
         {trigger}
