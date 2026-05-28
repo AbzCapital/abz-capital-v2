@@ -12,8 +12,8 @@ export const middleware = auth((req: any) => {
     }
   }
 
-  // Admin routes require admin role
-  if (req.nextUrl.pathname.startsWith("/admin")) {
+  // Admin routes require admin role (except login page)
+  if (req.nextUrl.pathname.startsWith("/admin") && req.nextUrl.pathname !== "/admin/login") {
     if (!req.auth?.user || (req.auth.user as any).role !== "admin") {
       return Response.redirect(new URL("/admin/login", req.url));
     }
