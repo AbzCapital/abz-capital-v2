@@ -45,19 +45,15 @@ export function InputsSection({
                 KES
               </span>
               <input
-                type="number"
+                type="text"
                 inputMode="numeric"
                 placeholder="e.g. 500000"
                 value={takeHome || ""}
-                onChange={(e) => onTakeHomeChange(Number(e.target.value) || 0)}
-                min="1"
-                step="10000"
+                onChange={(e) => {
+                  const num = parseInt(e.target.value.replace(/[^0-9]/g, "")) || 0;
+                  onTakeHomeChange(num);
+                }}
                 className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
-                style={{
-                  WebkitAppearance: "none",
-                  MozAppearance: "textfield",
-                  WebkitUserSelect: "text",
-                } as React.CSSProperties}
               />
             </div>
           </label>
@@ -138,7 +134,7 @@ export function InputsSection({
       <button
         type="button"
         onClick={onGenerate}
-        disabled={isLoading || takeHome <= 0 || insurancePremium <= 0 || months < 1}
+        disabled={isLoading}
         className="w-full bg-peach text-indigo font-semibold hover:brightness-95 active:brightness-90 py-6 text-base rounded-lg border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
         style={{
           WebkitUserSelect: "none",
