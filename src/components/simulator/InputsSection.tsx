@@ -133,13 +133,18 @@ export function InputsSection({
 
       <button
         type="button"
-        onClick={onGenerate}
+        onClick={(e) => {
+          console.log("Button clicked!", { takeHome, insurancePremium, months });
+          e.preventDefault();
+          onGenerate();
+        }}
         disabled={isLoading}
         className="w-full bg-peach text-indigo font-semibold hover:brightness-95 active:brightness-90 py-6 text-base rounded-lg border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
         style={{
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
           touchAction: "manipulation",
+          pointerEvents: "auto",
         } as React.CSSProperties}
       >
         {isLoading ? "Simulating..." : "Simulate Loan Schedule"}
