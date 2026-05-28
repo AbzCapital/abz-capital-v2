@@ -83,13 +83,13 @@ export default function AdminLoginPage() {
             />
           </div>
 
-          <Button
+          <button
             type="submit"
             disabled={isLoading || !email || !password}
-            className="w-full bg-indigo text-white hover:brightness-110 py-2 font-semibold"
+            className="w-full bg-indigo text-white hover:brightness-110 py-2 font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Signing in..." : "Sign In"}
-          </Button>
+          </button>
         </form>
 
         <div className="mt-6 p-4 bg-indigo/5 rounded-lg">
