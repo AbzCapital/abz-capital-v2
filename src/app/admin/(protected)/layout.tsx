@@ -8,10 +8,7 @@ import { LogOut } from "lucide-react";
 
 const ADMIN_NAV = [
   { href: "/admin/dashboard", label: "Dashboard" },
-  { href: "/admin/products", label: "Products" },
-  { href: "/admin/categories", label: "Categories" },
   { href: "/admin/loans", label: "Loan Config" },
-  { href: "/admin/leads", label: "Leads" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
