@@ -138,18 +138,34 @@ export function SimulatorPageContent() {
                 </table>
               </div>
 
-              {/* Print Button */}
-              <button
-                id="printBtn"
-                className="w-full h-12 bg-gray-700 text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation mt-6"
-                style={{
-                  WebkitUserSelect: "none",
-                  WebkitTouchCallout: "none",
-                  touchAction: "manipulation",
-                }}
-              >
-                🖨️ Print Schedule
-              </button>
+              {/* Download PDF and Apply Buttons */}
+              <div className="flex gap-3 mt-6">
+                <button
+                  id="downloadPdfBtn"
+                  className="flex-1 h-12 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation"
+                  style={{
+                    WebkitUserSelect: "none",
+                    WebkitTouchCallout: "none",
+                    touchAction: "manipulation",
+                  }}
+                >
+                  📥 Download Schedule
+                </button>
+                <a
+                  id="whatsappBtn"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 h-12 bg-green-500 text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation flex items-center justify-center"
+                  style={{
+                    WebkitUserSelect: "none",
+                    WebkitTouchCallout: "none",
+                    touchAction: "manipulation",
+                  }}
+                >
+                  💬 Apply for Loan
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -182,7 +198,8 @@ export function SimulatorPageContent() {
               const summarySection = document.getElementById('summarySection');
               const summaryTextDiv = document.getElementById('summaryText');
               const scheduleBody = document.querySelector('#scheduleTable tbody');
-              const printBtn = document.getElementById('printBtn');
+              const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+              const whatsappBtn = document.getElementById('whatsappBtn');
 
               function calculateLoan() {
                 let amount = parseInt(document.getElementById('loanAmount').value.replace(/[^0-9]/g, '')) || 0;
@@ -238,7 +255,7 @@ export function SimulatorPageContent() {
 
                 // Build summary HTML
                 summaryTextDiv.innerHTML = \`
-                  <div class="flex justify-between"><span>Loan Amount:</span><span class="font-semibold">\${formatKES(amount)}</span></div>
+                  <div class="flex justify-between"><span>Take Home:</span><span class="font-semibold">\${formatKES(amount)}</span></div>
                   <div class="flex justify-between"><span>Insurance Premium:</span><span class="font-semibold">\${formatKES(premium)}</span></div>
                   <div class="flex justify-between"><span>Valuation Fee:</span><span class="font-semibold">KES 1,500</span></div>
                   <div class="flex justify-between"><span>Legal Fee:</span><span class="font-semibold">KES 1,500</span></div>
@@ -246,11 +263,24 @@ export function SimulatorPageContent() {
                   <div class="flex justify-between"><span>Logbook Transfer Fee:</span><span class="font-semibold">KES 2,500</span></div>
                   <div class="flex justify-between"><span>Tracker Fee:</span><span class="font-semibold">KES 15,000</span></div>
                   <div class="border-t border-line pt-2 flex justify-between"><span>Total Fees:</span><span class="font-semibold">\${formatKES(feesTotal)}</span></div>
-                  <div class="border-t border-line pt-2 flex justify-between font-bold text-indigo"><span>Total Principal:</span><span>\${formatKES(principal)}</span></div>
-                  <div class="flex justify-between text-green-700"><span>Monthly Payment:</span><span class="font-bold text-lg">\${formatKES(rows[0].monthlyPayment)}</span></div>
+                  <div class="border-t border-line pt-2 flex justify-between font-bold text-indigo"><span>Loan Principal:</span><span>\${formatKES(principal)}</span></div>
                   <div class="flex justify-between text-blue-700"><span>Total Interest:</span><span class="font-bold text-lg">\${formatKES(totalInterestCharged)}</span></div>
                   <div class="flex justify-between text-blue-700"><span>Total Repayment:</span><span class="font-bold text-lg">\${formatKES(totalRepayment)}</span></div>
                 \`;
+
+                // Store calculation data for PDF and WhatsApp
+                window.loanData = {
+                  amount,
+                  premium,
+                  processingFee,
+                  feesTotal,
+                  principal,
+                  months,
+                  totalInterestCharged,
+                  totalRepayment,
+                  monthlyPayment: rows[0].monthlyPayment,
+                  rows
+                };
 
                 // Generate schedule table
                 scheduleBody.innerHTML = '';
@@ -291,15 +321,158 @@ export function SimulatorPageContent() {
                 window.print();
               }
 
+              function downloadPdf() {
+                if (!window.loanData) {
+                  alert('Please generate the loan summary first');
+                  return;
+                }
+
+                const data = window.loanData;
+                const html = \`
+                  <!DOCTYPE html>
+                  <html>
+                  <head>
+                    <meta charset="utf-8">
+                    <title>Loan Schedule</title>
+                    <style>
+                      body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+                      h1 { color: #0066cc; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+                      h2 { color: #0066cc; margin-top: 30px; }
+                      .summary { margin: 20px 0; }
+                      .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+                      .row-label { font-weight: bold; }
+                      .row-value { text-align: right; }
+                      table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                      th, td { padding: 10px; border: 1px solid #ddd; text-align: right; }
+                      th { background-color: #0066cc; color: white; }
+                      tr:nth-child(even) { background-color: #f9f9f9; }
+                      .footer { margin-top: 40px; font-size: 12px; color: #666; }
+                    </style>
+                  </head>
+                  <body>
+                    <h1>ABZ CAPITAL LIMITED</h1>
+                    <h2>Loan Repayment Schedule</h2>
+
+                    <div class="summary">
+                      <div class="row">
+                        <span class="row-label">Take Home:</span>
+                        <span class="row-value">KES \${data.amount.toLocaleString()}</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Insurance Premium:</span>
+                        <span class="row-value">KES \${data.premium.toLocaleString()}</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Valuation Fee:</span>
+                        <span class="row-value">KES 1,500</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Legal Fee:</span>
+                        <span class="row-value">KES 1,500</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Processing Fee (5%):</span>
+                        <span class="row-value">KES \${data.processingFee.toLocaleString()}</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Logbook Transfer Fee:</span>
+                        <span class="row-value">KES 2,500</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Tracker Fee:</span>
+                        <span class="row-value">KES 15,000</span>
+                      </div>
+                      <div class="row" style="border-top: 2px solid #333; border-bottom: 2px solid #333; font-weight: bold;">
+                        <span class="row-label">Total Fees:</span>
+                        <span class="row-value">KES \${data.feesTotal.toLocaleString()}</span>
+                      </div>
+                      <div class="row" style="border-bottom: 2px solid #333; font-weight: bold; color: #0066cc;">
+                        <span class="row-label">Loan Principal:</span>
+                        <span class="row-value">KES \${data.principal.toLocaleString()}</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Total Interest (6% per month):</span>
+                        <span class="row-value">KES \${data.totalInterestCharged.toLocaleString()}</span>
+                      </div>
+                      <div class="row" style="font-weight: bold; color: #0066cc;">
+                        <span class="row-label">Total Repayment:</span>
+                        <span class="row-value">KES \${data.totalRepayment.toLocaleString()}</span>
+                      </div>
+                      <div class="row">
+                        <span class="row-label">Loan Period:</span>
+                        <span class="row-value">\${data.months} months</span>
+                      </div>
+                    </div>
+
+                    <h2>Payment Schedule</h2>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Month</th>
+                          <th>Outstanding Balance</th>
+                          <th>Interest (6%)</th>
+                          <th>Principal</th>
+                          <th>Monthly Payment</th>
+                          <th>New Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        \${data.rows.map(row => \`
+                          <tr>
+                            <td style="text-align: center;">\${row.month}</td>
+                            <td>KES \${row.outstandingBalance.toLocaleString()}</td>
+                            <td>KES \${row.interest.toLocaleString()}</td>
+                            <td>KES \${row.principal.toLocaleString()}</td>
+                            <td>KES \${row.monthlyPayment.toLocaleString()}</td>
+                            <td>KES \${row.newBalance.toLocaleString()}</td>
+                          </tr>
+                        \`).join('')}
+                      </tbody>
+                    </table>
+
+                    <div class="footer">
+                      <p>Generated by ABZ Capital Ltd on \${new Date().toLocaleDateString('en-KE')}</p>
+                      <p>Interest Rate: 6% per month (Reducing Balance)</p>
+                      <p>For inquiries, contact ABZ Capital: +254 (0)XX XXX XXXX</p>
+                    </div>
+                  </body>
+                  </html>
+                \`;
+
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = \`loan-schedule-\${data.months}months.pdf\`;
+                link.click();
+                window.URL.revokeObjectURL(url);
+              }
+
+              function updateWhatsappLink() {
+                if (!window.loanData) {
+                  whatsappBtn.href = '#';
+                  return;
+                }
+
+                const data = window.loanData;
+                const message = \`Hello, I am interested in a loan of KES \${data.principal.toLocaleString()} for a period of \${data.months} month\${data.months !== 1 ? 's' : ''}. The monthly payment would be KES \${data.monthlyPayment.toLocaleString()}. Can you provide more information about the application process?\`;
+                const encodedMessage = encodeURIComponent(message);
+                whatsappBtn.href = \`https://wa.me/?text=\${encodedMessage}\`;
+              }
+
               // Attach events - using standard click event (works on mobile and desktop)
               calculateBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 showSummaryAndScroll();
               });
 
-              printBtn.addEventListener('click', (e) => {
+              downloadPdfBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                printSchedule();
+                downloadPdf();
+              });
+
+              summarySection.addEventListener('click', () => {
+                updateWhatsappLink();
               });
 
               // Allow Enter key to trigger calculation
