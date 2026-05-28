@@ -61,7 +61,8 @@
       "Bash(curl -s -X POST http://localhost:3001/api/leads/contact -H 'Content-Type: application/json' -d '{ *)",
       "Bash(python3 -m json.tool)",
       "Bash(ipconfig)",
-      "Bash(awk '{print $NF}')"
+      "Bash(awk '{print $NF}')",
+      "PowerShell(New-NetFirewallRule -DisplayName \"Allow Node.js Port 3001\" -Direction Inbound -LocalPort 3001 -Protocol TCP -Action Allow -ErrorAction SilentlyContinue)"
     ]
   }
 }
