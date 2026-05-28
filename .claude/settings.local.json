@@ -38,7 +38,10 @@
       "mcp__Claude_Preview__preview_start",
       "Bash(xargs grep -l \"hasSimulator\")",
       "Bash(git commit *)",
-      "Bash(node -e \"const bcrypt = require\\('bcryptjs'\\); const hash = bcrypt.hashSync\\('secure_password_123', 10\\); console.log\\(hash\\);\")"
+      "Bash(node -e \"const bcrypt = require\\('bcryptjs'\\); const hash = bcrypt.hashSync\\('secure_password_123', 10\\); console.log\\(hash\\);\")",
+      "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" npx prisma migrate deploy)",
+      "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" timeout 20 npx prisma db push --skip-generate)",
+      "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" timeout 30 npx prisma db push --accept-data-loss)"
     ]
   }
 }
