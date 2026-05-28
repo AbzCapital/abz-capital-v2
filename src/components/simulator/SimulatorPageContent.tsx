@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Download } from "lucide-react";
 import { Container } from "@/components/shared/Container";
@@ -18,95 +18,74 @@ const LOAN_CONFIG = {
   monthlyRate: 0.06,
 };
 
-export function SimulatorPageContent() {
-  const [takeHome, setTakeHome] = useState("");
-  const [insurancePremium, setInsurancePremium] = useState("");
-  const [months, setMonths] = useState("");
-  const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
-  const [loading, setLoading] = useState(false);
+// Default calculation - display these results immediately
+const DEFAULT_LOAN_VALUES = {
+  takeHome: 500000,
+  insurancePremium: 50000,
+  months: 12,
+};
 
-  const handleCalculate = () => {
-    // Validate inputs
-    const takeHomeNum = parseInt(takeHome) || 0;
-    const insuranceNum = parseInt(insurancePremium) || 0;
-    const monthsNum = parseInt(months) || 0;
+function calculateSchedule(takeHome: number, insurancePremium: number, months: number): LoanSchedule {
+  const processingFee = Math.round(takeHome * LOAN_CONFIG.processingFeePercentage);
+  const feesTotal =
+    LOAN_CONFIG.valuationFee +
+    LOAN_CONFIG.legalFee +
+    processingFee +
+    LOAN_CONFIG.logbookTransferFee +
+    LOAN_CONFIG.trackerFee;
 
-    if (takeHomeNum <= 0) {
-      toast.error("Please enter amount to take home");
-      return;
-    }
-    if (insuranceNum <= 0) {
-      toast.error("Please enter insurance premium");
-      return;
-    }
-    if (monthsNum < 1) {
-      toast.error("Loan period must be at least 1 month");
-      return;
-    }
+  const principal = takeHome + insurancePremium + feesTotal;
+  const fixedPrincipalPayment = principal / months;
 
-    setLoading(true);
+  const rows = [];
+  let outstandingBalance = principal;
+  let totalInterestCharged = 0;
 
-    try {
-      // Calculate fees
-      const processingFee = Math.round(takeHomeNum * LOAN_CONFIG.processingFeePercentage);
-      const feesTotal =
-        LOAN_CONFIG.valuationFee +
-        LOAN_CONFIG.legalFee +
-        processingFee +
-        LOAN_CONFIG.logbookTransferFee +
-        LOAN_CONFIG.trackerFee;
+  for (let m = 1; m <= months; m++) {
+    const interest = Math.round(outstandingBalance * LOAN_CONFIG.monthlyRate);
+    const principalPayment = fixedPrincipalPayment;
+    const monthlyPayment = interest + principalPayment;
+    const newBalance = Math.max(0, outstandingBalance - principalPayment);
 
-      // Calculate principal
-      const principal = takeHomeNum + insuranceNum + feesTotal;
-      const fixedPrincipalPayment = principal / monthsNum;
+    totalInterestCharged += interest;
 
-      // Build amortization schedule
-      const rows = [];
-      let outstandingBalance = principal;
-      let totalInterestCharged = 0;
+    rows.push({
+      month: m,
+      outstandingBalance: Math.round(outstandingBalance),
+      interest,
+      principal: Math.round(principalPayment),
+      monthlyPayment: Math.round(monthlyPayment),
+      newBalance: Math.round(newBalance),
+    });
 
-      for (let m = 1; m <= monthsNum; m++) {
-        const interest = Math.round(outstandingBalance * LOAN_CONFIG.monthlyRate);
-        const principalPayment = fixedPrincipalPayment;
-        const monthlyPayment = interest + principalPayment;
-        const newBalance = Math.max(0, outstandingBalance - principalPayment);
+    outstandingBalance = newBalance;
+  }
 
-        totalInterestCharged += interest;
-
-        rows.push({
-          month: m,
-          outstandingBalance: Math.round(outstandingBalance),
-          interest,
-          principal: Math.round(principalPayment),
-          monthlyPayment: Math.round(monthlyPayment),
-          newBalance: Math.round(newBalance),
-        });
-
-        outstandingBalance = newBalance;
-      }
-
-      const result: LoanSchedule = {
-        takeHome: takeHomeNum,
-        insurancePremium: insuranceNum,
-        feesTotal,
-        principal,
-        months: monthsNum,
-        monthlyRate: LOAN_CONFIG.monthlyRate,
-        fixedPrincipalPayment,
-        totalRepayment: principal + totalInterestCharged,
-        totalInterest: totalInterestCharged,
-        rows,
-      };
-
-      setSchedule(result);
-      toast.success("Schedule calculated!");
-    } catch (error) {
-      console.error("Calculation error:", error);
-      toast.error("Failed to calculate schedule");
-    } finally {
-      setLoading(false);
-    }
+  return {
+    takeHome,
+    insurancePremium,
+    feesTotal,
+    principal,
+    months,
+    monthlyRate: LOAN_CONFIG.monthlyRate,
+    fixedPrincipalPayment,
+    totalRepayment: principal + totalInterestCharged,
+    totalInterest: totalInterestCharged,
+    rows,
   };
+}
+
+export function SimulatorPageContent() {
+  const [takeHome, setTakeHome] = useState(DEFAULT_LOAN_VALUES.takeHome);
+  const [insurancePremium, setInsurancePremium] = useState(DEFAULT_LOAN_VALUES.insurancePremium);
+  const [months, setMonths] = useState(DEFAULT_LOAN_VALUES.months);
+  const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
+
+  // Calculate on mount and whenever values change
+  useEffect(() => {
+    const result = calculateSchedule(takeHome, insurancePremium, months);
+    setSchedule(result);
+  }, [takeHome, insurancePremium, months]);
 
   const handleDownloadPDF = async () => {
     if (!schedule) return;
@@ -119,11 +98,10 @@ export function SimulatorPageContent() {
     }
   };
 
-  const handleReset = () => {
-    setTakeHome("");
-    setInsurancePremium("");
-    setMonths("");
-    setSchedule(null);
+  const handleCalculate = () => {
+    const result = calculateSchedule(takeHome, insurancePremium, months);
+    setSchedule(result);
+    toast.success("Schedule calculated!");
   };
 
   return (
@@ -171,7 +149,7 @@ export function SimulatorPageContent() {
                   inputMode="numeric"
                   placeholder="e.g. 500000"
                   value={takeHome}
-                  onChange={(e) => setTakeHome(e.target.value.replace(/[^0-9]/g, ""))}
+                  onChange={(e) => setTakeHome(parseInt(e.target.value.replace(/[^0-9]/g, "")) || 0)}
                   className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
                 />
               </div>
@@ -194,7 +172,7 @@ export function SimulatorPageContent() {
                   inputMode="numeric"
                   placeholder="e.g. 50000"
                   value={insurancePremium}
-                  onChange={(e) => setInsurancePremium(e.target.value.replace(/[^0-9]/g, ""))}
+                  onChange={(e) => setInsurancePremium(parseInt(e.target.value.replace(/[^0-9]/g, "")) || 0)}
                   className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
                 />
               </div>
@@ -213,33 +191,24 @@ export function SimulatorPageContent() {
                 inputMode="numeric"
                 placeholder="e.g. 12"
                 value={months}
-                onChange={(e) => setMonths(e.target.value.replace(/[^0-9]/g, ""))}
+                onChange={(e) => setMonths(parseInt(e.target.value.replace(/[^0-9]/g, "")) || 1)}
                 className="w-full h-12 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
               />
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-3 pt-4">
+            {/* Calculate Button */}
+            <div className="pt-4">
               <button
                 onClick={handleCalculate}
-                disabled={loading}
-                className="flex-1 h-12 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 disabled:opacity-50 disabled:cursor-not-allowed transition touch-manipulation"
+                className="w-full h-12 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation"
               >
-                {loading ? "Calculating..." : "Calculate Schedule"}
+                Update Calculation
               </button>
-              {schedule && (
-                <button
-                  onClick={handleReset}
-                  className="flex-1 h-12 bg-gray-200 text-ink font-semibold rounded-lg hover:brightness-95 active:brightness-90 transition touch-manipulation"
-                >
-                  Clear
-                </button>
-              )}
             </div>
           </div>
         </div>
 
-        {/* Results Section - Only shows after Calculate is clicked */}
+        {/* Results Section - Always visible with default values */}
         {schedule && (
           <div className="space-y-8">
             {/* Summary Cards */}
@@ -344,15 +313,6 @@ export function SimulatorPageContent() {
                 Apply Now
               </Link>
             </div>
-          </div>
-        )}
-
-        {/* Info Box */}
-        {!schedule && (
-          <div className="bg-indigo/5 rounded-lg p-4 border border-indigo/10">
-            <p className="text-xs text-muted-ink leading-relaxed">
-              <strong>How it works:</strong> Enter the amount you want to take home, your insurance cost, and your preferred repayment period. Click "Calculate Schedule" to see your monthly payment, total interest, and complete payment breakdown.
-            </p>
           </div>
         )}
       </Container>
