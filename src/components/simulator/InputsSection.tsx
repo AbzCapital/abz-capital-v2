@@ -2,19 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ArrowRight, Info } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { ArrowRight } from "lucide-react";
 
 export interface InputsSectionProps {
   takeHome: number;
@@ -25,8 +13,6 @@ export interface InputsSectionProps {
   onMonthsChange: (value: number) => void;
   onGenerate: () => void;
   isLoading?: boolean;
-  minMonths?: number;
-  maxMonths?: number;
 }
 
 export function InputsSection({
@@ -38,47 +24,29 @@ export function InputsSection({
   onMonthsChange,
   onGenerate,
   isLoading,
-  minMonths = 1,
-  maxMonths = 12,
 }: InputsSectionProps) {
-  const monthOptions = Array.from(
-    { length: maxMonths - minMonths + 1 },
-    (_, i) => minMonths + i
-  );
-
   return (
     <div className="space-y-6 sm:space-y-8">
       <div>
         <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2">Loan Terms Simulation</h2>
         <p className="text-sm sm:text-base text-muted-ink">
-          Estimate your loan amount, applicable charges, and repayment schedule instantly.
+          Enter your details below to see your monthly payment and full repayment schedule.
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* Take Home Amount */}
-        <div className="grid gap-3">
-          <div className="flex items-center gap-2">
-            <label htmlFor="takeHome" className="text-base font-semibold text-ink">
-              Amount to Take Home
+        <div className="space-y-3">
+          <div>
+            <label htmlFor="takeHome" className="text-base font-semibold text-ink block mb-1">
+              Amount to Take Home (KES)
             </label>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30 touch-manipulation"
-                  aria-label="Information about amount to take home"
-                >
-                  <Info className="size-3" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="right" className="max-w-xs">
-                Enter the net amount you need after all loan charges are deducted.
-              </TooltipContent>
-            </Tooltip>
+            <p className="text-xs text-muted-ink mb-2">
+              The net cash amount you need after all fees
+            </p>
           </div>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
               KES
             </span>
             <Input
@@ -88,123 +56,113 @@ export function InputsSection({
               placeholder="e.g. 500000"
               value={takeHome || ""}
               onChange={(e) => onTakeHomeChange(Number(e.target.value) || 0)}
-              min="0"
-              step="1000"
-              className="text-base pl-12"
+              min="1"
+              step="10000"
+              className="text-base pl-12 touch-manipulation"
+              style={{
+                WebkitUserSelect: "none",
+                WebkitTouchCallout: "none",
+              } as React.CSSProperties}
             />
           </div>
-          <p className="text-xs text-muted-ink">
-            The net loan amount you need
-          </p>
         </div>
 
         {/* Insurance Premium */}
-        <div className="grid gap-3">
-          <div className="flex items-center gap-2">
-            <label htmlFor="insurance" className="text-base font-semibold text-ink">
-              Insurance Premium
+        <div className="space-y-3">
+          <div>
+            <label htmlFor="insurance" className="text-base font-semibold text-ink block mb-1">
+              Insurance Premium (KES)
             </label>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30 touch-manipulation"
-                  aria-label="Information about comprehensive insurance premium"
-                >
-                  <Info className="size-3" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="right" className="max-w-xs">
-                Your estimated comprehensive vehicle insurance premium (annual).
-              </TooltipContent>
-            </Tooltip>
+            <p className="text-xs text-muted-ink mb-2">
+              Your estimated annual comprehensive vehicle insurance cost
+            </p>
           </div>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
               KES
             </span>
             <Input
               id="insurance"
               type="number"
               inputMode="numeric"
-              placeholder="Enter insurance amount"
+              placeholder="e.g. 50000"
               value={insurancePremium || ""}
               onChange={(e) => {
                 const val = Number(e.target.value);
                 onInsurancePremiumChange(Math.max(0, val) || 0);
               }}
-              min="0"
-              step="1000"
-              className="text-base pl-12"
+              min="1"
+              step="10000"
+              className="text-base pl-12 touch-manipulation"
+              style={{
+                WebkitUserSelect: "none",
+                WebkitTouchCallout: "none",
+              } as React.CSSProperties}
             />
           </div>
           {insurancePremium === 0 && (
             <p className="text-xs text-red-500 font-medium">
-              Comprehensive insurance premium is required.
+              ⚠️ Please enter an insurance amount
             </p>
           )}
-          <p className="text-xs text-muted-ink">
-            Enter your estimated comprehensive insurance premium amount.
-          </p>
         </div>
 
         {/* Loan Period */}
-        <div className="grid gap-3">
-          <div className="flex items-center gap-2">
-            <label htmlFor="months" className="text-base font-semibold text-ink">
-              Loan Period
+        <div className="space-y-3">
+          <div>
+            <label htmlFor="months" className="text-base font-semibold text-ink block mb-1">
+              Loan Period (Months)
             </label>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30 touch-manipulation"
-                  aria-label="Information about loan period"
-                >
-                  <Info className="size-3" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="right" className="max-w-xs">
-                Choose how many months you want to repay this loan. Longer periods mean lower monthly payments.
-              </TooltipContent>
-            </Tooltip>
+            <p className="text-xs text-muted-ink mb-2">
+              How many months to repay (e.g., 1, 6, 12, 24, 36)
+            </p>
           </div>
-          <Select
-            value={months.toString()}
-            onValueChange={(val) => onMonthsChange(Number(val))}
-          >
-            <SelectTrigger id="months" className="text-base">
-              <SelectValue placeholder="Select period" />
-            </SelectTrigger>
-            <SelectContent>
-              {monthOptions.map((m) => (
-                <SelectItem key={m} value={m.toString()}>
-                  {m} month{m !== 1 ? "s" : ""}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-muted-ink">
-            Select how long you would like to repay the loan.
-          </p>
+          <Input
+            id="months"
+            type="number"
+            inputMode="numeric"
+            placeholder="e.g. 12"
+            value={months || ""}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              onMonthsChange(Math.max(1, val) || 1);
+            }}
+            min="1"
+            step="1"
+            className="text-base touch-manipulation"
+            style={{
+              WebkitUserSelect: "none",
+              WebkitTouchCallout: "none",
+            } as React.CSSProperties}
+          />
+          {months < 1 && (
+            <p className="text-xs text-red-500 font-medium">
+              ⚠️ Loan period must be at least 1 month
+            </p>
+          )}
         </div>
       </div>
 
       <Button
         type="button"
         onClick={onGenerate}
-        disabled={
-          isLoading ||
-          takeHome <= 0 ||
-          insurancePremium <= 0 ||
-          months < minMonths ||
-          months > maxMonths
-        }
-        className="w-full bg-peach text-indigo font-semibold hover:brightness-95 py-6 text-base"
+        disabled={isLoading || takeHome <= 0 || insurancePremium <= 0 || months < 1}
+        className="w-full bg-peach text-indigo font-semibold hover:brightness-95 active:brightness-90 py-6 text-base touch-manipulation"
+        style={{
+          WebkitUserSelect: "none",
+          WebkitTouchCallout: "none",
+        } as React.CSSProperties}
       >
         {isLoading ? "Simulating..." : "Simulate Loan Schedule"}
         {!isLoading && <ArrowRight className="size-4 ml-2" />}
       </Button>
+
+      {/* Info Box */}
+      <div className="bg-indigo/5 rounded-lg p-4 border border-indigo/10">
+        <p className="text-xs text-muted-ink leading-relaxed">
+          <strong>How it works:</strong> Enter the amount you need (after fees), your insurance cost, and how long you want to repay. We'll show you the exact monthly payment, total interest, and full payment schedule.
+        </p>
+      </div>
     </div>
   );
 }
