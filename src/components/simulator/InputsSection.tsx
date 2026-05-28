@@ -63,12 +63,14 @@ export function InputsSection({
               Amount to Take Home
             </label>
             <Tooltip>
-              <TooltipTrigger
-                type="button"
-                className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30"
-                aria-label="Information about amount to take home"
-              >
-                <Info className="size-3" />
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30 touch-manipulation"
+                  aria-label="Information about amount to take home"
+                >
+                  <Info className="size-3" />
+                </button>
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
                 Enter the net amount you need after all loan charges are deducted.
@@ -103,15 +105,17 @@ export function InputsSection({
               Insurance Premium
             </label>
             <Tooltip>
-              <TooltipTrigger
-                type="button"
-                className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30"
-                aria-label="Information about comprehensive insurance premium"
-              >
-                <Info className="size-3" />
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30 touch-manipulation"
+                  aria-label="Information about comprehensive insurance premium"
+                >
+                  <Info className="size-3" />
+                </button>
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                On average, how much do you currently pay for comprehensive vehicle insurance annually?
+                Your estimated comprehensive vehicle insurance premium (annual).
               </TooltipContent>
             </Tooltip>
           </div>
@@ -151,15 +155,17 @@ export function InputsSection({
               Loan Period
             </label>
             <Tooltip>
-              <TooltipTrigger
-                type="button"
-                className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30"
-                aria-label="Information about loan period"
-              >
-                <Info className="size-3" />
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-indigo/10 text-indigo hover:bg-indigo/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30 touch-manipulation"
+                  aria-label="Information about loan period"
+                >
+                  <Info className="size-3" />
+                </button>
               </TooltipTrigger>
               <TooltipContent side="right" className="max-w-xs">
-                Select how long you would like to repay the loan.
+                Choose how many months you want to repay this loan. Longer periods mean lower monthly payments.
               </TooltipContent>
             </Tooltip>
           </div>
