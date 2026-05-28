@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { LoanSummaryContent } from "@/components/loan-summary/LoanSummaryContent";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Loan Summary & Schedule — ABZ Capital",
   description:
