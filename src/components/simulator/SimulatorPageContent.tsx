@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Download } from "lucide-react";
 import { Container } from "@/components/shared/Container";
@@ -9,61 +9,64 @@ import { type LoanSchedule } from "@/lib/loan-calc";
 import { formatKES } from "@/lib/loan-calc";
 import { generatePDF } from "@/lib/pdf-generator";
 
-interface LoanConfigData {
-  valuationFee: number;
-  legalFee: number;
-  processingFeePercentage: number;
-  logbookTransferFee: number;
-  trackerFee: number;
-  monthlyRate: number;
-  minMonths: number;
-  maxMonths: number;
-}
-
-// Default loan configuration - no API call needed
-const DEFAULT_LOAN_CONFIG: LoanConfigData = {
+const LOAN_CONFIG = {
   valuationFee: 1500,
   legalFee: 1500,
   processingFeePercentage: 0.05,
   logbookTransferFee: 2500,
   trackerFee: 15000,
   monthlyRate: 0.06,
-  minMonths: 1,
-  maxMonths: 12,
 };
 
 export function SimulatorPageContent() {
-  const [takeHome, setTakeHome] = useState(0);
-  const [insurancePremium, setInsurancePremium] = useState(0);
-  const [months, setMonths] = useState(1);
+  const [takeHome, setTakeHome] = useState("");
+  const [insurancePremium, setInsurancePremium] = useState("");
+  const [months, setMonths] = useState("");
   const [schedule, setSchedule] = useState<LoanSchedule | null>(null);
-  const [loanConfig] = useState<LoanConfigData>(DEFAULT_LOAN_CONFIG);
+  const [loading, setLoading] = useState(false);
 
-  // Auto-calculate when values change
-  useEffect(() => {
-    if (!takeHome || !insurancePremium || !months || !loanConfig) {
-      setSchedule(null);
+  const handleCalculate = () => {
+    // Validate inputs
+    const takeHomeNum = parseInt(takeHome) || 0;
+    const insuranceNum = parseInt(insurancePremium) || 0;
+    const monthsNum = parseInt(months) || 0;
+
+    if (takeHomeNum <= 0) {
+      toast.error("Please enter amount to take home");
+      return;
+    }
+    if (insuranceNum <= 0) {
+      toast.error("Please enter insurance premium");
+      return;
+    }
+    if (monthsNum < 1) {
+      toast.error("Loan period must be at least 1 month");
       return;
     }
 
+    setLoading(true);
+
     try {
-      const processingFee = Math.round(takeHome * loanConfig.processingFeePercentage);
+      // Calculate fees
+      const processingFee = Math.round(takeHomeNum * LOAN_CONFIG.processingFeePercentage);
       const feesTotal =
-        loanConfig.valuationFee +
-        loanConfig.legalFee +
+        LOAN_CONFIG.valuationFee +
+        LOAN_CONFIG.legalFee +
         processingFee +
-        loanConfig.logbookTransferFee +
-        loanConfig.trackerFee;
+        LOAN_CONFIG.logbookTransferFee +
+        LOAN_CONFIG.trackerFee;
 
-      const principal = takeHome + insurancePremium + feesTotal;
-      const fixedPrincipalPayment = principal / months;
+      // Calculate principal
+      const principal = takeHomeNum + insuranceNum + feesTotal;
+      const fixedPrincipalPayment = principal / monthsNum;
 
+      // Build amortization schedule
       const rows = [];
       let outstandingBalance = principal;
       let totalInterestCharged = 0;
 
-      for (let m = 1; m <= months; m++) {
-        const interest = Math.round(outstandingBalance * loanConfig.monthlyRate);
+      for (let m = 1; m <= monthsNum; m++) {
+        const interest = Math.round(outstandingBalance * LOAN_CONFIG.monthlyRate);
         const principalPayment = fixedPrincipalPayment;
         const monthlyPayment = interest + principalPayment;
         const newBalance = Math.max(0, outstandingBalance - principalPayment);
@@ -83,12 +86,12 @@ export function SimulatorPageContent() {
       }
 
       const result: LoanSchedule = {
-        takeHome,
-        insurancePremium,
+        takeHome: takeHomeNum,
+        insurancePremium: insuranceNum,
         feesTotal,
         principal,
-        months,
-        monthlyRate: loanConfig.monthlyRate,
+        months: monthsNum,
+        monthlyRate: LOAN_CONFIG.monthlyRate,
         fixedPrincipalPayment,
         totalRepayment: principal + totalInterestCharged,
         totalInterest: totalInterestCharged,
@@ -96,20 +99,31 @@ export function SimulatorPageContent() {
       };
 
       setSchedule(result);
+      toast.success("Schedule calculated!");
     } catch (error) {
-      console.error("Error calculating schedule:", error);
-      setSchedule(null);
+      console.error("Calculation error:", error);
+      toast.error("Failed to calculate schedule");
+    } finally {
+      setLoading(false);
     }
-  }, [takeHome, insurancePremium, months, loanConfig]);
+  };
 
   const handleDownloadPDF = async () => {
     if (!schedule) return;
     try {
       await generatePDF(schedule);
+      toast.success("PDF downloaded!");
     } catch (error) {
       console.error("Error generating PDF:", error);
-      toast.error("Error generating PDF. Please try again.");
+      toast.error("Failed to generate PDF");
     }
+  };
+
+  const handleReset = () => {
+    setTakeHome("");
+    setInsurancePremium("");
+    setMonths("");
+    setSchedule(null);
   };
 
   return (
@@ -127,7 +141,7 @@ export function SimulatorPageContent() {
             </Link>
             <div>
               <h1 className="text-xl font-extrabold text-indigo">Loan Terms Simulator</h1>
-              <p className="text-sm text-muted-ink">See your monthly payments & schedule</p>
+              <p className="text-sm text-muted-ink">Calculate your loan payments & schedule</p>
             </div>
           </div>
         </Container>
@@ -136,95 +150,100 @@ export function SimulatorPageContent() {
       {/* Main Content */}
       <Container className="py-8 max-w-2xl">
         {/* Input Section */}
-        <div className="space-y-6 sm:space-y-8 mb-12">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2">Loan Terms Simulation</h2>
-            <p className="text-sm sm:text-base text-muted-ink">
-              Enter your details to see your loan summary and payment schedule.
-            </p>
-          </div>
+        <div className="mb-12 p-6 bg-white rounded-lg border border-line">
+          <h2 className="text-xl sm:text-2xl font-bold text-ink mb-6">Enter Loan Details</h2>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Take Home Amount */}
-            <div className="space-y-3">
-              <label className="block">
-                <span className="text-base font-semibold text-ink mb-1 block">Amount to Take Home (KES)</span>
-                <p className="text-xs text-muted-ink mb-2">The net cash amount you need after all fees</p>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
-                    KES
-                  </span>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    placeholder="e.g. 500000"
-                    value={takeHome || ""}
-                    onChange={(e) => {
-                      const num = parseInt(e.target.value.replace(/[^0-9]/g, "")) || 0;
-                      setTakeHome(num);
-                    }}
-                    className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
-                  />
-                </div>
+            <div>
+              <label className="block text-base font-semibold text-ink mb-2">
+                Amount to Take Home (KES)
               </label>
-            </div>
-
-            {/* Insurance Premium */}
-            <div className="space-y-3">
-              <label className="block">
-                <span className="text-base font-semibold text-ink mb-1 block">Insurance Premium (KES)</span>
-                <p className="text-xs text-muted-ink mb-2">Your estimated annual comprehensive vehicle insurance cost</p>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium pointer-events-none">
-                    KES
-                  </span>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    placeholder="e.g. 50000"
-                    value={insurancePremium || ""}
-                    onChange={(e) => {
-                      const num = parseInt(e.target.value.replace(/[^0-9]/g, "")) || 0;
-                      setInsurancePremium(num);
-                    }}
-                    className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
-                  />
-                </div>
-              </label>
-            </div>
-
-            {/* Loan Period */}
-            <div className="space-y-3">
-              <label className="block">
-                <span className="text-base font-semibold text-ink mb-1 block">Loan Period (Months)</span>
-                <p className="text-xs text-muted-ink mb-2">How many months to repay (e.g., 1, 6, 12, 24, 36)</p>
+              <p className="text-xs text-muted-ink mb-3">
+                The net cash amount you need after all fees
+              </p>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium">
+                  KES
+                </span>
                 <input
                   type="text"
                   inputMode="numeric"
-                  placeholder="e.g. 12"
-                  value={months || ""}
-                  onChange={(e) => {
-                    const num = parseInt(e.target.value.replace(/[^0-9]/g, "")) || 1;
-                    setMonths(Math.max(1, num));
-                  }}
-                  className="w-full h-10 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+                  placeholder="e.g. 500000"
+                  value={takeHome}
+                  onChange={(e) => setTakeHome(e.target.value.replace(/[^0-9]/g, ""))}
+                  className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
                 />
-              </label>
+              </div>
             </div>
-          </div>
 
-          <div className="bg-indigo/5 rounded-lg p-4 border border-indigo/10">
-            <p className="text-xs text-muted-ink leading-relaxed">
-              <strong>How it works:</strong> Enter your loan amount, insurance cost, and repayment period above. The loan summary and full payment schedule will appear below automatically.
-            </p>
+            {/* Insurance Premium */}
+            <div>
+              <label className="block text-base font-semibold text-ink mb-2">
+                Insurance Premium (KES)
+              </label>
+              <p className="text-xs text-muted-ink mb-3">
+                Your estimated annual comprehensive vehicle insurance
+              </p>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-ink font-medium">
+                  KES
+                </span>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 50000"
+                  value={insurancePremium}
+                  onChange={(e) => setInsurancePremium(e.target.value.replace(/[^0-9]/g, ""))}
+                  className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            {/* Loan Period */}
+            <div>
+              <label className="block text-base font-semibold text-ink mb-2">
+                Loan Period (Months)
+              </label>
+              <p className="text-xs text-muted-ink mb-3">
+                Number of months to repay (e.g. 1, 6, 12, 24, 36)
+              </p>
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="e.g. 12"
+                value={months}
+                onChange={(e) => setMonths(e.target.value.replace(/[^0-9]/g, ""))}
+                className="w-full h-12 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4">
+              <button
+                onClick={handleCalculate}
+                disabled={loading}
+                className="flex-1 h-12 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 disabled:opacity-50 disabled:cursor-not-allowed transition touch-manipulation"
+              >
+                {loading ? "Calculating..." : "Calculate Schedule"}
+              </button>
+              {schedule && (
+                <button
+                  onClick={handleReset}
+                  className="flex-1 h-12 bg-gray-200 text-ink font-semibold rounded-lg hover:brightness-95 active:brightness-90 transition touch-manipulation"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Loan Summary - Auto appears when all fields filled */}
+        {/* Results Section - Only shows after Calculate is clicked */}
         {schedule && (
-          <>
+          <div className="space-y-8">
             {/* Summary Cards */}
-            <div className="mb-12">
+            <div>
               <h2 className="text-xl sm:text-2xl font-bold text-ink mb-6">Loan Summary</h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -249,35 +268,46 @@ export function SimulatorPageContent() {
                 </div>
               </div>
 
-              {/* Breakdown Details */}
-              <div className="bg-white rounded-lg border border-line p-6 space-y-4">
-                <h3 className="font-bold text-ink">Breakdown</h3>
+              {/* Breakdown */}
+              <div className="bg-gray-50 rounded-lg p-6 space-y-3">
+                <h3 className="font-bold text-ink">Fee Breakdown</h3>
                 <div className="space-y-2 text-sm">
-                  <div className="flex justify-between"><span>Loan Amount:</span><span className="font-semibold">{formatKES(schedule.takeHome)}</span></div>
-                  <div className="flex justify-between"><span>Insurance Premium:</span><span className="font-semibold">{formatKES(schedule.insurancePremium)}</span></div>
-                  <div className="flex justify-between"><span>Total Fees:</span><span className="font-semibold">{formatKES(schedule.feesTotal)}</span></div>
-                  <div className="border-t border-line pt-2 flex justify-between font-bold"><span>Principal:</span><span>{formatKES(schedule.principal)}</span></div>
+                  <div className="flex justify-between">
+                    <span>Loan Amount:</span>
+                    <span className="font-semibold">{formatKES(schedule.takeHome)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Insurance Premium:</span>
+                    <span className="font-semibold">{formatKES(schedule.insurancePremium)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Total Fees:</span>
+                    <span className="font-semibold">{formatKES(schedule.feesTotal)}</span>
+                  </div>
+                  <div className="border-t pt-2 flex justify-between font-bold">
+                    <span>Total Principal:</span>
+                    <span>{formatKES(schedule.principal)}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Payment Schedule */}
-            <div className="mb-12">
+            {/* Payment Schedule Table */}
+            <div>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-ink">Payment Schedule</h2>
                 <button
                   onClick={handleDownloadPDF}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo text-white font-semibold hover:brightness-110 active:brightness-95 touch-manipulation"
-                  style={{ touchAction: "manipulation" } as React.CSSProperties}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo text-white font-semibold hover:brightness-110 active:brightness-95 transition touch-manipulation"
                 >
                   <Download className="size-4" />
                   Download PDF
                 </button>
               </div>
 
-              <div className="overflow-x-auto rounded-lg border border-line bg-white">
-                <table className="w-full text-xs sm:text-sm">
-                  <thead className="bg-indigo text-white sticky top-0">
+              <div className="overflow-x-auto rounded-lg border border-line">
+                <table className="w-full text-xs sm:text-sm bg-white">
+                  <thead className="bg-indigo text-white">
                     <tr>
                       <th className="px-2 sm:px-3 py-3 text-center font-bold">Month</th>
                       <th className="px-2 sm:px-3 py-3 text-right font-bold">Outstanding Balance</th>
@@ -289,20 +319,41 @@ export function SimulatorPageContent() {
                   </thead>
                   <tbody className="divide-y divide-line">
                     {schedule.rows.map((row, idx) => (
-                      <tr key={row.month} className={idx % 2 === 0 ? "bg-white" : "bg-mesh"}>
-                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center font-semibold text-ink">{row.month}</td>
-                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink font-medium">{formatKES(row.outstandingBalance)}</td>
-                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink font-medium">{formatKES(row.interest)}</td>
-                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink font-medium">{formatKES(row.principal)}</td>
-                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-ink font-bold">{formatKES(row.monthlyPayment)}</td>
-                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-ink font-bold">{formatKES(row.newBalance)}</td>
+                      <tr key={row.month} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-center font-semibold">{row.month}</td>
+                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink">{formatKES(row.outstandingBalance)}</td>
+                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink">{formatKES(row.interest)}</td>
+                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right text-muted-ink">{formatKES(row.principal)}</td>
+                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right font-bold">{formatKES(row.monthlyPayment)}</td>
+                        <td className="px-2 sm:px-3 py-2 sm:py-3 text-right font-bold">{formatKES(row.newBalance)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-          </>
+
+            {/* Apply Now CTA */}
+            <div className="bg-peach rounded-lg p-6 text-center">
+              <h3 className="text-lg font-bold text-indigo mb-2">Ready to apply?</h3>
+              <p className="text-sm text-muted-ink mb-4">Contact us to proceed with your loan application</p>
+              <Link
+                href="/contact"
+                className="inline-block px-6 py-2 bg-indigo text-white font-semibold rounded-lg hover:brightness-110 transition touch-manipulation"
+              >
+                Apply Now
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Info Box */}
+        {!schedule && (
+          <div className="bg-indigo/5 rounded-lg p-4 border border-indigo/10">
+            <p className="text-xs text-muted-ink leading-relaxed">
+              <strong>How it works:</strong> Enter the amount you want to take home, your insurance cost, and your preferred repayment period. Click "Calculate Schedule" to see your monthly payment, total interest, and complete payment breakdown.
+            </p>
+          </div>
         )}
       </Container>
     </>
