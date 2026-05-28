@@ -33,11 +33,13 @@ export async function POST(req: NextRequest) {
     await setAdminSession(user.id);
     return NextResponse.json({ ok: true, message: "Logged in" });
   } catch (error) {
+    console.error("Admin auth error:", error);
     if (error instanceof z.ZodError) {
       const message = error.issues[0]?.message || "Validation error";
       return NextResponse.json({ ok: false, error: message }, { status: 400 });
     }
-    return NextResponse.json({ ok: false, error: "Internal server error" }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
+    return NextResponse.json({ ok: false, error: errorMessage }, { status: 500 });
   }
 }
 

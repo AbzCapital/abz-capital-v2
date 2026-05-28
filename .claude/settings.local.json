@@ -41,7 +41,16 @@
       "Bash(node -e \"const bcrypt = require\\('bcryptjs'\\); const hash = bcrypt.hashSync\\('secure_password_123', 10\\); console.log\\(hash\\);\")",
       "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" npx prisma migrate deploy)",
       "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" timeout 20 npx prisma db push --skip-generate)",
-      "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" timeout 30 npx prisma db push --accept-data-loss)"
+      "Bash(DATABASE_URL=\"postgresql://postgres.ehcqcyubszedpooxizcs:HLH0DKAG46WCobvK@aws-0-eu-west-1.pooler.supabase.com:6543/postgres\" timeout 30 npx prisma db push --accept-data-loss)",
+      "Bash(curl -s -X POST http://localhost:3000/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s -X POST http://localhost:3001/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')",
+      "Bash(awk '{print $2}')",
+      "Bash(xargs kill -9)",
+      "Bash(rm -rf .next)",
+      "Bash(rm -rf .next node_modules/.cache)",
+      "Bash(curl -s -w '\\\\nStatus: %{http_code}\\\\n' -X POST http://localhost:3000/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')",
+      "Bash(curl -v -X POST http://localhost:3000/api/admin/auth -H 'Content-Type: application/json' -d '{\"email\":\"admin@abzcapital.co.ke\",\"password\":\"secure_admin_password_123\"}')"
     ]
   }
 }
