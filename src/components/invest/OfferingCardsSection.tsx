@@ -24,8 +24,12 @@ export function OfferingCardsSection({ onOpenModal }: OfferingCardsSectionProps)
               </h3>
             </div>
 
-            <p className="text-base text-white/90 mb-8 leading-relaxed">
+            <p className="text-base text-white mb-8 leading-relaxed font-medium drop-shadow-md">
               Investors fund our approved loanbook. Your investment is directly linked to a specific loan — not pooled with other funds. Funds are released only when a vetted loan is approved and ready for funding. You will be notified in real-time to review and fund each opportunity.
+            </p>
+
+            <p className="text-sm font-bold text-peach mb-8 bg-white/10 rounded-lg p-3">
+              💰 Earn 3% per month on your loanbook investment = 36% per year
             </p>
 
             {/* How You Invest */}
@@ -77,7 +81,7 @@ export function OfferingCardsSection({ onOpenModal }: OfferingCardsSectionProps)
             <div className="mb-8">
               <div className="rounded-xl bg-white/10 p-4 flex gap-3">
                 <ShieldCheck className="size-5 text-peach shrink-0 mt-0.5" />
-                <p className="text-sm">
+                <p className="text-sm text-white font-medium drop-shadow-sm">
                   <strong>Your funds are secure and loan-specific.</strong> They never sit with us.
                 </p>
               </div>

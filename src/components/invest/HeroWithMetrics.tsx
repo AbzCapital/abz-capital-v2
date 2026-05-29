@@ -28,38 +28,38 @@ export function HeroWithMetrics({ onOpenModal }: HeroWithMetricsProps) {
                 Investor Platform
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-4">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-4 drop-shadow-lg">
                 Invest in Secured Lending &{" "}
-                <span className="text-peach">High-Growth Business Opportunities</span>
+                <span className="text-peach drop-shadow-lg">High-Growth Business Opportunities</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-white/90 mb-8 max-w-2xl leading-relaxed">
+              <p className="text-base sm:text-lg text-white mb-8 max-w-2xl leading-relaxed drop-shadow-md font-medium">
                 Join a structured investment platform connecting investors to collateral-backed lending opportunities, SME growth financing, contract funding, and vetted innovation opportunities.
               </p>
 
               {/* Trust Icons */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div className="flex items-center gap-2 text-sm">
-                  <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
+                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span>Secure & Transparent</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8L5.343 20.657M21 21H3V3h18v18z" />
+                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
+                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M13 7h8m0 0v8m0-8L5.343 20.657M21 21H3V3h18v18z" />
                   </svg>
                   <span>Attractive Returns</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
+                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span>Vetted & Monitored</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
+                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
                   <span>Structured & Compliant</span>
                 </div>
@@ -87,12 +87,12 @@ export function HeroWithMetrics({ onOpenModal }: HeroWithMetricsProps) {
               {/* Card 1 */}
               <div className="rounded-2xl bg-white p-6 shadow-lg">
                 <p className="text-xs font-semibold uppercase tracking-widest text-indigo mb-2">
-                  Projected Returns
+                  Loanbook Returns
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink mb-1">
                   3% Monthly
                 </p>
-                <p className="text-sm text-muted-ink">Up to 24% p.a. on lending pool</p>
+                <p className="text-sm text-muted-ink font-semibold">36% p.a. on loanbook loans</p>
               </div>
 
               {/* Card 2 */}

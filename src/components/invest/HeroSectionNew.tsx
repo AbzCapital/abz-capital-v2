@@ -44,7 +44,7 @@ export function HeroSectionNew() {
               </li>
               <li className="flex items-center gap-2">
                 <span className="inline-block size-1.5 rounded-full bg-peach" />
-                <span>Up to 24% p.a.</span>
+                <span>36% p.a. on loanbook</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="inline-block size-1.5 rounded-full bg-peach" />
