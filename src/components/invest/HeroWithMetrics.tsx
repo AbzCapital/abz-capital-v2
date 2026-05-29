@@ -23,42 +23,42 @@ export function HeroWithMetrics({ onOpenModal }: HeroWithMetricsProps) {
         <Container>
           <div className="grid gap-8 lg:grid-cols-2 items-center">
             {/* Left: Text & CTAs */}
-            <div className="text-white">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest text-peach mb-6">
+            <div>
+              <span className="inline-block text-xs font-bold uppercase tracking-widest text-indigo mb-6">
                 Investor Platform
               </span>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-4 drop-shadow-lg">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-4 text-ink">
                 Invest in Secured Lending &{" "}
-                <span className="text-peach drop-shadow-lg">High-Growth Business Opportunities</span>
+                <span className="text-peach">High-Growth Business Opportunities</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-white mb-8 max-w-2xl leading-relaxed drop-shadow-md font-medium">
+              <p className="text-base sm:text-lg text-ink mb-8 max-w-2xl leading-relaxed font-semibold">
                 Join a structured investment platform connecting investors to collateral-backed lending opportunities, SME growth financing, contract funding, and vetted innovation opportunities.
               </p>
 
               {/* Trust Icons */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
-                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-2 text-sm text-ink font-semibold">
+                  <svg className="size-5 text-indigo" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span>Secure & Transparent</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
-                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-2 text-sm text-ink font-semibold">
+                  <svg className="size-5 text-indigo" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M13 7h8m0 0v8m0-8L5.343 20.657M21 21H3V3h18v18z" />
                   </svg>
                   <span>Attractive Returns</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
-                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-2 text-sm text-ink font-semibold">
+                  <svg className="size-5 text-indigo" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <span>Vetted & Monitored</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white font-medium drop-shadow-md">
-                  <svg className="size-5 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center gap-2 text-sm text-ink font-semibold">
+                  <svg className="size-5 text-indigo" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
                   <span>Structured & Compliant</span>
@@ -74,7 +74,7 @@ export function HeroWithMetrics({ onOpenModal }: HeroWithMetricsProps) {
 
                 <button
                   onClick={onOpenModal}
-                  className="rounded-xl border-2 border-white/40 bg-transparent px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2"
+                  className="rounded-xl bg-indigo px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40 flex items-center justify-center gap-2"
                 >
                   See Sample Funding Alert
                   <ArrowRight className="size-4" />
