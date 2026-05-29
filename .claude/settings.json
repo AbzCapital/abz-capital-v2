@@ -1,0 +1,36 @@
+{
+  "autoMemoryEnabled": true,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '\n🎯 PRAGMATIC PIVOT PRINCIPLE ACTIVATED\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ Ask for visual evidence BEFORE implementing\n✅ Pivot to simpler approach if 1st/2nd attempt fails\n✅ Use systematic skills: brainstorming → plan → implement\n✅ Prefer simple solutions over complex ones\n✅ Document lessons learned in methodology memory\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nSee: .claude/projects/.../memory/development_methodology.md\n'",
+            "statusMessage": "Initializing methodology..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "User message contains explicit redirection signals like 'find another way', 'come up with a better', 'don't keep trying', 'don't waste time', etc. If detected, add this to your internal notes: PIVOT SIGNAL DETECTED - immediately abandon current approach and try something radically different/simpler. Do NOT continue debugging the same strategy. Message: $ARGUMENTS",
+            "if": "don't keep trying|find another way|come up with a|don't waste time|not a stopper|better way|another solution",
+            "statusMessage": "Analyzing for pivot signals...",
+            "once": false
+          }
+        ]
+      }
+    ]
+  },
+  "skillOverrides": {
+    "superpowers:brainstorming": "on",
+    "superpowers:systematic-debugging": "on",
+    "superpowers:verification-before-completion": "on",
+    "anthropic-skills:consolidate-memory": "on"
+  }
+}
