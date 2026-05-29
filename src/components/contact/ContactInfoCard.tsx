@@ -41,7 +41,7 @@ export function ContactInfoCard() {
           </span>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Phone</div>
-            <a href="tel:+254141576254" className="text-sm font-semibold text-white hover:text-peach">
+            <a href="tel:+254141576254" className="text-sm font-semibold text-indigo hover:text-peach">
               +254 141 576 254
             </a>
           </div>
@@ -53,7 +53,7 @@ export function ContactInfoCard() {
           </span>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Office</div>
-            <p className="text-sm text-white">
+            <p className="text-sm text-indigo/80">
               34487 Nairobi Office, Solaret Building, Utawala — next to Miaduck shop
             </p>
           </div>
@@ -65,7 +65,7 @@ export function ContactInfoCard() {
           </span>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Hours</div>
-            <p className="text-sm text-white">Mon – Sat · 8:30 AM – 6:00 PM EAT</p>
+            <p className="text-sm text-indigo/80">Mon – Sat · 8:30 AM – 6:00 PM EAT</p>
           </div>
         </div>
       </div>
@@ -77,15 +77,15 @@ export function ContactInfoCard() {
             <li key={item.email}>
               <a
                 href={`mailto:${item.email}`}
-                className="group flex items-start gap-2.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 transition hover:bg-white/10"
+                className="group flex items-start gap-2.5 rounded-lg border border-indigo/20 bg-indigo/5 px-3 py-2.5 transition hover:bg-indigo/10"
               >
                 <Mail className="mt-0.5 size-4 shrink-0 text-peach" />
                 <span>
                   <span
-                    className="block text-[11px] font-semibold uppercase tracking-wider text-white"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-indigo/70"
                     dangerouslySetInnerHTML={{ __html: item.label }}
                   />
-                  <span className="text-xs font-semibold text-white group-hover:text-peach">
+                  <span className="text-xs font-semibold text-indigo group-hover:text-peach">
                     {item.email}
                   </span>
                 </span>
