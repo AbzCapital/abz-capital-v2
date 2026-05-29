@@ -64,7 +64,7 @@ export function InvestorAlertModal({ isOpen, onClose }: InvestorAlertModalProps)
 
               <div className="rounded-lg bg-gray-50 p-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Security
+                  Security / Collateral
                 </p>
                 <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.security}</p>
               </div>
@@ -92,9 +92,9 @@ export function InvestorAlertModal({ isOpen, onClose }: InvestorAlertModalProps)
 
               <div className="rounded-lg bg-gray-50 p-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Loan Term
+                  Investor Returns (3% of loan amount per month)
                 </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.loanTerm}</p>
+                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.monthlyPayment}/month</p>
               </div>
             </div>
 

@@ -3,12 +3,10 @@
 import { useState } from "react";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
-import { HeroSectionNew } from "@/components/invest/HeroSectionNew";
-import { LendingPoolCard } from "@/components/invest/LendingPoolCard";
-import { LoanExampleCard } from "@/components/invest/LoanExampleCard";
-import { EarningsBreakdown } from "@/components/invest/EarningsBreakdown";
-import { TrustSection } from "@/components/invest/TrustSection";
-import { CTASection } from "@/components/invest/CTASection";
+import { HeroWithMetrics } from "@/components/invest/HeroWithMetrics";
+import { OfferingCardsSection } from "@/components/invest/OfferingCardsSection";
+import { WhyChooseSection } from "@/components/invest/WhyChooseSection";
+import { OpportunitiesTypesSection } from "@/components/invest/OpportunitiesTypesSection";
 import { InvestorAlertModal } from "@/components/invest/InvestorAlertModal";
 import { InvestorInterestForm } from "@/components/forms/InvestorInterestForm";
 
@@ -17,20 +15,17 @@ export function InvestPageClient() {
 
   return (
     <>
-      {/* Hero Section - Three Offerings */}
-      <HeroSectionNew />
+      {/* Hero Section with Metrics */}
+      <HeroWithMetrics onOpenModal={() => setIsModalOpen(true)} />
 
-      {/* Lending Pool Main Card */}
-      <LendingPoolCard />
+      {/* Offering Cards - Loanbook vs SME */}
+      <OfferingCardsSection onOpenModal={() => setIsModalOpen(true)} />
 
-      {/* Real Loan Example */}
-      <LoanExampleCard />
+      {/* Why Investors Choose ABZ Capital */}
+      <WhyChooseSection />
 
-      {/* Earnings Breakdown */}
-      <EarningsBreakdown />
-
-      {/* Trust Section - Why Invest */}
-      <TrustSection />
+      {/* Types of Opportunities Available */}
+      <OpportunitiesTypesSection />
 
       {/* Register Interest Form Section */}
       <Section id="invest-interest" spacing="lg" background="white">
@@ -44,7 +39,7 @@ export function InvestPageClient() {
                 Register Your Interest
               </h2>
               <p className="text-base leading-relaxed text-muted-ink mb-6">
-                Our investor team will reach out within 24 hours to discuss opportunities aligned with your ticket size and investment preferences.
+                Our investor team will reach out within 24 hours to schedule a one-on-one conversation about active opportunities aligned with your ticket size and risk tolerance.
               </p>
 
               <ul className="grid gap-3 text-sm text-muted-ink">
@@ -52,19 +47,19 @@ export function InvestPageClient() {
                   <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo text-[10px] font-bold text-white">
                     1
                   </span>
-                  <span>Tell us your preferred track (Lending Pool, SME, or Innovation)</span>
+                  <span>Tell us your preferred track and ticket size</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo text-[10px] font-bold text-white">
                     2
                   </span>
-                  <span>Share your ticket size and investment timeline</span>
+                  <span>We&rsquo;ll share a tailored opportunity brief</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo text-[10px] font-bold text-white">
                     3
                   </span>
-                  <span>We&rsquo;ll schedule a call to discuss active opportunities</span>
+                  <span>Schedule a call &amp; co-design your position</span>
                 </li>
               </ul>
             </div>
@@ -79,7 +74,29 @@ export function InvestPageClient() {
       </Section>
 
       {/* Final CTA Section */}
-      <CTASection />
+      <Section spacing="lg" background="indigo">
+        <Container>
+          <div className="text-center text-white max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6">
+              Ready to Grow <span className="text-peach">Your Wealth?</span>
+            </h2>
+
+            <p className="text-base sm:text-lg text-white/90 mb-8">
+              Join thousands of smart investors earning structured returns while supporting real businesses and economic growth.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="rounded-xl bg-peach px-6 sm:px-8 py-4 text-sm sm:text-base font-bold text-ink shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40 flex items-center justify-center gap-2">
+                Join Lending Pool
+              </button>
+
+              <button className="rounded-xl border-2 border-white/40 bg-transparent hover:bg-white/10 px-6 sm:px-8 py-4 text-sm sm:text-base font-bold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2">
+                Access Opportunities
+              </button>
+            </div>
+          </div>
+        </Container>
+      </Section>
 
       {/* Investor Alert Modal */}
       <InvestorAlertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
