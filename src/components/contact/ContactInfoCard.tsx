@@ -40,7 +40,7 @@ export function ContactInfoCard() {
             <Phone className="size-4" />
           </span>
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-peach/90">Phone</div>
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Phone</div>
             <a href="tel:+254141576254" className="text-sm font-semibold text-white hover:text-peach">
               +254 141 576 254
             </a>
@@ -52,8 +52,8 @@ export function ContactInfoCard() {
             <MapPin className="size-4" />
           </span>
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-peach/90">Office</div>
-            <p className="text-sm text-white/90">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Office</div>
+            <p className="text-sm text-white">
               34487 Nairobi Office, Solaret Building, Utawala — next to Miaduck shop
             </p>
           </div>
@@ -64,14 +64,14 @@ export function ContactInfoCard() {
             <Clock className="size-4" />
           </span>
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-peach/90">Hours</div>
-            <p className="text-sm text-white/90">Mon – Sat · 8:30 AM – 6:00 PM EAT</p>
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Hours</div>
+            <p className="text-sm text-white">Mon – Sat · 8:30 AM – 6:00 PM EAT</p>
           </div>
         </div>
       </div>
 
       <div className="space-y-3">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-peach/90">Email by category</div>
+        <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Email by category</div>
         <ul className="grid gap-2.5">
           {EMAILS.map((item) => (
             <li key={item.email}>
@@ -82,7 +82,7 @@ export function ContactInfoCard() {
                 <Mail className="mt-0.5 size-4 shrink-0 text-peach" />
                 <span>
                   <span
-                    className="block text-[11px] font-semibold uppercase tracking-wider text-white/60"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-white"
                     dangerouslySetInnerHTML={{ __html: item.label }}
                   />
                   <span className="text-xs font-semibold text-white group-hover:text-peach">
