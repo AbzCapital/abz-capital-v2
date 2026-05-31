@@ -17,6 +17,6 @@ export function getResend(): Resend {
 export function fromAddress(): string {
   return (
     process.env.LEAD_FROM_EMAIL ||
-    "ABZ Capital <no-reply@abzcapital.co.ke>"
+    "ABZ Capital <onboarding@resend.dev>"
   );
 }

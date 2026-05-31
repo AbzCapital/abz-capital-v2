@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getResend, fromAddress } from '@/lib/email/resend';
 
+const ACCOUNT_OWNER_EMAIL = 'abz1capital@gmail.com';
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const testEmail = searchParams.get('email') || 'test@example.com';
+    let testEmail = searchParams.get('email') || ACCOUNT_OWNER_EMAIL;
 
     // Check if API key is set
     if (!process.env.RESEND_API_KEY) {
@@ -34,6 +36,17 @@ export async function GET(request: Request) {
     });
 
     if (error) {
+      // If it's a testing mode restriction, suggest the account owner email
+      if (error.message?.includes('You can only send testing emails')) {
+        return NextResponse.json({
+          success: false,
+          error: `Resend is in testing mode. Can only send to account owner email: ${ACCOUNT_OWNER_EMAIL}`,
+          suggestion: `To send to other addresses, verify your domain (abzcapital.co.ke) at https://resend.com/domains`,
+          testEmail: ACCOUNT_OWNER_EMAIL,
+          errorDetails: error
+        }, { status: 403 });
+      }
+
       return NextResponse.json({
         success: false,
         error: error.message,
@@ -46,7 +59,8 @@ export async function GET(request: Request) {
       message: 'Test email sent successfully',
       messageId: data?.id,
       from: fromAddress(),
-      to: testEmail
+      to: testEmail,
+      note: testEmail === ACCOUNT_OWNER_EMAIL ? 'Sent to account owner email (testing mode)' : 'Email sent'
     });
   } catch (error: any) {
     return NextResponse.json({

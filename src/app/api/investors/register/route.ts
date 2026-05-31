@@ -124,10 +124,18 @@ We appreciate your interest and trust in us, and we look forward to keeping you 
 Warm regards,
 The Investment Team`;
 
-      console.log("[EMAIL] Attempting to send email to:", email);
+      // Handle Resend testing mode limitation
+      const resendTestingMode = process.env.RESEND_TESTING_MODE === "true";
+      const sendToEmail = resendTestingMode ? (process.env.RESEND_TEST_EMAIL || email) : email;
+
+      console.log("[EMAIL] Attempting to send email to:", sendToEmail);
+      if (resendTestingMode) {
+        console.log("[EMAIL] Using test mode - original recipient was:", email);
+      }
+
       const { data, error } = await resend.emails.send({
         from: fromAddress(),
-        to: email,
+        to: sendToEmail,
         subject: "Welcome to Our Investment Platform 🎉",
         text: emailBody,
       });
