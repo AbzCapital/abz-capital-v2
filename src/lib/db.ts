@@ -11,15 +11,19 @@ const initializePrisma = () => {
   try {
     if (process.env.NODE_ENV === "production") {
       if (!prismaInstance) {
+        const url = new URL(process.env.DATABASE_URL!);
+        url.searchParams.set("sslmode", "require");
         const adapter = new PrismaPg({
-          connectionString: process.env.DATABASE_URL,
+          connectionString: url.toString(),
         });
         prismaInstance = new PrismaClient({ adapter });
       }
     } else {
       if (!global.prisma) {
+        const url = new URL(process.env.DATABASE_URL!);
+        url.searchParams.set("sslmode", "require");
         const adapter = new PrismaPg({
-          connectionString: process.env.DATABASE_URL,
+          connectionString: url.toString(),
         });
         global.prisma = new PrismaClient({
           adapter,
