@@ -183,7 +183,7 @@ export function InvestorNetworkForm() {
               >
                 {COUNTRIES.map((country) => (
                   <option key={country.code} value={country.code}>
-                    {country.name} ({country.code})
+                    {country.code}
                   </option>
                 ))}
               </select>
