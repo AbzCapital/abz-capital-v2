@@ -4,22 +4,18 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
 
-interface OfferingCardsSectionProps {
-  onOpenModal: () => void;
-}
-
-export function OfferingCardsSection({ onOpenModal }: OfferingCardsSectionProps) {
+export function OfferingCardsSection() {
   return (
     <Section spacing="lg" background="white">
       <Container>
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Option 1: Loanbook */}
-          <div className="rounded-2xl bg-gradient-to-br from-indigo to-indigo/80 p-8 sm:p-10 text-white">
+          <div className="rounded-2xl bg-indigo p-8 sm:p-10">
             <div className="mb-6">
               <span className="inline-block text-xs font-bold uppercase tracking-widest text-peach mb-4">
                 Option 1
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold mb-2">
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-2 text-white">
                 Loanbook Funding Investment Pool
               </h3>
             </div>
@@ -39,40 +35,40 @@ export function OfferingCardsSection({ onOpenModal }: OfferingCardsSectionProps)
               </p>
               <ol className="space-y-3 text-sm">
                 <li className="flex gap-3">
-                  <span className="flex items-center justify-center size-6 rounded-full bg-white/20 font-bold text-sm">
+                  <span className="flex items-center justify-center size-6 rounded-full bg-white/30 font-bold text-sm text-white">
                     1
                   </span>
-                  <span>We underwrite and approve a loan</span>
+                  <span className="text-white">We underwrite and approve a loan</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex items-center justify-center size-6 rounded-full bg-white/20 font-bold text-sm">
+                  <span className="flex items-center justify-center size-6 rounded-full bg-white/30 font-bold text-sm text-white">
                     2
                   </span>
-                  <span>You are notified with full loan details</span>
+                  <span className="text-white">You are notified with full loan details</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex items-center justify-center size-6 rounded-full bg-white/20 font-bold text-sm">
+                  <span className="flex items-center justify-center size-6 rounded-full bg-white/30 font-bold text-sm text-white">
                     3
                   </span>
-                  <span>You review the opportunity</span>
+                  <span className="text-white">You review the opportunity</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex items-center justify-center size-6 rounded-full bg-white/20 font-bold text-sm">
+                  <span className="flex items-center justify-center size-6 rounded-full bg-white/30 font-bold text-sm text-white">
                     4
                   </span>
-                  <span>You fund the loan (all or partially)</span>
+                  <span className="text-white">You fund the loan (all or partially)</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex items-center justify-center size-6 rounded-full bg-white/20 font-bold text-sm">
+                  <span className="flex items-center justify-center size-6 rounded-full bg-white/30 font-bold text-sm text-white">
                     5
                   </span>
-                  <span>We disburse to the borrower</span>
+                  <span className="text-white">We disburse to the borrower</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="flex items-center justify-center size-6 rounded-full bg-white/20 font-bold text-sm">
+                  <span className="flex items-center justify-center size-6 rounded-full bg-white/30 font-bold text-sm text-white">
                     6
                   </span>
-                  <span>Borrower repays and you earn returns</span>
+                  <span className="text-white">Borrower repays and you earn returns</span>
                 </li>
               </ol>
             </div>
@@ -89,12 +85,12 @@ export function OfferingCardsSection({ onOpenModal }: OfferingCardsSectionProps)
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="flex-1 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40">
+              <button type="button" className="flex-1 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40 cursor-pointer">
                 Join Lending Pool
               </button>
               <button
-                onClick={onOpenModal}
-                className="flex-1 rounded-xl border-2 border-white/40 bg-transparent px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2"
+                type="button"
+                className="flex-1 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
                 See Sample Funding Alert
               </button>

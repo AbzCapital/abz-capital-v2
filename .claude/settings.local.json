@@ -63,7 +63,10 @@
       "Bash(ipconfig)",
       "Bash(awk '{print $NF}')",
       "PowerShell(New-NetFirewallRule -DisplayName \"Allow Node.js Port 3001\" -Direction Inbound -LocalPort 3001 -Protocol TCP -Action Allow -ErrorAction SilentlyContinue)",
-      "Bash(taskkill /F /PID 20944)"
+      "Bash(taskkill /F /PID 20944)",
+      "Bash(curl -s http://localhost:3000/invest)",
+      "Bash(curl -s http://192.168.100.2:3000/invest)",
+      "Bash(netstat -ano)"
     ]
   }
 }

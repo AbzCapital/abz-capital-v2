@@ -1,25 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
 import { HeroWithMetrics } from "@/components/invest/HeroWithMetrics";
 import { OfferingCardsSection } from "@/components/invest/OfferingCardsSection";
 import { WhyChooseSection } from "@/components/invest/WhyChooseSection";
 import { OpportunitiesTypesSection } from "@/components/invest/OpportunitiesTypesSection";
-import { InvestorAlertModal } from "@/components/invest/InvestorAlertModal";
+import { SimpleInvestorAlert } from "@/components/invest/SimpleInvestorAlert";
 import { InvestorInterestForm } from "@/components/forms/InvestorInterestForm";
 
 export function InvestPageClient() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <>
       {/* Hero Section with Metrics */}
-      <HeroWithMetrics onOpenModal={() => setIsModalOpen(true)} />
+      <HeroWithMetrics />
 
       {/* Offering Cards - Loanbook vs SME */}
-      <OfferingCardsSection onOpenModal={() => setIsModalOpen(true)} />
+      <OfferingCardsSection />
 
       {/* Why Investors Choose ABZ Capital */}
       <WhyChooseSection />
@@ -98,8 +95,8 @@ export function InvestPageClient() {
         </Container>
       </Section>
 
-      {/* Investor Alert Modal */}
-      <InvestorAlertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Simple Investor Alert Section */}
+      <SimpleInvestorAlert />
     </>
   );
 }

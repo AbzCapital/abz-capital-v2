@@ -1,6 +1,6 @@
 "use client";
 
-import { X, CheckCircle, ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 import { SAMPLE_LOAN } from "@/lib/invest/sampleLoanData";
 
 interface InvestorAlertModalProps {
@@ -9,180 +9,136 @@ interface InvestorAlertModalProps {
 }
 
 export function InvestorAlertModal({ isOpen, onClose }: InvestorAlertModalProps) {
+  useEffect(() => {
+    // Prevent body scroll when modal is open
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Handle Escape key
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition"
-        onClick={onClose}
-      />
+    <div
+      className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 overflow-y-auto"
+      style={{ WebkitOverflowScrolling: "touch" }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md my-4 relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 text-3xl font-bold text-gray-600 hover:text-gray-900 transition p-2 cursor-pointer"
+          style={{ touchAction: "manipulation" }}
+        >
+          ✕
+        </button>
 
-      {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-        <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
-          {/* Header with Close Button */}
-          <div className="sticky top-0 flex items-center justify-between bg-white border-b border-line p-6 sm:p-8">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="size-8 text-green-500" />
-              <div>
-                <h2 className="text-lg sm:text-xl font-bold text-ink">
-                  Loan {SAMPLE_LOAN.loanId} Approved
-                </h2>
-                <p className="text-xs text-muted-ink">Ready for Funding</p>
-              </div>
+        {/* Content */}
+        <div className="p-6 sm:p-8">
+          {/* Header */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-ink mb-3">
+              Sample Investor Alert
+            </h2>
+            <span className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-bold">
+              {SAMPLE_LOAN.statusLabel}
+            </span>
+          </div>
+
+          <p className="text-ink mb-6">
+            This loan has been underwritten, verified and is ready for investor funding.
+          </p>
+
+          {/* Loan Details */}
+          <div className="bg-gray-50 rounded-2xl p-4 mb-6 space-y-3">
+            <div className="text-sm">
+              <span className="font-semibold text-ink">Client ID:</span>{" "}
+              <span className="text-muted-ink">{SAMPLE_LOAN.clientId}</span>
             </div>
+            <div className="text-sm">
+              <span className="font-semibold text-ink">Security:</span>{" "}
+              <span className="text-muted-ink">{SAMPLE_LOAN.security}</span>
+            </div>
+            <div className="text-sm">
+              <span className="font-semibold text-ink">Occupation:</span>{" "}
+              <span className="text-muted-ink">{SAMPLE_LOAN.occupation}</span>
+            </div>
+            <div className="text-sm">
+              <span className="font-semibold text-ink">Collateral Value:</span>{" "}
+              <span className="text-muted-ink">{SAMPLE_LOAN.collateralValue}</span>
+            </div>
+            <div className="text-sm">
+              <span className="font-semibold text-ink">Loan Term:</span>{" "}
+              <span className="text-muted-ink">{SAMPLE_LOAN.loanTerm}</span>
+            </div>
+            <div className="text-sm border-t border-gray-200 pt-3">
+              <span className="font-semibold text-ink">Loan Amount:</span>{" "}
+              <span className="text-muted-ink">{SAMPLE_LOAN.loanAmount}</span>
+            </div>
+          </div>
+
+          {/* Returns Box */}
+          <div className="bg-yellow-50 rounded-2xl p-4 mb-6 text-center">
+            <h3 className="font-bold text-ink mb-1">Investor Returns</h3>
+            <p className="text-xs text-muted-ink mb-2">
+              (3% of loan amount per month)
+            </p>
+            <p className="text-2xl font-bold text-orange-600 mb-1">
+              {SAMPLE_LOAN.investorReturn}
+            </p>
+            <p className="text-xs text-muted-ink">
+              {SAMPLE_LOAN.monthlyPayment}/month for {SAMPLE_LOAN.loanTerm}
+            </p>
+          </div>
+
+          {/* Notification */}
+          <p className="bg-blue-50 text-blue-900 text-sm p-3 rounded-lg mb-6 italic">
+            📧 {SAMPLE_LOAN.notificationMessage}
+          </p>
+
+          {/* Buttons */}
+          <div className="space-y-3">
+            <button
+              onClick={() => console.log("Fund loan clicked")}
+              className="w-full bg-indigo text-white font-bold py-4 rounded-full hover:brightness-110 transition active:scale-95 cursor-pointer"
+              style={{ touchAction: "manipulation" }}
+            >
+              💰 Fund This Loan
+            </button>
             <button
               onClick={onClose}
-              className="rounded-lg p-2 text-muted-ink hover:bg-gray-100 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40"
+              className="w-full bg-gray-800 text-white font-bold py-4 rounded-full hover:brightness-110 transition active:scale-95 cursor-pointer"
+              style={{ touchAction: "manipulation" }}
             >
-              <X className="size-6" />
+              📋 View All Opportunities
             </button>
           </div>
 
-          {/* Content */}
-          <div className="p-6 sm:p-8 space-y-8">
-            {/* Status Badge */}
-            <div className="flex items-center gap-2">
-              <span className="inline-block px-3 py-1 rounded-full bg-green-100 text-sm font-bold text-green-700">
-                {SAMPLE_LOAN.statusLabel}
-              </span>
-              <span className="text-xs text-muted-ink">
-                Loan status verified and approved
-              </span>
-            </div>
-
-            {/* Loan Details Grid */}
-            <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Client ID
-                </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.clientId}</p>
-              </div>
-
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Security / Collateral
-                </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.security}</p>
-              </div>
-
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Occupation
-                </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.occupation}</p>
-              </div>
-
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Collateral Value
-                </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.collateralValue}</p>
-              </div>
-
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Loan Amount
-                </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.loanAmount}</p>
-              </div>
-
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                  Investor Returns (3% of loan amount per month)
-                </p>
-                <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.monthlyPayment}/month</p>
-              </div>
-            </div>
-
-            {/* Investor Returns Section */}
-            <div className="rounded-2xl bg-gradient-to-br from-indigo/10 to-indigo/5 border border-indigo/20 p-6 sm:p-8">
-              <h3 className="text-lg sm:text-xl font-bold text-ink mb-6">
-                Your Investor Returns
-              </h3>
-
-              <div className="space-y-6">
-                {/* Monthly Payment */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-ink mb-1">Monthly Payment</p>
-                    <p className="text-2xl sm:text-3xl font-bold text-ink">
-                      {SAMPLE_LOAN.monthlyPayment}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-muted-ink mb-1">Per Month</p>
-                    <p className="text-lg font-bold text-indigo">
-                      +{SAMPLE_LOAN.returnPerMonth}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Divider */}
-                <div className="h-px bg-indigo/20" />
-
-                {/* Return Calculation */}
-                <div>
-                  <p className="text-sm text-muted-ink mb-3">
-                    Total Returns Over {SAMPLE_LOAN.loanTerm}
-                  </p>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-ink">
-                        Total Repayment
-                      </span>
-                      <span className="font-bold text-ink">
-                        {SAMPLE_LOAN.totalRepayment}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-ink">
-                        Loan Principal
-                      </span>
-                      <span className="font-bold text-ink">
-                        {SAMPLE_LOAN.loanAmount}
-                      </span>
-                    </div>
-                    <div className="h-px bg-indigo/20 my-2" />
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-bold text-indigo">
-                        Your Total Return
-                      </span>
-                      <span className="text-xl font-extrabold text-indigo">
-                        {SAMPLE_LOAN.investorReturn}
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted-ink mt-2">
-                      {SAMPLE_LOAN.returnPercentage} return on capital deployed
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Info Box */}
-            <div className="rounded-lg bg-blue-50 border border-blue-200 p-4 sm:p-6">
-              <p className="text-sm text-blue-900">
-                <span className="font-bold">📧 {SAMPLE_LOAN.notificationMessage}</span>
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <button className="flex-1 rounded-xl bg-indigo px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40 flex items-center justify-center gap-2">
-                Fund This Loan
-                <ArrowRight className="size-4" />
-              </button>
-              <button className="flex-1 rounded-xl border-2 border-indigo bg-transparent px-6 py-3.5 text-sm font-bold text-indigo transition hover:bg-indigo/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40">
-                View All Opportunities
-              </button>
-            </div>
-          </div>
+          <p className="text-center text-xs text-muted-ink mt-6">
+            You can fund fully or partially based on your preference.
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
