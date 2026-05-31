@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/shared/Container";
 import { AlertModal } from "./AlertModal";
+import { SampleAlertButton } from "./SampleAlertButton";
 
 export function HeroWithMetrics() {
   const [alertOpen, setAlertOpen] = useState(false);
@@ -80,13 +81,7 @@ export function HeroWithMetrics() {
                   <ArrowRight className="size-4" />
                 </Link>
 
-                <button
-                  onClick={() => setAlertOpen(true)}
-                  className="rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-indigo shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
-                >
-                  See Sample Funding Alert
-                  <ArrowRight className="size-4" />
-                </button>
+                <SampleAlertButton onDesktopClick={() => setAlertOpen(true)} />
               </div>
             </div>
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
 import { AlertModal } from "./AlertModal";
+import { SampleAlertButton } from "./SampleAlertButton";
 
 export function OfferingCardsSection() {
   const [alertOpen, setAlertOpen] = useState(false);
@@ -98,12 +99,9 @@ export function OfferingCardsSection() {
               >
                 Join Lending Pool
               </Link>
-              <button
-                onClick={() => setAlertOpen(true)}
-                className="flex-1 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
-              >
-                See Sample Funding Alert
-              </button>
+              <div className="flex-1">
+                <SampleAlertButton onDesktopClick={() => setAlertOpen(true)} />
+              </div>
             </div>
           </div>
 
