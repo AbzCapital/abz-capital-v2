@@ -54,6 +54,7 @@ export function LendingPoolForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted");
     setLoading(true);
     setError("");
 
@@ -63,32 +64,41 @@ export function LendingPoolForm() {
           ? ["logbook_loans", "title_deed_loans"]
           : [loanCategory];
 
+      const body = {
+        investor_type: "lending_pool",
+        first_name: firstName,
+        last_name: lastName,
+        country_code: countryCode,
+        phone_number: phoneNumber,
+        email,
+        investment_amount: parseFloat(amount),
+        investment_preferences: preferences,
+        investor_note: note,
+      };
+
+      console.log("Sending data:", body);
+
       const response = await fetch("/api/investors/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          investor_type: "lending_pool",
-          first_name: firstName,
-          last_name: lastName,
-          country_code: countryCode,
-          phone_number: phoneNumber,
-          email,
-          investment_amount: parseFloat(amount),
-          investment_preferences: preferences,
-          investor_note: note,
-        }),
+        body: JSON.stringify(body),
       });
 
+      console.log("Response status:", response.status);
+
       const data = await response.json();
+      console.log("Response data:", data);
 
       if (response.ok) {
+        console.log("Success! Setting success state");
         setSuccess(true);
       } else {
+        console.log("Error from API:", data.error);
         setError(data.error || "Registration failed");
       }
     } catch (error) {
+      console.error("Catch error:", error);
       setError("Network error. Please try again.");
-      console.error("Error:", error);
     } finally {
       setLoading(false);
     }
