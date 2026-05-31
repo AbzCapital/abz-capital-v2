@@ -115,12 +115,14 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground antialiased;
-  }
   html {
-    @apply font-sans;
-    scroll-behavior: smooth;
+    background-color: #ffffff;
+    color: #0d0a2c;
+  }
+  body {
+    background-color: #ffffff;
+    color: #0d0a2c;
+    @apply antialiased;
   }
   ::selection {
     background: #1800ad;
