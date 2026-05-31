@@ -3,8 +3,10 @@ import { getResend, fromAddress } from "@/lib/email/resend";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  console.log("[API] Investor registration request received");
   try {
     const body = await request.json();
+    console.log("[API] Request body:", body);
 
     const {
       investor_type,
@@ -71,6 +73,7 @@ export async function POST(request: NextRequest) {
     const fullName = `${first_name} ${last_name}`;
 
     // Create investor registration record
+    console.log("[API] Creating investor record in database");
     const investor = await prisma.investorRegistration.create({
       data: {
         investor_type,
@@ -84,6 +87,7 @@ export async function POST(request: NextRequest) {
         status: "pending",
       },
     });
+    console.log("[API] Investor record created:", investor.id);
 
     // Send email notification
     try {
@@ -119,25 +123,35 @@ We appreciate your interest and trust in us, and we look forward to keeping you 
 Warm regards,
 The Investment Team`;
 
-      await resend.emails.send({
+      console.log("[EMAIL] Attempting to send email to:", email);
+      const { data, error } = await resend.emails.send({
         from: fromAddress(),
         to: email,
         subject: "Welcome to Our Investment Platform 🎉",
         text: emailBody,
       });
+
+      // CRITICAL: Check for Resend error response (not thrown exception)
+      if (error) {
+        console.error("[EMAIL ERROR] Resend API error:", error);
+        // Still return success since investor was saved to DB
+      } else {
+        console.log("[EMAIL SUCCESS] Email sent. Message ID:", data?.id);
+      }
     } catch (emailError) {
-      console.error("Email sending error:", emailError);
+      console.error("[EMAIL CATCH ERROR]:", emailError);
       // Don't fail the registration if email fails
     }
 
+    console.log("[API] Returning success response");
     return NextResponse.json(
       { success: true, investor_id: investor.id },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Investor registration error:", error);
+    console.error("[API ERROR] Investor registration error:", error);
     return NextResponse.json(
-      { error: "Failed to register investor" },
+      { error: "Failed to register investor. Please try again." },
       { status: 500 }
     );
   }
