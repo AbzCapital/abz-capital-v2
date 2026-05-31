@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 
 interface SampleAlertButtonProps {
@@ -10,19 +9,10 @@ interface SampleAlertButtonProps {
 
 export function SampleAlertButton({ onDesktopClick }: SampleAlertButtonProps) {
   const router = useRouter();
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-    checkIsDesktop();
-    window.addEventListener("resize", checkIsDesktop);
-    return () => window.removeEventListener("resize", checkIsDesktop);
-  }, []);
 
   const handleClick = () => {
-    if (isDesktop) {
+    // Check window size at click time (not state-based) to avoid hydration issues
+    if (typeof window !== "undefined" && window.innerWidth >= 1024) {
       onDesktopClick();
     } else {
       router.push("/alert");
