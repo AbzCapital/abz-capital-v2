@@ -3,7 +3,7 @@ import { Section } from "@/components/shared/Section";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Sample Investor Alert | ABZ Capital",
+  title: "Fund this Loan | ABZ Capital",
   description: "View a sample investor alert showing how loan funding opportunities are presented.",
 };
 
@@ -21,7 +21,7 @@ export default function AlertPage() {
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <h1 className="text-2xl font-bold text-ink mb-8">
-            Loan Approved 868DT & Ready for Funding
+            Loan 868DT Approved & Ready for Funding
           </h1>
 
           {/* Loan Details Section */}
@@ -88,7 +88,7 @@ export default function AlertPage() {
 
           {/* CTA Button */}
           <button className="w-full rounded-xl bg-indigo text-white px-6 py-4 text-base font-bold shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40 cursor-pointer">
-            Fund Loan
+            Fund this Loan
           </button>
         </div>
       </Container>
