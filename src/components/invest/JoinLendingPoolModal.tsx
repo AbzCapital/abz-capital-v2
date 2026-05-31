@@ -50,6 +50,7 @@ export function JoinLendingPoolModal({
 }: JoinLendingPoolModalProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
@@ -62,6 +63,7 @@ export function JoinLendingPoolModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
       const preferences =
@@ -85,6 +87,8 @@ export function JoinLendingPoolModal({
         }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         setSuccess(true);
         setFirstName("");
@@ -93,8 +97,11 @@ export function JoinLendingPoolModal({
         setEmail("");
         setAmount("");
         setNote("");
+      } else {
+        setError(data.error || "Registration failed");
       }
     } catch (error) {
+      setError("Network error. Please try again.");
       console.error("Error:", error);
     } finally {
       setLoading(false);
@@ -157,6 +164,12 @@ export function JoinLendingPoolModal({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 p-6">
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-ink mb-2">

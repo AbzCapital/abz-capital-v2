@@ -42,6 +42,7 @@ const COUNTRIES = [
 export function LendingPoolForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
@@ -54,6 +55,7 @@ export function LendingPoolForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
       const preferences =
@@ -77,10 +79,15 @@ export function LendingPoolForm() {
         }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         setSuccess(true);
+      } else {
+        setError(data.error || "Registration failed");
       }
     } catch (error) {
+      setError("Network error. Please try again.");
       console.error("Error:", error);
     } finally {
       setLoading(false);
@@ -125,6 +132,12 @@ export function LendingPoolForm() {
         </Link>
 
         <h1 className="text-3xl font-bold text-ink mb-6">Join Lending Pool</h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
