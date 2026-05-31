@@ -1,11 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { Container } from "@/components/shared/Container";
+import { AlertModal } from "./AlertModal";
 
 export function HeroWithMetrics() {
+  const [alertOpen, setAlertOpen] = useState(false);
+
   return (
+    <>
+      <AlertModal open={alertOpen} onOpenChange={setAlertOpen} />
     <section className="relative min-h-screen overflow-hidden bg-gray-900">
       {/* Background Image with Dark Overlay */}
       <div
@@ -71,13 +76,13 @@ export function HeroWithMetrics() {
                   <ArrowRight className="size-4" />
                 </button>
 
-                <Link
-                  href="/alert"
+                <button
+                  onClick={() => setAlertOpen(true)}
                   className="rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-indigo shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                 >
                   See Sample Funding Alert
                   <ArrowRight className="size-4" />
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -135,5 +140,6 @@ export function HeroWithMetrics() {
         </Container>
       </div>
     </section>
+    </>
   );
 }
