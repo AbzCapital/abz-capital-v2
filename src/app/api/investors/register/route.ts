@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   console.log("[API] Investor registration request received");
+  console.log("[API] Prisma client available?", !!prisma);
   try {
     const body = await request.json();
     console.log("[API] Request body:", body);
@@ -149,7 +150,11 @@ The Investment Team`;
       { status: 201 }
     );
   } catch (error) {
-    console.error("[API ERROR] Investor registration error:", error);
+    console.error("[API ERROR] Full error object:", error);
+    if (error instanceof Error) {
+      console.error("[API ERROR] Error message:", error.message);
+      console.error("[API ERROR] Error stack:", error.stack);
+    }
     return NextResponse.json(
       { error: "Failed to register investor. Please try again." },
       { status: 500 }
