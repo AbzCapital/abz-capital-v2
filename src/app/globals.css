@@ -73,6 +73,9 @@
 }
 
 :root {
+  /* Force light color scheme on all devices */
+  color-scheme: light;
+
   /* shadcn primitives map onto ABZ brand */
   --background: #ffffff;
   --foreground: #0d0a2c;
