@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, ShoppingBag, TrendingUp, DollarSign, PhoneCall, Bell } from "lucide-react";
+import { Home, ShoppingBag, TrendingUp, DollarSign, PhoneCall } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { href: "/invest", icon: TrendingUp, label: "Invest" },
   { href: "/funding", icon: DollarSign, label: "Funding" },
   { href: "/contact", icon: PhoneCall, label: "Contact" },
-  { href: "/alert", icon: Bell, label: "Alert" },
 ];
 
 export function BottomNav() {
