@@ -171,3 +171,23 @@ model InvestorDeal {
   @@index([investorId])
   @@index([status])
 }
+
+// Investor Registration (for lending pool and investor network)
+model InvestorRegistration {
+  id                      String    @id @default(cuid())
+  investor_type           String    // lending_pool | investor_network
+  full_name               String
+  country_code            String
+  phone_number            String
+  email                   String
+  investment_amount       Float
+  investment_preferences  String[]  // JSON array of preferences
+  investor_note           String?
+  status                  String    @default("pending") // pending | approved | rejected
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  @@index([investor_type])
+  @@index([email])
+  @@index([status])
+}

@@ -70,8 +70,8 @@ export async function POST(request: NextRequest) {
 
     const fullName = `${first_name} ${last_name}`;
 
-    // Create investor record
-    const investor = await prisma.investors.create({
+    // Create investor registration record
+    const investor = await prisma.investorRegistration.create({
       data: {
         investor_type,
         full_name: fullName,
