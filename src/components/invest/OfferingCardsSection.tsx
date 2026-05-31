@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
 
@@ -88,12 +89,12 @@ export function OfferingCardsSection() {
               <button type="button" className="flex-1 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40 cursor-pointer">
                 Join Lending Pool
               </button>
-              <button
-                type="button"
+              <Link
+                href="/alert"
                 className="flex-1 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
                 See Sample Funding Alert
-              </button>
+              </Link>
             </div>
           </div>
 

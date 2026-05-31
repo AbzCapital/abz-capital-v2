@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/shared/Container";
 
 export function HeroWithMetrics() {
@@ -70,13 +71,13 @@ export function HeroWithMetrics() {
                   <ArrowRight className="size-4" />
                 </button>
 
-                <button
-                  type="button"
+                <Link
+                  href="/alert"
                   className="rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-indigo shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                 >
                   See Sample Funding Alert
                   <ArrowRight className="size-4" />
-                </button>
+                </Link>
               </div>
             </div>
 
