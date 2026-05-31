@@ -59,6 +59,7 @@ const SECTORS = [
 export function InvestorNetworkForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
@@ -78,11 +79,8 @@ export function InvestorNetworkForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedSectors.length === 0) {
-      alert("Please select at least one sector");
-      return;
-    }
-
+    console.log("Form submitted");
+    setError("");
     setLoading(true);
 
     try {
@@ -102,11 +100,20 @@ export function InvestorNetworkForm() {
         }),
       });
 
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Response data:", data);
+
       if (response.ok) {
+        console.log("Success! Setting success state");
         setSuccess(true);
+      } else {
+        console.log("Error from API:", data.error);
+        setError(data.error || "Registration failed");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Catch error:", error);
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -142,6 +149,12 @@ export function InvestorNetworkForm() {
         </Link>
 
         <h1 className="text-3xl font-bold text-ink mb-6">Join Investor Network</h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -227,8 +240,11 @@ export function InvestorNetworkForm() {
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-3">
-              Investment Sector Preferences
+              Investment Sector Preferences {selectedSectors.length === 0 && <span className="text-red-500">*</span>}
             </label>
+            {selectedSectors.length === 0 && (
+              <p className="text-xs text-red-600 mb-2">Please select at least one sector</p>
+            )}
             <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
               {SECTORS.map((sector) => (
                 <label key={sector} className="flex items-center gap-2">
@@ -242,6 +258,7 @@ export function InvestorNetworkForm() {
                 </label>
               ))}
             </div>
+            <p className="text-xs text-muted-ink mt-2">Selected: {selectedSectors.length} sector{selectedSectors.length !== 1 ? 's' : ''}</p>
           </div>
 
           <div>
