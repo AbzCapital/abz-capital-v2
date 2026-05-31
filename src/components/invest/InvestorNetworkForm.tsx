@@ -107,6 +107,8 @@ export function InvestorNetworkForm() {
 
       if (response.ok) {
         console.log("Success! Setting success state");
+        console.log("Response data:", data);
+        alert("✅ Registration successful! Your details have been saved.");
         setSuccess(true);
       } else {
         console.log("Error from API:", data.error);

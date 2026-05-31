@@ -91,6 +91,8 @@ export function LendingPoolForm() {
 
       if (response.ok) {
         console.log("Success! Setting success state");
+        console.log("Response data:", data);
+        alert("✅ Registration successful! Your details have been saved.");
         setSuccess(true);
       } else {
         console.log("Error from API:", data.error);
@@ -106,9 +108,9 @@ export function LendingPoolForm() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-white p-6 flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <h2 className="text-3xl font-bold text-green-600 mb-2">✅ Registration Successful</h2>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
+        <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
           <p className="text-muted-ink mb-6 font-semibold">
             Your details have been saved successfully.
           </p>
