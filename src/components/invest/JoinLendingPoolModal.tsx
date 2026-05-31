@@ -4,6 +4,41 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 
+const COUNTRIES = [
+  { code: "+254", name: "Kenya" },
+  { code: "+256", name: "Uganda" },
+  { code: "+255", name: "Tanzania" },
+  { code: "+233", name: "Ghana" },
+  { code: "+234", name: "Nigeria" },
+  { code: "+27", name: "South Africa" },
+  { code: "+212", name: "Morocco" },
+  { code: "+216", name: "Tunisia" },
+  { code: "+213", name: "Algeria" },
+  { code: "+243", name: "Democratic Republic of Congo" },
+  { code: "+237", name: "Cameroon" },
+  { code: "+265", name: "Malawi" },
+  { code: "+258", name: "Mozambique" },
+  { code: "+260", name: "Zambia" },
+  { code: "+263", name: "Zimbabwe" },
+  { code: "+249", name: "Sudan" },
+  { code: "+251", name: "Ethiopia" },
+  { code: "+250", name: "Rwanda" },
+  { code: "+244", name: "Angola" },
+  { code: "+226", name: "Burkina Faso" },
+  { code: "+228", name: "Togo" },
+  { code: "+229", name: "Benin" },
+  { code: "+230", name: "Mauritius" },
+  { code: "+248", name: "Seychelles" },
+  { code: "+1", name: "United States" },
+  { code: "+44", name: "United Kingdom" },
+  { code: "+33", name: "France" },
+  { code: "+49", name: "Germany" },
+  { code: "+91", name: "India" },
+  { code: "+86", name: "China" },
+  { code: "+81", name: "Japan" },
+  { code: "+61", name: "Australia" },
+];
+
 interface JoinLendingPoolModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -15,7 +50,8 @@ export function JoinLendingPoolModal({
 }: JoinLendingPoolModalProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +74,8 @@ export function JoinLendingPoolModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           investor_type: "lending_pool",
-          full_name: fullName,
+          first_name: firstName,
+          last_name: lastName,
           country_code: countryCode,
           phone_number: phoneNumber,
           email,
@@ -50,7 +87,8 @@ export function JoinLendingPoolModal({
 
       if (response.ok) {
         setSuccess(true);
-        setFullName("");
+        setFirstName("");
+        setLastName("");
         setPhoneNumber("");
         setEmail("");
         setAmount("");
@@ -77,12 +115,15 @@ export function JoinLendingPoolModal({
             <X className="size-5" />
           </button>
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-ink mb-4">
-              ✓ Successfully Registered
-            </h2>
-            <p className="text-muted-ink mb-6">
-              Your details have been saved. You will be notified when a matching
-              secured loan is available.
+            <h2 className="text-2xl font-bold text-green-600 mb-2">✅ Registration Successful</h2>
+            <p className="text-muted-ink mb-4 font-semibold">
+              Your details have been saved successfully.
+            </p>
+            <p className="text-muted-ink mb-4">
+              You will receive notifications whenever a loan matching your investment preferences becomes available.
+            </p>
+            <p className="text-sm font-semibold text-ink mb-4">
+              For faster deal alerts, join our WhatsApp investor community.
             </p>
             <a
               href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1"
@@ -90,7 +131,7 @@ export function JoinLendingPoolModal({
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition w-full"
             >
-              <span>📱</span> Join WhatsApp Alerts Group
+              <span>📱</span> Join WhatsApp Group
             </a>
           </div>
         </DialogContent>
@@ -101,7 +142,7 @@ export function JoinLendingPoolModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
-        <DialogHeader className="border-b pb-4">
+        <DialogHeader className="border-b pb-4 px-6 pt-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-2xl font-bold text-ink">
               Join Lending Pool
@@ -116,17 +157,31 @@ export function JoinLendingPoolModal({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 p-6">
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-2">
+                First Name
+              </label>
+              <input
+                type="text"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-2">
+                Last Name
+              </label>
+              <input
+                type="text"
+                required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+              />
+            </div>
           </div>
 
           <div>
@@ -139,9 +194,11 @@ export function JoinLendingPoolModal({
                 onChange={(e) => setCountryCode(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               >
-                <option value="+254">+254 (Kenya)</option>
-                <option value="+256">+256 (Uganda)</option>
-                <option value="+255">+255 (Tanzania)</option>
+                {COUNTRIES.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name} ({country.code})
+                  </option>
+                ))}
               </select>
               <input
                 type="tel"
@@ -169,7 +226,7 @@ export function JoinLendingPoolModal({
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Amount Willing to Invest (KES)
+              How much are you willing to invest? (KES)
             </label>
             <input
               type="number"
@@ -224,7 +281,7 @@ export function JoinLendingPoolModal({
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Investor Note <span className="text-xs text-muted-ink">(max 200)</span>
+              Additional Notes <span className="text-xs text-muted-ink">(max 200)</span>
             </label>
             <textarea
               value={note}

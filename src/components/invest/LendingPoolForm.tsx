@@ -4,10 +4,46 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+const COUNTRIES = [
+  { code: "+254", name: "Kenya" },
+  { code: "+256", name: "Uganda" },
+  { code: "+255", name: "Tanzania" },
+  { code: "+233", name: "Ghana" },
+  { code: "+234", name: "Nigeria" },
+  { code: "+27", name: "South Africa" },
+  { code: "+212", name: "Morocco" },
+  { code: "+216", name: "Tunisia" },
+  { code: "+213", name: "Algeria" },
+  { code: "+243", name: "Democratic Republic of Congo" },
+  { code: "+237", name: "Cameroon" },
+  { code: "+265", name: "Malawi" },
+  { code: "+258", name: "Mozambique" },
+  { code: "+260", name: "Zambia" },
+  { code: "+263", name: "Zimbabwe" },
+  { code: "+249", name: "Sudan" },
+  { code: "+251", name: "Ethiopia" },
+  { code: "+250", name: "Rwanda" },
+  { code: "+244", name: "Angola" },
+  { code: "+226", name: "Burkina Faso" },
+  { code: "+228", name: "Togo" },
+  { code: "+229", name: "Benin" },
+  { code: "+230", name: "Mauritius" },
+  { code: "+248", name: "Seychelles" },
+  { code: "+1", name: "United States" },
+  { code: "+44", name: "United Kingdom" },
+  { code: "+33", name: "France" },
+  { code: "+49", name: "Germany" },
+  { code: "+91", name: "India" },
+  { code: "+86", name: "China" },
+  { code: "+81", name: "Japan" },
+  { code: "+61", name: "Australia" },
+];
+
 export function LendingPoolForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +66,8 @@ export function LendingPoolForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           investor_type: "lending_pool",
-          full_name: fullName,
+          first_name: firstName,
+          last_name: lastName,
           country_code: countryCode,
           phone_number: phoneNumber,
           email,
@@ -54,20 +91,25 @@ export function LendingPoolForm() {
     return (
       <div className="min-h-screen bg-white p-6 flex items-center justify-center">
         <div className="text-center max-w-md">
-          <h2 className="text-3xl font-bold text-ink mb-4">✓ Success</h2>
+          <h2 className="text-3xl font-bold text-green-600 mb-2">✅ Registration Successful</h2>
+          <p className="text-muted-ink mb-6 font-semibold">
+            Your details have been saved successfully.
+          </p>
           <p className="text-muted-ink mb-6">
-            Your details have been saved. You will be notified when a matching
-            secured loan is available.
+            You will receive notifications whenever a loan matching your investment preferences becomes available.
+          </p>
+          <p className="text-sm font-semibold text-ink mb-4">
+            For faster deal alerts, join our WhatsApp investor community.
           </p>
           <a
             href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition w-full"
+            className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl transition w-full mb-4"
           >
-            <span>📱</span> Join WhatsApp Alerts
+            <span>📱</span> Join WhatsApp Group
           </a>
-          <Link href="/invest" className="block mt-4 text-indigo hover:text-indigo/80">
+          <Link href="/invest" className="block text-indigo hover:text-indigo/80 font-semibold">
             Back to Invest
           </Link>
         </div>
@@ -85,17 +127,31 @@ export function LendingPoolForm() {
         <h1 className="text-3xl font-bold text-ink mb-6">Join Lending Pool</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-2">
+                First Name
+              </label>
+              <input
+                type="text"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-2">
+                Last Name
+              </label>
+              <input
+                type="text"
+                required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+              />
+            </div>
           </div>
 
           <div>
@@ -106,11 +162,13 @@ export function LendingPoolForm() {
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               >
-                <option value="+254">+254</option>
-                <option value="+256">+256</option>
-                <option value="+255">+255</option>
+                {COUNTRIES.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name} ({country.code})
+                  </option>
+                ))}
               </select>
               <input
                 type="tel"
@@ -125,7 +183,7 @@ export function LendingPoolForm() {
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Email
+              Email Address
             </label>
             <input
               type="email"
@@ -138,13 +196,14 @@ export function LendingPoolForm() {
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Amount (KES)
+              How much are you willing to invest? (KES)
             </label>
             <input
               type="number"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              placeholder="600000"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
@@ -186,13 +245,14 @@ export function LendingPoolForm() {
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Note (max 200)
+              Additional Notes <span className="text-xs text-muted-ink">(max 200)</span>
             </label>
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value.substring(0, 200))}
               maxLength={200}
               rows={3}
+              placeholder="Any additional information..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
             <p className="text-xs text-muted-ink mt-1">{note.length}/200</p>
@@ -201,7 +261,7 @@ export function LendingPoolForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50"
+            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
             {loading ? "Registering..." : "Join Lending Pool"}
           </button>
