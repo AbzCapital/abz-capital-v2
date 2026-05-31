@@ -12,7 +12,7 @@ const initializePrisma = () => {
     if (process.env.NODE_ENV === "production") {
       if (!prismaInstance) {
         const url = new URL(process.env.DATABASE_URL!);
-        url.searchParams.set("sslmode", "require");
+        url.searchParams.set("uselibpqcompat", "true");
         const adapter = new PrismaPg({
           connectionString: url.toString(),
         });
@@ -21,7 +21,7 @@ const initializePrisma = () => {
     } else {
       if (!global.prisma) {
         const url = new URL(process.env.DATABASE_URL!);
-        url.searchParams.set("sslmode", "require");
+        url.searchParams.set("uselibpqcompat", "true");
         const adapter = new PrismaPg({
           connectionString: url.toString(),
         });
