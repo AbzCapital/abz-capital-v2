@@ -2,21 +2,16 @@
 
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/shared/Container";
 import { AlertModal } from "./AlertModal";
-import { JoinLendingPoolModal } from "./JoinLendingPoolModal";
-import { JoinInvestorNetworkModal } from "./JoinInvestorNetworkModal";
 
 export function HeroWithMetrics() {
   const [alertOpen, setAlertOpen] = useState(false);
-  const [lendingPoolOpen, setLendingPoolOpen] = useState(false);
-  const [investorNetworkOpen, setInvestorNetworkOpen] = useState(false);
 
   return (
     <>
       <AlertModal open={alertOpen} onOpenChange={setAlertOpen} />
-      <JoinLendingPoolModal open={lendingPoolOpen} onOpenChange={setLendingPoolOpen} />
-      <JoinInvestorNetworkModal open={investorNetworkOpen} onOpenChange={setInvestorNetworkOpen} />
     <section className="relative min-h-screen overflow-hidden bg-gray-900">
       {/* Background Image with Dark Overlay */}
       <div
@@ -77,13 +72,13 @@ export function HeroWithMetrics() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={() => setLendingPoolOpen(true)}
+                <Link
+                  href="/lending-pool"
                   className="rounded-xl bg-peach px-6 py-3.5 text-sm font-bold text-ink shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Join Lending Pool
                   <ArrowRight className="size-4" />
-                </button>
+                </Link>
 
                 <button
                   onClick={() => setAlertOpen(true)}

@@ -2,22 +2,17 @@
 
 import { useState } from "react";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
 import { AlertModal } from "./AlertModal";
-import { JoinLendingPoolModal } from "./JoinLendingPoolModal";
-import { JoinInvestorNetworkModal } from "./JoinInvestorNetworkModal";
 
 export function OfferingCardsSection() {
   const [alertOpen, setAlertOpen] = useState(false);
-  const [lendingPoolOpen, setLendingPoolOpen] = useState(false);
-  const [investorNetworkOpen, setInvestorNetworkOpen] = useState(false);
 
   return (
     <>
       <AlertModal open={alertOpen} onOpenChange={setAlertOpen} />
-      <JoinLendingPoolModal open={lendingPoolOpen} onOpenChange={setLendingPoolOpen} />
-      <JoinInvestorNetworkModal open={investorNetworkOpen} onOpenChange={setInvestorNetworkOpen} />
     <Section spacing="lg" background="white">
       <Container>
         <div className="grid gap-8 lg:grid-cols-2">
@@ -97,13 +92,12 @@ export function OfferingCardsSection() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => setLendingPoolOpen(true)}
-                type="button"
-                className="flex-1 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40 cursor-pointer"
+              <Link
+                href="/lending-pool"
+                className="flex-1 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-peach/40 cursor-pointer text-center"
               >
                 Join Lending Pool
-              </button>
+              </Link>
               <button
                 onClick={() => setAlertOpen(true)}
                 className="flex-1 rounded-xl bg-white px-6 py-3 text-sm font-bold text-indigo transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
@@ -178,13 +172,13 @@ export function OfferingCardsSection() {
             </div>
 
             {/* CTA */}
-            <button
-              onClick={() => setInvestorNetworkOpen(true)}
+            <Link
+              href="/investor-network"
               className="w-full rounded-xl bg-indigo px-6 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40 flex items-center justify-center gap-2 cursor-pointer"
             >
               Join Investor Network
               <ArrowRight className="size-4" />
-            </button>
+            </Link>
           </div>
         </div>
       </Container>

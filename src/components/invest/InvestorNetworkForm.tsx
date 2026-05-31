@@ -1,13 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X } from "lucide-react";
-
-interface JoinInvestorNetworkModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const SECTORS = [
   "FinTech",
@@ -26,10 +21,7 @@ const SECTORS = [
   "Renewable Energy",
 ];
 
-export function JoinInvestorNetworkModal({
-  open,
-  onOpenChange,
-}: JoinInvestorNetworkModalProps) {
+export function InvestorNetworkForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -75,12 +67,6 @@ export function JoinInvestorNetworkModal({
 
       if (response.ok) {
         setSuccess(true);
-        setFullName("");
-        setPhoneNumber("");
-        setEmail("");
-        setAmount("");
-        setSelectedSectors([]);
-        setNote("");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -91,50 +77,31 @@ export function JoinInvestorNetworkModal({
 
   if (success) {
     return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-md p-6">
-          <button
-            onClick={() => {
-              setSuccess(false);
-              onOpenChange(false);
-            }}
-            className="absolute right-4 top-4 text-muted-ink hover:text-ink"
-          >
-            <X className="size-5" />
-          </button>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-ink mb-4">
-              ✓ Successfully Registered
-            </h2>
-            <p className="text-muted-ink">
-              Your details have been saved. You will receive alerts when
-              investment opportunities matching your preferences become
-              available.
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <div className="min-h-screen bg-white p-6 flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <h2 className="text-3xl font-bold text-ink mb-4">✓ Success</h2>
+          <p className="text-muted-ink mb-6">
+            Your details have been saved. You will receive alerts when
+            investment opportunities matching your preferences become available.
+          </p>
+          <Link href="/invest" className="inline-block text-indigo hover:text-indigo/80">
+            Back to Invest
+          </Link>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
-        <DialogHeader className="border-b pb-4">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-2xl font-bold text-ink">
-              Join Investor Network
-            </DialogTitle>
-            <button
-              onClick={() => onOpenChange(false)}
-              className="text-muted-ink hover:text-ink"
-            >
-              <X className="size-5" />
-            </button>
-          </div>
-        </DialogHeader>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto px-4 py-8">
+        <Link href="/invest" className="inline-flex items-center gap-2 text-indigo mb-6">
+          <ArrowLeft className="size-4" /> Back
+        </Link>
 
-        <form onSubmit={handleSubmit} className="space-y-4 p-6">
+        <h1 className="text-3xl font-bold text-ink mb-6">Join Investor Network</h1>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
               Full Name
@@ -144,7 +111,7 @@ export function JoinInvestorNetworkModal({
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             />
           </div>
 
@@ -156,11 +123,11 @@ export function JoinInvestorNetworkModal({
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="px-3 py-2 border border-gray-300 rounded-lg"
               >
-                <option value="+254">+254 (Kenya)</option>
-                <option value="+256">+256 (Uganda)</option>
-                <option value="+255">+255 (Tanzania)</option>
+                <option value="+254">+254</option>
+                <option value="+256">+256</option>
+                <option value="+255">+255</option>
               </select>
               <input
                 type="tel"
@@ -168,43 +135,42 @@ export function JoinInvestorNetworkModal({
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="700000000"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
               />
             </div>
           </div>
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Email Address
+              Email
             </label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Amount Willing to Invest (KES)
+              Amount (KES)
             </label>
             <input
               type="number"
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="600000"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-3">
-              Investment Sector Preferences
+              Select Sectors
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
               {SECTORS.map((sector) => (
                 <label key={sector} className="flex items-center gap-2">
                   <input
@@ -221,32 +187,27 @@ export function JoinInvestorNetworkModal({
 
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">
-              Investor Note <span className="text-xs text-muted-ink">(max 200)</span>
+              Note (max 200)
             </label>
             <textarea
               value={note}
-              onChange={(e) =>
-                setNote(e.target.value.substring(0, 200))
-              }
+              onChange={(e) => setNote(e.target.value.substring(0, 200))}
               maxLength={200}
               rows={3}
-              placeholder="Any additional information..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
-            <p className="text-xs text-muted-ink mt-1">
-              {note.length}/200 characters
-            </p>
+            <p className="text-xs text-muted-ink mt-1">{note.length}/200</p>
           </div>
 
           <button
             type="submit"
             disabled={loading || selectedSectors.length === 0}
-            className="w-full bg-indigo text-white font-bold py-3 rounded-xl hover:brightness-110 disabled:opacity-50 transition"
+            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50"
           >
             {loading ? "Registering..." : "Join Investor Network"}
           </button>
         </form>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 }
