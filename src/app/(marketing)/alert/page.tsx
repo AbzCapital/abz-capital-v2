@@ -1,7 +1,6 @@
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
 import Link from "next/link";
-import { SAMPLE_LOAN } from "@/lib/invest/sampleLoanData";
 
 export const metadata = {
   title: "Sample Investor Alert | ABZ Capital",
@@ -21,89 +20,75 @@ export default function AlertPage() {
 
         <div className="max-w-2xl mx-auto">
           {/* Header */}
+          <h1 className="text-2xl font-bold text-ink mb-8">
+            Loan Approved 868DT & Ready for Funding
+          </h1>
+
+          {/* Loan Details Section */}
           <div className="mb-8">
-            <h1 className="text-3xl font-extrabold text-ink mb-2">
-              Loan {SAMPLE_LOAN.clientId} Approved & Ready for Funding
-            </h1>
-            <div className="flex items-center gap-2">
-              <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
-                🟢 Safe
-              </span>
+            <h2 className="text-lg font-bold text-ink mb-4">Loan Details</h2>
+            <div className="space-y-2">
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Loan ID</span>
+                <span className="font-semibold text-ink">868DT</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Rating</span>
+                <span className="font-semibold text-ink">🟢 Safe</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Occupation</span>
+                <span className="font-semibold text-ink">Employed</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Loan Amount</span>
+                <span className="font-semibold text-ink">KES 600,000</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Collateral</span>
+                <span className="font-semibold text-ink">Toyota Fielder</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Collateral Value</span>
+                <span className="font-semibold text-ink">KES 1,400,000</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-muted-ink">Loan Term</span>
+                <span className="font-semibold text-ink">12 Months</span>
+              </div>
             </div>
           </div>
 
-          {/* Two Section Layout */}
-          <div className="grid gap-8 lg:grid-cols-2 mb-8">
-            {/* Loan Details Section */}
-            <div>
-              <h2 className="text-lg font-bold text-ink mb-4 border-b-2 border-indigo pb-2">
-                Loan Details
-              </h2>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Loan ID</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.clientId}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Rating</span>
-                  <span className="font-semibold text-ink">🟢 Safe</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Occupation</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.occupation}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Loan Amount</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.loanAmount}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Collateral</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.security}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Collateral Value</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.collateralValue}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Loan Term</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.loanTerm}</span>
-                </div>
+          {/* Investor Earnings Section */}
+          <div className="mb-8">
+            <h2 className="text-lg font-bold text-ink mb-4">Investor Earnings</h2>
+            <div className="space-y-2">
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Amount Invested</span>
+                <span className="font-semibold text-ink">KES 600,000</span>
               </div>
-            </div>
-
-            {/* Investor Earnings Section */}
-            <div>
-              <h2 className="text-lg font-bold text-ink mb-4 border-b-2 border-peach pb-2">
-                Investor Earnings
-              </h2>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Amount Invested</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.loanAmount}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Monthly Return</span>
-                  <span className="font-semibold text-indigo">3%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Monthly Earnings</span>
-                  <span className="font-semibold text-ink">{SAMPLE_LOAN.monthlyPayment}</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-gray-200">
-                  <span className="text-sm text-muted-ink">Total Earnings (12 Months)</span>
-                  <span className="font-bold text-indigo">{SAMPLE_LOAN.investorReturn}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-muted-ink">Total Amount Received</span>
-                  <span className="font-bold text-indigo">{SAMPLE_LOAN.totalRepayment}</span>
-                </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Monthly Return</span>
+                <span className="font-semibold text-indigo">3%</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Monthly Earnings</span>
+                <span className="font-semibold text-ink">KES 18,000</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <span className="text-muted-ink">Total Earnings (12 months)</span>
+                <span className="font-semibold text-ink">KES 216,000</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-muted-ink">Total Amount to be Received</span>
+                <span className="font-semibold text-ink">KES 816,000</span>
               </div>
             </div>
           </div>
 
           {/* CTA Button */}
           <button className="w-full rounded-xl bg-indigo text-white px-6 py-4 text-base font-bold shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/40 cursor-pointer">
-            Fund Loan 🚀
+            Fund Loan
           </button>
         </div>
       </Container>
