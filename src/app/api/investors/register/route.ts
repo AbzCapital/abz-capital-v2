@@ -63,6 +63,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    console.log("[API] investment_preferences value:", investment_preferences, "| type:", typeof investment_preferences, "| isArray:", Array.isArray(investment_preferences));
+
     // Validate preferences based on investor type
     if (investor_type === "lending_pool") {
       const validLoans = ["logbook_loans", "title_deed_loans"];
@@ -226,10 +228,9 @@ export async function POST(request: NextRequest) {
     }
 
     console.log("[API] Redirecting to success page with investor ID:", investor.id);
-    return NextResponse.redirect(
-      `/investor/welcome?id=${investor.id}&email=${encodeURIComponent(email)}`,
-      { status: 303 }
-    );
+    const baseUrl = request.headers.get('origin') || 'http://localhost:3000';
+    const redirectUrl = new URL(`/investor/welcome?id=${investor.id}&email=${encodeURIComponent(email)}`, baseUrl);
+    return NextResponse.redirect(redirectUrl, { status: 303 });
   } catch (error) {
     console.error("[API ERROR] Full error object:", error);
     if (error instanceof Error) {
