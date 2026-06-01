@@ -62,12 +62,14 @@ export function LendingPoolFormMobile() {
   useEffect(() => {
     const form = formRef.current;
     const submitBtn = submitBtnRef.current;
-    const container = containerRef.current;
 
     if (!form || !submitBtn) {
+      alert("⚠️ Form elements not found - refresh page");
       console.error("❌ Form or button refs not initialized");
       return;
     }
+
+    console.log("✅ Form refs initialized:", { form, submitBtn });
 
     // Scroll button into view after virtual keyboard closes
     const handleInputBlur = (e: Event) => {
@@ -78,7 +80,7 @@ export function LendingPoolFormMobile() {
         } catch (err) {
           console.log("Scroll-into-view not supported");
         }
-      }, 300); // Wait for keyboard to close
+      }, 300);
     };
 
     // Add blur listeners to all inputs for virtual keyboard handling
@@ -91,6 +93,7 @@ export function LendingPoolFormMobile() {
       event.preventDefault();
       event.stopPropagation();
 
+      alert("🔵 Button tapped - starting submission...");
       console.log("📤 Form submit triggered");
 
       // Prevent double submission
@@ -232,6 +235,14 @@ export function LendingPoolFormMobile() {
 
     submitBtn.addEventListener("click", handleButtonClick);
 
+    // Also log when listeners are attached
+    console.log("✅ Event listeners attached:", {
+      formSubmit: "capture mode",
+      touchstart: "passive:false",
+      touchend: "passive:false",
+      buttonClick: "backup handler",
+    });
+
     return () => {
       form.removeEventListener("submit", handleSubmit, { capture: true });
       submitBtn.removeEventListener("touchstart", handleTouchStart);
@@ -242,6 +253,17 @@ export function LendingPoolFormMobile() {
       });
     };
   }, [isSubmitting]);
+
+  // React onClick handler as additional fallback
+  const handleReactClick = () => {
+    alert("🟢 React onClick fired!");
+    console.log("React onClick handler triggered");
+    const form = formRef.current;
+    if (form) {
+      const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+      form.dispatchEvent(submitEvent);
+    }
+  };
 
   if (success && successData) {
     return (
@@ -451,6 +473,7 @@ export function LendingPoolFormMobile() {
           <button
             ref={submitBtnRef}
             type="submit"
+            onClick={handleReactClick}
             disabled={isSubmitting}
             className={`
               w-full py-4 font-bold text-base rounded-xl transition-all
