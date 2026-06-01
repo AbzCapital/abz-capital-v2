@@ -43,6 +43,7 @@ export function LendingPoolForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [apiResponse, setApiResponse] = useState<string>("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
@@ -88,6 +89,9 @@ export function LendingPoolForm() {
 
       const data = await response.json();
       console.log("Response data:", data);
+
+      // Store API response for debugging
+      setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
 
       if (response.ok) {
         console.log("Success! Setting success state");
@@ -148,6 +152,12 @@ export function LendingPoolForm() {
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
             {error}
+          </div>
+        )}
+
+        {apiResponse && (
+          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-4 text-xs font-mono break-words">
+            <strong>API Debug:</strong> {apiResponse}
           </div>
         )}
 
