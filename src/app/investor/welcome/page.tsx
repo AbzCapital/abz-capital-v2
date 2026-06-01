@@ -8,9 +8,10 @@ function InvestorWelcomeContent() {
   const searchParams = useSearchParams();
   const investorId = searchParams.get("id");
   const email = searchParams.get("email");
+  const type = searchParams.get("type");
+  const isLendingPool = type === "lending_pool";
 
   useEffect(() => {
-    // Optional: Log success to analytics
     if (investorId) {
       console.log("Investor registered:", investorId);
     }
@@ -20,10 +21,21 @@ function InvestorWelcomeContent() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
         <div className="text-6xl mb-4">✅</div>
-        <h1 className="text-3xl font-bold text-green-600 mb-2">Welcome!</h1>
-        <p className="text-gray-700 mb-6">
-          Your registration is complete. We've sent you an email with details.
+        <h1 className="text-3xl font-bold text-green-600 mb-2">Registration Successful</h1>
+
+        <p className="text-gray-700 mb-4">
+          Your details have been saved successfully.
         </p>
+
+        {isLendingPool ? (
+          <p className="text-gray-700 mb-6">
+            You will receive notifications whenever a loan matching your investment preferences becomes available.
+          </p>
+        ) : (
+          <p className="text-gray-700 mb-6">
+            You will receive notifications whenever an investment opportunity matching your preferred sectors becomes available. Our investment team may also contact you directly regarding suitable opportunities.
+          </p>
+        )}
 
         {investorId && (
           <div className="bg-blue-50 p-4 rounded mb-6">
@@ -34,26 +46,24 @@ function InvestorWelcomeContent() {
           </div>
         )}
 
-        <div className="bg-yellow-50 border-2 border-yellow-300 rounded p-4 mb-6">
-          <p className="text-sm font-semibold text-yellow-800 mb-3">
-            🚀 Next Step: Join Our WhatsApp Group
-          </p>
-          <p className="text-sm text-yellow-700 mb-4">
-            Get instant alerts for new investment opportunities and deal updates.
-          </p>
-          <a
-            href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
-          >
-            Join WhatsApp Group
-          </a>
-        </div>
+        {isLendingPool && (
+          <div className="bg-yellow-50 border-2 border-yellow-300 rounded p-4 mb-6">
+            <p className="text-sm font-semibold text-yellow-800 mb-3">
+              For faster deal alerts, join our WhatsApp investor community.
+            </p>
+            <a
+              href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
+            >
+              Join WhatsApp Group
+            </a>
+          </div>
+        )}
 
         <p className="text-sm text-gray-600 mb-6">
-          Check your email ({email}) for more details and the WhatsApp group
-          link.
+          Check your email ({email}) for more details.
         </p>
 
         <Link

@@ -140,44 +140,24 @@ export async function POST(request: NextRequest) {
 <body>
   <div class="container">
     <div class="header">
-      <h1>Welcome to ABZ Capital Investor Network! 🎉</h1>
+      <h1>Welcome to Our Investment Platform 🎉</h1>
     </div>
 
     <div class="content">
-      <p>Hi ${first_name},</p>
+      <p>Dear ${first_name},</p>
 
       <p>Congratulations and thank you for successfully submitting your details and joining our investment platform.</p>
 
       <p>We are pleased to welcome you into our growing network of investors.</p>
 
-      <div class="investor-id">
-        <strong>Your Investor ID:</strong><br/>
-        ${investor.id}
-      </div>
-
-      ${investment_amount ? `<p><strong>Investment Amount:</strong> KES ${parseFloat(investment_amount).toLocaleString()}</p>` : ""}
-
       <p>Your application is currently under review, and our team is carefully assessing investment opportunities to ensure they align with your stated preferences and risk profile.</p>
 
-      <p><strong>Join our WhatsApp group for instant deal alerts and investment opportunities:</strong></p>
-
-      <a href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1" class="cta-button">👉 Join WhatsApp Group</a>
-
-      <p>In the WhatsApp group, you'll receive:</p>
-      <ul>
-        <li>Instant notifications for new investment opportunities</li>
-        <li>Deal summaries and loan performance updates</li>
-        <li>Direct support from our investment team</li>
-      </ul>
-
-      <p>At this stage, there is nothing further you need to do. We will keep you updated and notify you as soon as a suitable opportunity that matches your preferences has been approved and made available.</p>
-
-      <p>If you have any questions, feel free to reach out to us at <strong>support@abzcapital.com</strong></p>
+      <p>At this stage, there is nothing further you need to do. We will keep you updated and notify you as soon as a suitable deal or investment opportunity that matches your preferences has been approved and made available.</p>
 
       <p>We appreciate your interest and trust in us, and we look forward to keeping you informed about upcoming opportunities.</p>
 
-      <p>Happy investing!<br/>
-      <strong>The ABZ Capital Team</strong></p>
+      <p>Warm regards,<br/>
+      <strong>The Investment Team</strong></p>
     </div>
 
     <div class="footer">
@@ -201,7 +181,7 @@ export async function POST(request: NextRequest) {
       const { data, error } = await resend.emails.send({
         from: fromAddress(),
         to: sendToEmail,
-        subject: `Welcome to ABZ Capital! Your Investor ID: ${investor.id}`,
+        subject: `Welcome to Our Investment Platform 🎉`,
         html: emailHtml,
       });
 
@@ -219,7 +199,7 @@ export async function POST(request: NextRequest) {
 
     console.log("[API] Redirecting to success page with investor ID:", investor.id);
     const baseUrl = request.headers.get('origin') || 'http://localhost:3000';
-    const redirectUrl = new URL(`/investor/welcome?id=${investor.id}&email=${encodeURIComponent(email)}`, baseUrl);
+    const redirectUrl = new URL(`/investor/welcome?id=${investor.id}&email=${encodeURIComponent(email)}&type=${investor_type}`, baseUrl);
     return NextResponse.redirect(redirectUrl, { status: 303 });
   } catch (error) {
     console.error("[API ERROR] Full error object:", error);
