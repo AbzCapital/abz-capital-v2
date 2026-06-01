@@ -40,7 +40,10 @@ export function InvestorNetworkFormHTML() {
           if (selectedSectors.length === 0) {
             e.preventDefault();
             alert("⚠️ Select at least one sector");
+            return;
           }
+          // Log selected sectors for debugging
+          console.log("[FORM] Submitting with sectors:", selectedSectors);
         }}>
           <input type="hidden" name="investor_type" value="investor_network" />
           {selectedSectors.map(sector => (
@@ -120,6 +123,7 @@ export function InvestorNetworkFormHTML() {
           <div>
             <label className="block text-sm font-semibold mb-2">
               Investment Sectors *
+              <span className="text-indigo ml-2">({selectedSectors.length} selected)</span>
             </label>
             <div className="grid grid-cols-2 gap-2">
               {SECTORS.map((sector) => (
