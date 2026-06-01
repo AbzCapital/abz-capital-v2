@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -9,6 +9,8 @@ const COUNTRIES = [
 ];
 
 export function LendingPoolFormHTML() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     const form = document.getElementById('lendingPoolForm');
     if (!form) return;
@@ -20,8 +22,7 @@ export function LendingPoolFormHTML() {
 
       console.log('✅ Form submitted - preventDefault worked');
 
-      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-      if (button) button.disabled = true;
+      setIsSubmitting(true);
 
       try {
         const formData = new FormData(form as HTMLFormElement);
@@ -56,7 +57,7 @@ export function LendingPoolFormHTML() {
         const msg = error instanceof Error ? error.message : "Unknown error";
         console.error('❌ Error:', msg);
         alert(`❌ Error: ${msg}`);
-        if (button) button.disabled = false;
+        setIsSubmitting(false);
       }
     };
 

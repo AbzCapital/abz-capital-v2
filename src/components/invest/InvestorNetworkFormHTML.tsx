@@ -22,6 +22,7 @@ const SECTORS = [
 ];
 
 export function InvestorNetworkFormHTML() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
   useEffect(() => {
@@ -40,8 +41,7 @@ export function InvestorNetworkFormHTML() {
         return;
       }
 
-      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-      if (button) button.disabled = true;
+      setIsSubmitting(true);
 
       try {
         const formData = new FormData(form as HTMLFormElement);
@@ -75,7 +75,7 @@ export function InvestorNetworkFormHTML() {
         const msg = error instanceof Error ? error.message : "Unknown error";
         console.error('❌ Error:', msg);
         alert(`❌ Error: ${msg}`);
-        if (button) button.disabled = false;
+        setIsSubmitting(false);
       }
     };
 
