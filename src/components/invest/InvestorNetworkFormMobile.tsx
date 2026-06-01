@@ -38,9 +38,8 @@ export function InvestorNetworkFormMobile() {
   const [statusType, setStatusType] = useState<"" | "success" | "error">("");
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    alert("🔵 FORM SUBMIT HANDLER FIRED!");
-    e.preventDefault();
+  const handleSubmit = async () => {
+    alert("🔵 BUTTON CLICKED!");
 
     if (isSubmitting) {
       alert("⏳ Already submitting...");
@@ -57,17 +56,33 @@ export function InvestorNetworkFormMobile() {
     setStatusType("success");
 
     try {
-      const formData = new FormData(e.currentTarget);
+      // Manually collect form data from inputs
+      const firstName = (document.querySelector('input[name="first_name"]') as HTMLInputElement)?.value;
+      const lastName = (document.querySelector('input[name="last_name"]') as HTMLInputElement)?.value;
+      const countryCode = (document.querySelector('select[name="country_code"]') as HTMLSelectElement)?.value;
+      const phoneNumber = (document.querySelector('input[name="phone_number"]') as HTMLInputElement)?.value;
+      const email = (document.querySelector('input[name="email"]') as HTMLInputElement)?.value;
+      const investmentAmount = (document.querySelector('input[name="investment_amount"]') as HTMLInputElement)?.value;
+      const investorNote = (document.querySelector('textarea[name="investor_note"]') as HTMLTextAreaElement)?.value;
+
+      // Validate
+      if (!firstName || !lastName || !phoneNumber || !email || !investmentAmount) {
+        alert("⚠️ Please fill in all required fields");
+        setIsSubmitting(false);
+        return;
+      }
+
       const data: Record<string, any> = {
         investor_type: "investor_network",
+        first_name: firstName,
+        last_name: lastName,
+        country_code: countryCode,
+        phone_number: phoneNumber,
+        email: email,
+        investment_amount: parseFloat(investmentAmount),
+        investment_preferences: selectedSectors,
+        investor_note: investorNote || "",
       };
-
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
-
-      data.investment_preferences = selectedSectors;
-      data.investment_amount = parseFloat(data.investment_amount);
 
       setStatusMsg("📡 Sending to server...");
 
@@ -138,7 +153,7 @@ export function InvestorNetworkFormMobile() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold mb-2">First Name</label>
@@ -243,7 +258,8 @@ export function InvestorNetworkFormMobile() {
           </div>
 
           <button
-            type="submit"
+            type="button"
+            onClick={handleSubmit}
             disabled={isSubmitting}
             className={`w-full py-4 font-bold text-base rounded-xl transition-all min-h-[48px] ${
               isSubmitting
