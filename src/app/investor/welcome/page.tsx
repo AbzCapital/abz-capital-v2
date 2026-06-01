@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-export default function InvestorWelcomePage() {
+function InvestorWelcomeContent() {
   const searchParams = useSearchParams();
   const investorId = searchParams.get("id");
   const email = searchParams.get("email");
@@ -64,5 +64,13 @@ export default function InvestorWelcomePage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function InvestorWelcomePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <InvestorWelcomeContent />
+    </Suspense>
   );
 }
