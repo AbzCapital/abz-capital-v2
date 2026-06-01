@@ -46,7 +46,7 @@ const COUNTRIES = [
   { code: "+358", name: "Finland" },
   { code: "+353", name: "Ireland" },
   { code: "+32", name: "Belgium" },
-  { code: "+353", name: "Luxembourg" },
+  { code: "+352", name: "Luxembourg" },
   { code: "+30", name: "Greece" },
   { code: "+48", name: "Poland" },
   { code: "+420", name: "Czech Republic" },
@@ -57,7 +57,6 @@ const COUNTRIES = [
   { code: "+385", name: "Croatia" },
   { code: "+386", name: "Slovenia" },
   { code: "+381", name: "Serbia" },
-  { code: "+39", name: "Vatican City" },
   { code: "+356", name: "Malta" },
   { code: "+357", name: "Cyprus" },
 ];
