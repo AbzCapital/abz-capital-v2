@@ -19,9 +19,45 @@ import { FileDropzone } from "./FileDropzone";
 import { FormField, FormRow, Honeypot } from "./ContactForm";
 import { fundingSchema, type FundingInput } from "@/lib/validation/leadSchemas";
 
+const COUNTRIES = [
+  { code: "+254", name: "Kenya" },
+  { code: "+256", name: "Uganda" },
+  { code: "+255", name: "Tanzania" },
+  { code: "+233", name: "Ghana" },
+  { code: "+234", name: "Nigeria" },
+  { code: "+27", name: "South Africa" },
+  { code: "+212", name: "Morocco" },
+  { code: "+216", name: "Tunisia" },
+  { code: "+213", name: "Algeria" },
+  { code: "+243", name: "Democratic Republic of Congo" },
+  { code: "+237", name: "Cameroon" },
+  { code: "+265", name: "Malawi" },
+  { code: "+258", name: "Mozambique" },
+  { code: "+260", name: "Zambia" },
+  { code: "+263", name: "Zimbabwe" },
+  { code: "+249", name: "Sudan" },
+  { code: "+251", name: "Ethiopia" },
+  { code: "+250", name: "Rwanda" },
+  { code: "+244", name: "Angola" },
+  { code: "+226", name: "Burkina Faso" },
+  { code: "+228", name: "Togo" },
+  { code: "+229", name: "Benin" },
+  { code: "+230", name: "Mauritius" },
+  { code: "+248", name: "Seychelles" },
+  { code: "+1", name: "United States" },
+  { code: "+44", name: "United Kingdom" },
+  { code: "+33", name: "France" },
+  { code: "+49", name: "Germany" },
+  { code: "+91", name: "India" },
+  { code: "+86", name: "China" },
+  { code: "+81", name: "Japan" },
+  { code: "+61", name: "Australia" },
+];
+
 export function FundingForm() {
   const [token, setToken] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [countryCode, setCountryCode] = useState("+254");
 
   const {
     register,
@@ -47,7 +83,12 @@ export function FundingForm() {
     try {
       const fd = new FormData();
       Object.entries(values).forEach(([k, v]) => {
-        if (typeof v === "string") fd.append(k, v);
+        if (k === "phone") {
+          // Combine country code with phone number
+          fd.append(k, `${countryCode}${v}`);
+        } else if (typeof v === "string") {
+          fd.append(k, v);
+        }
       });
       fd.append("turnstileToken", token);
       files.forEach((f) => fd.append("files", f));
@@ -64,6 +105,7 @@ export function FundingForm() {
       toast.success("Funding opportunity received. Our investor team will be in touch.");
       reset();
       setFiles([]);
+      setCountryCode("+254");
     } catch {
       toast.error("Network error. Please try again or WhatsApp us.");
     }
@@ -85,7 +127,27 @@ export function FundingForm() {
 
       <FormRow>
         <FormField label="Phone" error={errors.phone?.message}>
-          <Input type="tel" inputMode="tel" {...register("phone")} placeholder="+254 7XX XXX XXX" />
+          <div className="flex gap-2">
+            <Select value={countryCode} onValueChange={setCountryCode}>
+              <SelectTrigger className="w-24">
+                <SelectValue placeholder="Code" />
+              </SelectTrigger>
+              <SelectContent>
+                {COUNTRIES.map((country) => (
+                  <SelectItem key={country.code} value={country.code}>
+                    {country.code}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              type="tel"
+              inputMode="tel"
+              {...register("phone")}
+              placeholder="700000000"
+              className="flex-1"
+            />
+          </div>
         </FormField>
         <FormField label="Category" error={errors.fundingCategory?.message}>
           <Select value={fundingCategory} onValueChange={(v) => setValue("fundingCategory", v as FundingInput["fundingCategory"], { shouldValidate: true })}>
