@@ -515,7 +515,12 @@ export function LendingPoolFormMobile() {
           {/* SUBMIT BUTTON */}
           <button
             ref={submitBtnRef}
-            type="submit"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              addDebugLog("🔵 Submit button clicked via React onClick", "info");
+              submitForm();
+            }}
             disabled={isSubmitting}
             className={`
               w-full py-4 font-bold text-base rounded-xl transition-all
