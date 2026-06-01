@@ -42,34 +42,76 @@ const COUNTRIES = [
 export function LendingPoolFormMobile() {
   const formRef = useRef<HTMLFormElement>(null);
   const submitBtnRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [success, setSuccess] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
   const [status, setStatus] = useState("");
   const [statusType, setStatusType] = useState<"success" | "error" | "">("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const lastSubmitTimeRef = useRef<number>(0);
+
+  useEffect(() => {
+    // Device detection: verify we're on real mobile
+    const isMobileUserAgent = /mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(
+      navigator.userAgent
+    );
+    console.log("🔍 LendingPoolFormMobile mounted - Device:", isMobileUserAgent ? "MOBILE" : "DESKTOP");
+    console.log("📱 User-Agent:", navigator.userAgent);
+  }, []);
 
   useEffect(() => {
     const form = formRef.current;
     const submitBtn = submitBtnRef.current;
+    const container = containerRef.current;
 
-    if (!form || !submitBtn) return;
+    if (!form || !submitBtn) {
+      console.error("❌ Form or button refs not initialized");
+      return;
+    }
+
+    // Scroll button into view after virtual keyboard closes
+    const handleInputBlur = (e: Event) => {
+      const input = e.target as HTMLInputElement;
+      setTimeout(() => {
+        try {
+          submitBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+        } catch (err) {
+          console.log("Scroll-into-view not supported");
+        }
+      }, 300); // Wait for keyboard to close
+    };
+
+    // Add blur listeners to all inputs for virtual keyboard handling
+    const inputs = form.querySelectorAll("input, textarea, select");
+    inputs.forEach((input) => {
+      input.addEventListener("blur", handleInputBlur);
+    });
 
     const handleSubmit = async (event: Event) => {
       event.preventDefault();
       event.stopPropagation();
 
+      console.log("📤 Form submit triggered");
+
       // Prevent double submission
-      if (isSubmitting || submitBtn.disabled) {
-        console.warn("Form already submitting, ignoring duplicate click");
+      const now = Date.now();
+      if (isSubmitting || submitBtn.disabled || now - lastSubmitTimeRef.current < 1000) {
+        alert("⏳ Please wait - submission in progress");
         return;
       }
 
+      lastSubmitTimeRef.current = now;
       setIsSubmitting(true);
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
       setStatus("");
 
       try {
+        // Validate form before submitting
+        if (!form.checkValidity()) {
+          throw new Error("Please fill in all required fields");
+        }
+
         // Collect form data using FormData API
         const formData = new FormData(form);
         const data: Record<string, any> = {
@@ -85,9 +127,14 @@ export function LendingPoolFormMobile() {
         delete data.loan_category;
         data.investment_amount = parseFloat(data.investment_amount);
 
-        // API call with timeout
+        console.log("📝 Submitting data:", { email: data.email, amount: data.investment_amount });
+
+        // API call with timeout (15 seconds)
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+        const timeoutId = setTimeout(() => {
+          controller.abort();
+          console.error("⏱️ Request timeout (15s)");
+        }, 15000);
 
         const response = await fetch("/api/investors/register", {
           method: "POST",
@@ -98,15 +145,23 @@ export function LendingPoolFormMobile() {
 
         clearTimeout(timeoutId);
 
+        console.log("📡 Response status:", response.status);
+
+        // Check for duplicate submission (429 Too Many Requests)
+        if (response.status === 429) {
+          throw new Error("You recently submitted. Please wait a moment before submitting again.");
+        }
+
         const result = await response.json();
+        console.log("📥 API Response:", { success: result.success, investor_id: result.investor_id });
 
         // Validate response structure
         if (!result.investor_id || !result.success) {
-          throw new Error("Invalid server response");
+          throw new Error(result.error || "Invalid server response");
         }
 
         if (response.ok && result.success) {
-          alert("✅ Registration successful! Your details have been saved.");
+          alert("✅ Registration successful!\nInvestor ID: " + result.investor_id);
           setStatusType("success");
           setStatus("✅ Success! Your details have been saved. Redirecting...");
           setSuccessData({
@@ -126,6 +181,8 @@ export function LendingPoolFormMobile() {
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
 
+        console.error("❌ Form error:", errorMsg);
+
         // Provide helpful error message
         let userMessage = errorMsg;
         if (errorMsg.includes("AbortError") || errorMsg.includes("timeout")) {
@@ -134,6 +191,8 @@ export function LendingPoolFormMobile() {
           userMessage = "Network error. Please check your internet connection.";
         } else if (errorMsg.includes("already registered")) {
           userMessage = "This email is already registered. Please use a different email.";
+        } else if (errorMsg.includes("fill in all required")) {
+          userMessage = "Please fill in all required fields before submitting.";
         }
 
         alert("❌ Error: " + userMessage);
@@ -147,19 +206,40 @@ export function LendingPoolFormMobile() {
       }
     };
 
-    // PRIMARY: Listen to form submit (capture phase to catch all events)
+    // PRIMARY: Form submit listener with capture to catch all events
     form.addEventListener("submit", handleSubmit, { capture: true });
 
-    // BACKUP: Listen directly to button click (handles edge cases on some mobile browsers)
-    const handleButtonClick = () => {
+    // TOUCH EVENT: Direct touch listener for immediate response (no 300ms delay)
+    const handleTouchStart = (e: TouchEvent) => {
+      console.log("👆 Touch detected on button");
+      (e.target as HTMLElement).style.opacity = "0.8";
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      (e.target as HTMLElement).style.opacity = "1";
+    };
+
+    submitBtn.addEventListener("touchstart", handleTouchStart, { passive: false });
+    submitBtn.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+    // BACKUP: Click listener for mouse/hybrid devices
+    const handleButtonClick = (e: MouseEvent) => {
+      console.log("🖱️ Click detected on button");
+      e.preventDefault();
       const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
       form.dispatchEvent(submitEvent);
     };
+
     submitBtn.addEventListener("click", handleButtonClick);
 
     return () => {
-      form.removeEventListener("submit", handleSubmit, true);
+      form.removeEventListener("submit", handleSubmit, { capture: true });
+      submitBtn.removeEventListener("touchstart", handleTouchStart);
+      submitBtn.removeEventListener("touchend", handleTouchEnd);
       submitBtn.removeEventListener("click", handleButtonClick);
+      inputs.forEach((input) => {
+        input.removeEventListener("blur", handleInputBlur);
+      });
     };
   }, [isSubmitting]);
 
@@ -367,20 +447,25 @@ export function LendingPoolFormMobile() {
             />
           </div>
 
-          {/* SUBMIT BUTTON - Mobile optimized */}
+          {/* SUBMIT BUTTON - Mobile optimized with 48x48px minimum and touch optimizations */}
           <button
             ref={submitBtnRef}
             type="submit"
             disabled={isSubmitting}
             className={`
               w-full py-4 font-bold text-base rounded-xl transition-all
-              min-h-12 min-w-12
+              min-h-[48px] min-w-[48px]
+              touch-action-manipulation pointer-events-auto relative z-10
               ${
                 isSubmitting
-                  ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50 pointer-events-none"
+                  ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
                   : "bg-indigo text-white hover:bg-indigo-700 active:scale-95"
               }
             `}
+            style={{
+              touchAction: "manipulation",
+              pointerEvents: isSubmitting ? "none" : "auto",
+            }}
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
