@@ -39,6 +39,7 @@ export function InvestorNetworkFormMobile() {
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    alert("🔵 FORM SUBMIT HANDLER FIRED!");
     e.preventDefault();
 
     if (isSubmitting) {

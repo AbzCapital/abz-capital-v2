@@ -21,6 +21,7 @@ export function LendingPoolFormMobile() {
   const [statusType, setStatusType] = useState<"" | "success" | "error">("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    alert("🔵 FORM SUBMIT HANDLER FIRED!");
     e.preventDefault();
 
     if (isSubmitting) {
