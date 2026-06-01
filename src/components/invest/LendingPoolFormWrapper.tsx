@@ -7,7 +7,7 @@ import { LendingPoolFormMobile } from "./LendingPoolFormMobile";
 export function LendingPoolFormWrapper() {
   // Mobile-first: default to mobile form, only switch to desktop if needed
   const isMobileUserAgent = typeof navigator !== "undefined" && /mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(navigator.userAgent);
-  const [isMobile, setIsMobile] = useState(isMobileUserAgent || true);
+  const [isMobile, setIsMobile] = useState<boolean>(isMobileUserAgent || true);
 
   useEffect(() => {
     // Detect if device is mobile based on user agent AND window size
