@@ -6,6 +6,16 @@ export async function POST(request: NextRequest) {
   console.log("[API] Investor registration request received");
   console.log("[API] Prisma client available?", !!prisma);
   try {
+    // Detect device type from User-Agent header
+    const userAgent = request.headers.get('user-agent') || '';
+    let source = 'unknown';
+    if (/mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(userAgent)) {
+      source = 'mobile';
+    } else if (/mac|windows|linux|crOS|X11/i.test(userAgent)) {
+      source = 'desktop';
+    }
+    console.log("[API] Device source:", source, "| User-Agent:", userAgent);
+
     const body = await request.json();
     console.log("[API] Request body:", body);
 
@@ -86,6 +96,7 @@ export async function POST(request: NextRequest) {
         investment_preferences: investment_preferences,
         investor_note: investor_note || null,
         status: "pending",
+        source: source,
       },
     });
     console.log("[API] Investor record created:", investor.id);
