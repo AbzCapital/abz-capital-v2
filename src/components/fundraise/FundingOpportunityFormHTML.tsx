@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
 const COUNTRIES = [
@@ -38,15 +39,68 @@ const COUNTRIES = [
 ];
 
 export function FundingOpportunityFormHTML() {
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      const response = await fetch("/api/submit/funding-opportunity", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        setError(data.error || "Submission failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.href = "/fundraise";
+      }, 2000);
+    } catch (err) {
+      setError("Network error. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="min-h-screen bg-white p-4 flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <h2 className="text-2xl font-bold text-green-600 mb-2">✅ Success!</h2>
+          <p className="text-gray-600 mb-4 font-semibold">
+            Your funding opportunity has been submitted.
+          </p>
+          <p className="text-gray-600">
+            Our investor team will review it and be in touch shortly.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="max-w-md mx-auto py-8">
-        <Link href="/fundraise" className="text-indigo mb-6 inline-block">
-          ← Back
-        </Link>
         <h1 className="text-3xl font-bold mb-6">Submit Opportunity</h1>
 
-        <form method="POST" action="/api/submit/funding-opportunity" className="space-y-4">
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">
               Full Name *
@@ -144,9 +198,10 @@ export function FundingOpportunityFormHTML() {
 
           <button
             type="submit"
-            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700"
+            disabled={loading}
+            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700 disabled:opacity-50"
           >
-            Submit Opportunity
+            {loading ? "Submitting..." : "Submit Opportunity"}
           </button>
         </form>
       </div>
