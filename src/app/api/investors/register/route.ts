@@ -80,28 +80,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (investor_type === "investor_network") {
-      const validSectors = [
-        "FinTech",
-        "Government Contracts",
-        "Agritech",
-        "Logistics",
-        "Solar Energy",
-        "Supply Chain",
-        "Manufacturing",
-        "Healthcare",
-        "Education",
-        "Real Estate",
-        "Retail & E-commerce",
-        "Technology & Software",
-        "Infrastructure",
-        "Renewable Energy",
-      ];
+      // Allow both predefined sectors and custom sectors entered by users
       if (
         !Array.isArray(investment_preferences) ||
-        !investment_preferences.every((pref) => validSectors.includes(pref))
+        investment_preferences.length === 0
       ) {
         return NextResponse.json(
-          { error: "Invalid sector preferences for investor network" },
+          { error: "Please select at least one investment sector" },
           { status: 400 }
         );
       }
