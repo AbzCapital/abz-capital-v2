@@ -16,7 +16,25 @@ export async function POST(request: NextRequest) {
     }
     console.log("[API] Device source:", source, "| User-Agent:", userAgent);
 
-    const body = await request.json();
+    // Handle both JSON and form-urlencoded requests
+    let body: any;
+    const contentType = request.headers.get('content-type') || '';
+
+    if (contentType.includes('application/json')) {
+      body = await request.json();
+    } else if (contentType.includes('application/x-www-form-urlencoded')) {
+      const formData = await request.formData();
+      body = Object.fromEntries(formData);
+
+      // Handle multiple investment_preferences as array
+      const prefs = formData.getAll('investment_preferences');
+      if (prefs.length > 0) {
+        body.investment_preferences = prefs;
+      }
+    } else {
+      body = await request.json();
+    }
+
     console.log("[API] Request body:", body);
 
     const {
