@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 
 export const middleware = auth((req: any) => {
-  // Investor routes require investor role
-  if (req.nextUrl.pathname.startsWith("/investor")) {
+  // Investor routes require investor role (except welcome/registration pages)
+  if (req.nextUrl.pathname.startsWith("/investor") && !req.nextUrl.pathname.startsWith("/investor/welcome")) {
     if (!req.auth?.user) {
       return Response.redirect(new URL("/investor/login", req.url));
     }
