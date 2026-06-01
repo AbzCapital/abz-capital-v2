@@ -80,20 +80,31 @@ export function LendingPoolForm() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
+          redirect: "follow",
         });
 
-        const result = await response.json();
-
-        if (response.ok && result.success) {
-          alert("✅ Server response: " + JSON.stringify(result));
+        // Check if we were redirected
+        if (response.redirected) {
+          // Success - API redirected us to success page
           setStatusType("success");
           setStatus("✅ Success! Your details have been saved. Redirecting...");
           setSuccess(true);
           setTimeout(() => {
-            window.location.href = "/invest";
-          }, 1500);
+            window.location.href = response.url;
+          }, 500);
         } else {
-          throw new Error(result.error || "Submission failed");
+          // Try to parse as JSON for error handling
+          const result = await response.json();
+          if (response.ok && result.success) {
+            setStatusType("success");
+            setStatus("✅ Success! Your details have been saved. Redirecting...");
+            setSuccess(true);
+            setTimeout(() => {
+              window.location.href = "/invest";
+            }, 1500);
+          } else {
+            throw new Error(result.error || "Submission failed");
+          }
         }
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);

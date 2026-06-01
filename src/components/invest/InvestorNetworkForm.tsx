@@ -105,8 +105,20 @@ export function InvestorNetworkForm() {
           investor_note: note,
         }),
         signal: controller.signal,
+        redirect: "follow",
       });
       clearTimeout(timeoutId);
+
+      // Check if we were redirected (success)
+      if (response.redirected) {
+        alert("✅ Registration successful! Your details have been saved.");
+        setApiResponse(`Status: ${response.status} | Redirected to: ${response.url}`);
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.href = response.url;
+        }, 500);
+        return;
+      }
 
       let data;
       try {
