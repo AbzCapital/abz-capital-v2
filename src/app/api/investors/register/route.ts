@@ -101,39 +101,77 @@ export async function POST(request: NextRequest) {
     });
     console.log("[API] Investor record created:", investor.id);
 
-    // Send email notification
+    // Send email notification with HTML content and WhatsApp link
     try {
       const resend = getResend();
-      const emailBody =
-        investor_type === "lending_pool"
-          ? `Dear ${first_name},
 
-Congratulations and thank you for successfully submitting your details and joining our investment platform.
+      const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background-color: #4f46e5; color: white; padding: 20px; text-align: center; border-radius: 5px; }
+    .content { padding: 20px; }
+    .cta-button { display: inline-block; background-color: #25d366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; }
+    .investor-id { background-color: #f0f0f0; padding: 15px; border-left: 4px solid #4f46e5; margin: 20px 0; font-family: monospace; }
+    .footer { color: #666; font-size: 12px; text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Welcome to ABZ Capital Investor Network! 🎉</h1>
+    </div>
 
-We are pleased to welcome you into our growing network of investors.
+    <div class="content">
+      <p>Hi ${first_name},</p>
 
-Your application is currently under review, and our team is carefully assessing investment opportunities to ensure they align with your stated preferences and risk profile.
+      <p>Congratulations and thank you for successfully submitting your details and joining our investment platform.</p>
 
-At this stage, there is nothing further you need to do. We will keep you updated and notify you as soon as a suitable loan opportunity that matches your preferences has been approved and made available.
+      <p>We are pleased to welcome you into our growing network of investors.</p>
 
-We appreciate your interest and trust in us, and we look forward to keeping you informed about upcoming opportunities.
+      <div class="investor-id">
+        <strong>Your Investor ID:</strong><br/>
+        ${investor.id}
+      </div>
 
-Warm regards,
-The Investment Team`
-          : `Dear ${first_name},
+      <p><strong>Investment Amount:</strong> KES ${investment_amount.toLocaleString()}</p>
 
-Congratulations and thank you for successfully submitting your details and joining our investment platform.
+      <p>Your application is currently under review, and our team is carefully assessing investment opportunities to ensure they align with your stated preferences and risk profile.</p>
 
-We are pleased to welcome you into our growing network of investors.
+      <p><strong>Join our WhatsApp group for instant deal alerts and investment opportunities:</strong></p>
 
-Your application is currently under review, and our team is carefully assessing investment opportunities to ensure they align with your stated preferences and risk profile.
+      <a href="https://chat.whatsapp.com/your-group-link" class="cta-button">👉 Join WhatsApp Group</a>
 
-At this stage, there is nothing further you need to do. We will keep you updated and notify you as soon as a suitable deal or investment opportunity that matches your preferences has been approved and made available.
+      <p>In the WhatsApp group, you'll receive:</p>
+      <ul>
+        <li>Instant notifications for new investment opportunities</li>
+        <li>Deal summaries and loan performance updates</li>
+        <li>Direct support from our investment team</li>
+      </ul>
 
-We appreciate your interest and trust in us, and we look forward to keeping you informed about upcoming opportunities.
+      <p>At this stage, there is nothing further you need to do. We will keep you updated and notify you as soon as a suitable opportunity that matches your preferences has been approved and made available.</p>
 
-Warm regards,
-The Investment Team`;
+      <p>If you have any questions, feel free to reach out to us at <strong>support@abzcapital.com</strong></p>
+
+      <p>We appreciate your interest and trust in us, and we look forward to keeping you informed about upcoming opportunities.</p>
+
+      <p>Happy investing!<br/>
+      <strong>The ABZ Capital Team</strong></p>
+    </div>
+
+    <div class="footer">
+      <p>ABZ Capital Ltd | investment@abzcapital.com<br/>
+      This is an automated message. Please do not reply to this email.</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
 
       // Handle Resend testing mode limitation
       const resendTestingMode = process.env.RESEND_TESTING_MODE === "true";
@@ -147,8 +185,8 @@ The Investment Team`;
       const { data, error } = await resend.emails.send({
         from: fromAddress(),
         to: sendToEmail,
-        subject: "Welcome to Our Investment Platform 🎉",
-        text: emailBody,
+        subject: `Welcome to ABZ Capital! Your Investor ID: ${investor.id}`,
+        html: emailHtml,
       });
 
       // CRITICAL: Check for Resend error response (not thrown exception)
