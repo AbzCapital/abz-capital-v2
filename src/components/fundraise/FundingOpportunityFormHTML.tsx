@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useRef, useEffect, useState } from "react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -40,48 +39,74 @@ const COUNTRIES = [
 
 export function FundingOpportunityFormHTML() {
   const [success, setSuccess] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [status, setStatus] = useState("");
+  const [statusType, setStatusType] = useState<"success" | "error" | "">("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  useEffect(() => {
+    const form = formRef.current;
+    const submitBtn = submitBtnRef.current;
 
-    try {
-      const formData = new FormData(e.currentTarget);
-      const response = await fetch("/api/submit/funding-opportunity", {
-        method: "POST",
-        body: formData,
-      });
+    if (!form || !submitBtn) return;
 
-      const data = await response.json();
+    const handleSubmit = async (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
 
-      if (!response.ok || !data.ok) {
-        setError(data.error || "Submission failed. Please try again.");
-        setLoading(false);
-        return;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+      setStatus("");
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch("/api/submit/funding-opportunity", {
+          method: "POST",
+          body: formData,
+          redirect: "follow",
+        });
+
+        const result = await response.json();
+        if (response.ok && result.ok) {
+          setStatusType("success");
+          setStatus("✅ Success! Your opportunity has been submitted.");
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.href = "/fundraise";
+          }, 2000);
+        } else {
+          throw new Error(result.error || "Submission failed");
+        }
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        setStatusType("error");
+        setStatus(`❌ Error: ${errorMsg}`);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Opportunity";
       }
+    };
 
-      setSuccess(true);
-      setTimeout(() => {
-        window.location.href = "/fundraise";
-      }, 2000);
-    } catch (err) {
-      setError("Network error. Please try again.");
-      setLoading(false);
-    }
-  };
+    form.addEventListener("submit", handleSubmit);
+    submitBtn.addEventListener("click", (e) => {
+      const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+      form.dispatchEvent(submitEvent);
+    });
+
+    return () => {
+      form.removeEventListener("submit", handleSubmit);
+    };
+  }, []);
 
   if (success) {
     return (
-      <div className="min-h-screen bg-white p-4 flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <h2 className="text-2xl font-bold text-green-600 mb-2">✅ Success!</h2>
-          <p className="text-gray-600 mb-4 font-semibold">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
+        <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
+          <p className="text-muted-ink mb-6 font-semibold">
             Your funding opportunity has been submitted.
           </p>
-          <p className="text-gray-600">
+          <p className="text-muted-ink">
             Our investor team will review it and be in touch shortly.
           </p>
         </div>
@@ -90,17 +115,23 @@ export function FundingOpportunityFormHTML() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-4">
-      <div className="max-w-md mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-6">Submit Opportunity</h1>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-ink mb-6">Submit Opportunity</h1>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
+        {status && (
+          <div
+            className={`px-4 py-3 rounded-lg mb-4 ${
+              statusType === "success"
+                ? "bg-green-50 border border-green-200 text-green-700"
+                : "bg-red-50 border border-red-200 text-red-700"
+            }`}
+          >
+            {status}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form ref={formRef} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">
               Full Name *
@@ -197,11 +228,11 @@ export function FundingOpportunityFormHTML() {
           </div>
 
           <button
+            ref={submitBtnRef}
             type="submit"
-            disabled={loading}
-            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700 disabled:opacity-50"
+            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
-            {loading ? "Submitting..." : "Submit Opportunity"}
+            Submit Opportunity
           </button>
         </form>
       </div>
