@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -52,6 +53,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground pb-16 lg:pb-0">
+        <Script
+          src="https://cdn.jsdelivr.net/npm/vconsole"
+          strategy="beforeInteractive"
+          onLoad={() => {
+            if (typeof window !== "undefined" && (window as any).VConsole) {
+              new (window as any).VConsole();
+            }
+          }}
+        />
         <TooltipProvider>
           <SessionProvider>
             {children}
