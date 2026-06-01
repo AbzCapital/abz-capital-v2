@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -26,7 +27,9 @@ const SECTORS = [
 ];
 
 export function InvestorNetworkFormHTML() {
+  const router = useRouter();
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -36,19 +39,59 @@ export function InvestorNetworkFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Investor Network</h1>
 
-        <form method="POST" action="/api/investors/register" className="space-y-4" onSubmit={(e) => {
+        <form className="space-y-4" onSubmit={(e) => {
+          e.preventDefault();
+
           if (selectedSectors.length === 0) {
-            e.preventDefault();
             alert("⚠️ Select at least one sector");
             return;
           }
-          // Log selected sectors for debugging
+
+          const form = e.currentTarget;
+          const formData = new FormData(form);
+
+          // Add investor type
+          formData.set('investor_type', 'investor_network');
+
+          // Add selected sectors
+          selectedSectors.forEach(sector => {
+            formData.append('investment_preferences', sector);
+          });
+
           console.log("[FORM] Submitting with sectors:", selectedSectors);
+
+          setIsSubmitting(true);
+
+          // Send via fetch
+          fetch('/api/investors/register', {
+            method: 'POST',
+            body: formData,
+          })
+            .then(res => {
+              console.log("[FORM] Response status:", res.status);
+              if (res.redirected) {
+                window.location.href = res.url;
+              } else if (res.ok) {
+                // If no redirect, try to parse error
+                return res.json().then(data => {
+                  if (data.error) {
+                    alert("❌ Error: " + data.error);
+                    setIsSubmitting(false);
+                  }
+                });
+              } else {
+                return res.json().then(data => {
+                  alert("❌ Error: " + (data.error || "Failed to register"));
+                  setIsSubmitting(false);
+                });
+              }
+            })
+            .catch(err => {
+              console.error("[FORM] Fetch error:", err);
+              alert("❌ Network error: " + err.message);
+              setIsSubmitting(false);
+            });
         }}>
-          <input type="hidden" name="investor_type" value="investor_network" />
-          {selectedSectors.map(sector => (
-            <input key={sector} type="hidden" name="investment_preferences" value={sector} />
-          ))}
           <div>
             <label className="block text-sm font-semibold mb-1">
               First Name *
@@ -156,9 +199,10 @@ export function InvestorNetworkFormHTML() {
 
           <button
             type="submit"
-            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700"
+            disabled={isSubmitting}
+            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Join Investor Network
+            {isSubmitting ? "Submitting..." : "Join Investor Network"}
           </button>
         </form>
       </div>
