@@ -63,6 +63,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Filter out empty strings from investment_preferences
+    if (Array.isArray(investment_preferences)) {
+      investment_preferences = investment_preferences.filter((pref: string) => pref && pref.trim().length > 0);
+    }
+
     console.log("[API] investment_preferences value:", investment_preferences, "| type:", typeof investment_preferences, "| isArray:", Array.isArray(investment_preferences));
 
     // Validate preferences based on investor type
@@ -150,7 +155,7 @@ export async function POST(request: NextRequest) {
         ${investor.id}
       </div>
 
-      <p><strong>Investment Amount:</strong> KES ${investment_amount.toLocaleString()}</p>
+      ${investment_amount ? `<p><strong>Investment Amount:</strong> KES ${parseFloat(investment_amount).toLocaleString()}</p>` : ""}
 
       <p>Your application is currently under review, and our team is carefully assessing investment opportunities to ensure they align with your stated preferences and risk profile.</p>
 
