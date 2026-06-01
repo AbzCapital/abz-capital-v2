@@ -80,11 +80,18 @@ export function LendingPoolForm() {
       console.log("Sending data:", body);
 
       console.log("About to fetch...");
+      setApiResponse("Sending request...");
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       const response = await fetch("/api/investors/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       console.log("Response status:", response.status);
       setApiResponse(`Status: ${response.status} | Awaiting response body...`);
@@ -100,12 +107,10 @@ export function LendingPoolForm() {
         return;
       }
 
-      // Store API response for debugging
       setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
 
       if (response.ok) {
         console.log("Success! Setting success state");
-        console.log("Response data:", data);
         alert("✅ Registration successful! Your details have been saved.");
         setSuccess(true);
       } else {
@@ -114,9 +119,10 @@ export function LendingPoolForm() {
       }
     } catch (error) {
       console.error("Catch error:", error);
-      console.error("Error type:", error instanceof Error ? error.message : String(error));
-      setApiResponse(`ERROR: ${String(error)}`);
-      setError(`Network error: ${String(error)}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error("Error type:", errorMsg);
+      setApiResponse(`ERROR: ${errorMsg}`);
+      setError(`Network error: ${errorMsg}`);
     } finally {
       setLoading(false);
     }

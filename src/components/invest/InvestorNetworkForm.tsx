@@ -87,6 +87,11 @@ export function InvestorNetworkForm() {
 
     try {
       console.log("About to fetch...");
+      setApiResponse("Sending request...");
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       const response = await fetch("/api/investors/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -101,7 +106,9 @@ export function InvestorNetworkForm() {
           investment_preferences: selectedSectors.length > 0 ? selectedSectors : ["Not specified"],
           investor_note: note,
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       console.log("Response status:", response.status);
       let data;
