@@ -52,16 +52,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background text-foreground pb-16 lg:pb-0">
+      <head>
         <Script
-          src="https://cdn.jsdelivr.net/npm/vconsole"
-          strategy="beforeInteractive"
-          onLoad={() => {
-            if (typeof window !== "undefined" && (window as any).VConsole) {
-              new (window as any).VConsole();
-            }
-          }}
+          src="https://cdn.jsdelivr.net/npm/vconsole@latest/dist/vconsole.min.js"
+          strategy="afterInteractive"
         />
+        <Script strategy="afterInteractive">
+          {`if (typeof VConsole !== 'undefined') { new VConsole(); }`}
+        </Script>
+      </head>
+      <body className="min-h-full flex flex-col bg-background text-foreground pb-16 lg:pb-0">
         <TooltipProvider>
           <SessionProvider>
             {children}
