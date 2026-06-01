@@ -86,6 +86,7 @@ export function InvestorNetworkForm() {
     setLoading(true);
 
     try {
+      console.log("About to fetch...");
       const response = await fetch("/api/investors/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,8 +104,16 @@ export function InvestorNetworkForm() {
       });
 
       console.log("Response status:", response.status);
-      const data = await response.json();
-      console.log("Response data:", data);
+      let data;
+      try {
+        data = await response.json();
+        console.log("Response data:", data);
+      } catch (parseError) {
+        console.error("Failed to parse JSON:", parseError);
+        setApiResponse(`Status: ${response.status} | Parse Error: ${String(parseError)}`);
+        setError("Failed to parse API response");
+        return;
+      }
 
       // Store API response for debugging
       setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
@@ -120,7 +129,9 @@ export function InvestorNetworkForm() {
       }
     } catch (error) {
       console.error("Catch error:", error);
-      setError("Network error. Please try again.");
+      console.error("Error type:", error instanceof Error ? error.message : String(error));
+      setApiResponse(`ERROR: ${String(error)}`);
+      setError(`Network error: ${String(error)}`);
     } finally {
       setLoading(false);
     }
