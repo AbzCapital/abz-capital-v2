@@ -10,15 +10,19 @@ const COUNTRIES = [
 
 const SECTORS = [
   "FinTech",
+  "Government Contracts",
   "Agritech",
   "Logistics",
   "Solar Energy",
+  "Supply Chain",
+  "Manufacturing",
   "Healthcare",
   "Education",
   "Real Estate",
-  "Technology",
-  "Manufacturing",
+  "Retail & E-commerce",
+  "Technology & Software",
   "Infrastructure",
+  "Renewable Energy",
 ];
 
 export function InvestorNetworkFormHTML() {

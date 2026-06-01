@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     console.log("[API] Request body:", body);
 
-    const {
+    let {
       investor_type,
       first_name,
       last_name,
@@ -47,7 +47,13 @@ export async function POST(request: NextRequest) {
       investment_amount,
       investment_preferences,
       investor_note,
+      loan_category,
     } = body;
+
+    // Convert loan_category to investment_preferences for lending_pool
+    if (investor_type === "lending_pool" && loan_category) {
+      investment_preferences = [loan_category];
+    }
 
     // Validate investor type
     if (!["lending_pool", "investor_network"].includes(investor_type)) {
@@ -219,10 +225,10 @@ export async function POST(request: NextRequest) {
       // Don't fail the registration if email fails
     }
 
-    console.log("[API] Returning success response");
-    return NextResponse.json(
-      { success: true, investor_id: investor.id },
-      { status: 201 }
+    console.log("[API] Redirecting to success page with investor ID:", investor.id);
+    return NextResponse.redirect(
+      `/investor/welcome?id=${investor.id}&email=${encodeURIComponent(email)}`,
+      { status: 303 }
     );
   } catch (error) {
     console.error("[API ERROR] Full error object:", error);
