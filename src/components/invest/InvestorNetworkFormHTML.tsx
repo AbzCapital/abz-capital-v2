@@ -5,6 +5,61 @@ import Link from "next/link";
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
   { code: "+256", name: "Uganda" },
+  { code: "+255", name: "Tanzania" },
+  { code: "+233", name: "Ghana" },
+  { code: "+234", name: "Nigeria" },
+  { code: "+27", name: "South Africa" },
+  { code: "+260", name: "Zambia" },
+  { code: "+265", name: "Malawi" },
+  { code: "+258", name: "Mozambique" },
+  { code: "+250", name: "Rwanda" },
+  { code: "+257", name: "Burundi" },
+  { code: "+243", name: "Democratic Republic of Congo" },
+  { code: "+242", name: "Republic of Congo" },
+  { code: "+237", name: "Cameroon" },
+  { code: "+212", name: "Morocco" },
+  { code: "+213", name: "Algeria" },
+  { code: "+216", name: "Tunisia" },
+  { code: "+244", name: "Angola" },
+  { code: "+238", name: "Cape Verde" },
+  { code: "+291", name: "Eritrea" },
+  { code: "+251", name: "Ethiopia" },
+  { code: "+224", name: "Guinea" },
+  { code: "+245", name: "Guinea-Bissau" },
+  { code: "+231", name: "Liberia" },
+  { code: "+221", name: "Senegal" },
+  { code: "+232", name: "Sierra Leone" },
+  { code: "+880", name: "Bangladesh" },
+  { code: "+91", name: "India" },
+  { code: "+1", name: "USA" },
+  { code: "+44", name: "UK" },
+  { code: "+33", name: "France" },
+  { code: "+49", name: "Germany" },
+  { code: "+39", name: "Italy" },
+  { code: "+34", name: "Spain" },
+  { code: "+31", name: "Netherlands" },
+  { code: "+41", name: "Switzerland" },
+  { code: "+43", name: "Austria" },
+  { code: "+46", name: "Sweden" },
+  { code: "+47", name: "Norway" },
+  { code: "+45", name: "Denmark" },
+  { code: "+358", name: "Finland" },
+  { code: "+353", name: "Ireland" },
+  { code: "+32", name: "Belgium" },
+  { code: "+353", name: "Luxembourg" },
+  { code: "+30", name: "Greece" },
+  { code: "+48", name: "Poland" },
+  { code: "+420", name: "Czech Republic" },
+  { code: "+421", name: "Slovakia" },
+  { code: "+36", name: "Hungary" },
+  { code: "+40", name: "Romania" },
+  { code: "+359", name: "Bulgaria" },
+  { code: "+385", name: "Croatia" },
+  { code: "+386", name: "Slovenia" },
+  { code: "+381", name: "Serbia" },
+  { code: "+39", name: "Vatican City" },
+  { code: "+356", name: "Malta" },
+  { code: "+357", name: "Cyprus" },
 ];
 
 const SECTORS = [
@@ -95,23 +150,10 @@ export function InvestorNetworkFormHTML() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-1">
-              Amount (KES) *
-            </label>
-            <input
-              type="number"
-              name="investment_amount"
-              required
-              placeholder="600000"
-              className="w-full px-3 py-2 border rounded"
-            />
-          </div>
-
-          <div>
             <label className="block text-sm font-semibold mb-2">
-              Investment Sectors *
+              Investment Sectors * (Select one or more)
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 mb-4">
               {SECTORS.map((sector) => (
                 <label key={sector} className="flex items-center gap-2">
                   <input
@@ -123,6 +165,16 @@ export function InvestorNetworkFormHTML() {
                 </label>
               ))}
             </div>
+
+            <label className="block text-sm font-semibold mb-1">
+              Or enter a specific sector if not listed:
+            </label>
+            <input
+              type="text"
+              name="investment_preferences"
+              placeholder="e.g., Biotech, Media, Tourism"
+              className="w-full px-3 py-2 border rounded mb-2"
+            />
           </div>
 
           <div>
