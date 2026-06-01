@@ -1,4 +1,4 @@
-import { LendingPoolForm } from "@/components/invest/LendingPoolForm";
+import { LendingPoolFormWrapper } from "@/components/invest/LendingPoolFormWrapper";
 
 export const metadata = {
   title: "Join Lending Pool | ABZ Capital",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function LendingPoolPage() {
-  return <LendingPoolForm />;
+  return <LendingPoolFormWrapper />;
 }

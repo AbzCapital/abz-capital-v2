@@ -1,4 +1,4 @@
-import { InvestorNetworkForm } from "@/components/invest/InvestorNetworkForm";
+import { InvestorNetworkFormWrapper } from "@/components/invest/InvestorNetworkFormWrapper";
 
 export const metadata = {
   title: "Join Investor Network | ABZ Capital",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function InvestorNetworkPage() {
-  return <InvestorNetworkForm />;
+  return <InvestorNetworkFormWrapper />;
 }
