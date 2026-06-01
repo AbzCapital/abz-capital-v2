@@ -10,7 +10,7 @@ export function LendingPoolFormWrapper() {
     /mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(
       navigator.userAgent
     );
-  const [isMobile, setIsMobile] = useState(isMobileUserAgent || true);
+  const [isMobile, setIsMobile] = useState<boolean>(isMobileUserAgent || true);
 
   useEffect(() => {
     const isMobileDevice = /mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(
