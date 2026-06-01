@@ -52,6 +52,7 @@ export function FundingOpportunityForm() {
     opportunityType: "",
     description: "",
   });
+  const [files, setFiles] = useState<File[]>([]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -66,17 +67,22 @@ export function FundingOpportunityForm() {
     setLoading(true);
 
     try {
+      const fd = new FormData();
+      fd.append("name", formData.name);
+      fd.append("email", formData.email);
+      fd.append("phone", `${formData.countryCode}${formData.phoneNumber}`);
+      fd.append("category", formData.category);
+      fd.append("opportunityType", formData.opportunityType);
+      fd.append("description", formData.description);
+
+      // Add files
+      files.forEach((file) => {
+        fd.append("files", file);
+      });
+
       const response = await fetch("/api/submit/funding-opportunity", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: `${formData.countryCode}${formData.phoneNumber}`,
-          category: formData.category,
-          opportunityType: formData.opportunityType,
-          description: formData.description,
-        }),
+        body: fd,
       });
 
       const data = await response.json();
@@ -96,6 +102,7 @@ export function FundingOpportunityForm() {
         opportunityType: "",
         description: "",
       });
+      setFiles([]);
 
       setTimeout(() => {
         window.location.href = "/fundraise";
@@ -255,6 +262,25 @@ export function FundingOpportunityForm() {
               placeholder="Describe the deal, its size, sector, and what you're looking for"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-ink mb-2">
+              Attachments (optional)
+            </label>
+            <input
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+              onChange={(e) => {
+                const selectedFiles = Array.from(e.target.files || []);
+                setFiles(selectedFiles);
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+            />
+            <p className="text-xs text-muted-ink mt-1">
+              PDF, Word, Excel, Images (max 5 files) {files.length > 0 && `- ${files.length} file(s) selected`}
+            </p>
           </div>
 
           <button

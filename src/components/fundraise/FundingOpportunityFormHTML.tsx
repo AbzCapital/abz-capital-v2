@@ -126,6 +126,22 @@ export function FundingOpportunityFormHTML() {
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-semibold mb-1">
+              Attachments (optional)
+            </label>
+            <input
+              type="file"
+              name="files"
+              multiple
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+              className="w-full px-3 py-2 border rounded"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              PDF, Word, Excel, Images (max 5 files)
+            </p>
+          </div>
+
           <button
             type="submit"
             className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700"

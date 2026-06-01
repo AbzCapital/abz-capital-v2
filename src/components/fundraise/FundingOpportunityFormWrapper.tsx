@@ -5,7 +5,7 @@ import { FundingOpportunityForm } from "./FundingOpportunityForm";
 import { FundingOpportunityFormHTML } from "./FundingOpportunityFormHTML";
 
 export function FundingOpportunityFormWrapper() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile (safe fallback)
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function FundingOpportunityFormWrapper() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  if (!mounted) return null;
-
-  return isMobile ? <FundingOpportunityFormHTML /> : <FundingOpportunityForm />;
+  // Always render - default to mobile form (works on all devices)
+  // Switch to desktop form only when mounted and confirmed desktop
+  return isMobile || !mounted ? <FundingOpportunityFormHTML /> : <FundingOpportunityForm />;
 }

@@ -16,6 +16,7 @@ export async function POST(req: Request) {
   try {
     const contentType = req.headers.get("content-type") || "";
     let data: FormData;
+    let attachments: Array<{ filename: string; content: Buffer }> = [];
 
     if (contentType.includes("multipart/form-data")) {
       const formData = await req.formData();
@@ -27,6 +28,15 @@ export async function POST(req: Request) {
         opportunityType: formData.get("opportunityType") as string,
         description: formData.get("description") as string,
       };
+
+      // Handle file uploads
+      const files = formData.getAll("files") as File[];
+      for (const file of files) {
+        if (file && file.size > 0) {
+          const buf = Buffer.from(await file.arrayBuffer());
+          attachments.push({ filename: file.name, content: buf });
+        }
+      }
     } else {
       data = await req.json();
     }
@@ -40,6 +50,10 @@ export async function POST(req: Request) {
     }
 
     const resend = getResend();
+
+    const attachmentInfo = attachments.length > 0
+      ? `<p style="margin-top: 20px;"><strong style="color: #4F46E5;">📎 Attachments:</strong> ${attachments.length} file(s) attached</p>`
+      : "";
 
     const emailContent = `
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
@@ -60,6 +74,8 @@ export async function POST(req: Request) {
     </p>
   </div>
 
+  ${attachmentInfo}
+
   <p style="font-size: 14px; color: #666; margin-top: 30px;">
     <em>Submitted from: Fundraise Page</em>
   </p>
@@ -72,6 +88,7 @@ export async function POST(req: Request) {
       replyTo: data.email,
       subject: `[Funding Opportunity] ${data.name} - ${data.category}`,
       html: emailContent,
+      attachments: attachments,
     });
 
     return NextResponse.json({ ok: true, message: "Submission received" }, { status: 200 });
