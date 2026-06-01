@@ -314,6 +314,10 @@ export function InvestorNetworkForm() {
           <button
             type="submit"
             disabled={loading}
+            onClick={(e) => {
+              alert("⚡ Button clicked!");
+              console.log("Button clicked, form should submit");
+            }}
             className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
             {loading ? "Registering..." : "Join Investor Network"}
