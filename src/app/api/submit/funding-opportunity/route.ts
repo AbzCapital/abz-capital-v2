@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       data = {
         name: formData.get("name") as string,
         email: formData.get("email") as string,
-        phone: formData.get("phone") as string,
+        phone: `${formData.get("countryCode") as string}${formData.get("phoneNumber") as string}` || (formData.get("phone") as string),
         category: formData.get("category") as string,
         opportunityType: formData.get("opportunityType") as string,
         description: formData.get("description") as string,
@@ -37,7 +37,20 @@ export async function POST(req: Request) {
           attachments.push({ filename: file.name, content: buf });
         }
       }
+    } else if (contentType.includes("application/x-www-form-urlencoded")) {
+      // Handle native HTML form submission
+      const text = await req.text();
+      const params = new URLSearchParams(text);
+      data = {
+        name: params.get("name") as string,
+        email: params.get("email") as string,
+        phone: `${params.get("countryCode") || "+254"}${params.get("phoneNumber") || params.get("phone") || ""}`,
+        category: params.get("category") as string,
+        opportunityType: params.get("opportunityType") as string,
+        description: params.get("description") as string,
+      };
     } else {
+      // Handle JSON from React form
       data = await req.json();
     }
 
