@@ -37,15 +37,6 @@ function InvestorWelcomeContent() {
           </p>
         )}
 
-        {investorId && (
-          <div className="bg-blue-50 p-4 rounded mb-6">
-            <p className="text-sm text-gray-600 mb-1">Your Investor ID:</p>
-            <p className="font-mono text-lg font-bold text-blue-700">
-              {investorId}
-            </p>
-          </div>
-        )}
-
         {isLendingPool && (
           <div className="bg-yellow-50 border-2 border-yellow-300 rounded p-4 mb-6">
             <p className="text-sm font-semibold text-yellow-800 mb-3">
@@ -61,10 +52,6 @@ function InvestorWelcomeContent() {
             </a>
           </div>
         )}
-
-        <p className="text-sm text-gray-600 mb-6">
-          Check your email ({email}) for more details.
-        </p>
 
         <Link
           href="/invest"
