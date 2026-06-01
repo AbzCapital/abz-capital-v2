@@ -81,13 +81,10 @@ export function InvestorNetworkForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     alert("✅ Form submit event fired!");
-    console.log("Form submitted");
-    console.log("Selected sectors:", selectedSectors);
     setError("");
     setLoading(true);
 
     try {
-      console.log("About to fetch...");
       setApiResponse("Sending request...");
 
       const controller = new AbortController();
@@ -111,36 +108,27 @@ export function InvestorNetworkForm() {
       });
       clearTimeout(timeoutId);
 
-      console.log("Response status:", response.status);
       let data;
       try {
         data = await response.json();
-        console.log("Response data:", data);
       } catch (parseError) {
-        console.error("Failed to parse JSON:", parseError);
         setApiResponse(`Status: ${response.status} | Parse Error: ${String(parseError)}`);
         setError("Failed to parse API response");
         return;
       }
 
-      // Store API response for debugging
       setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
 
       if (response.ok) {
-        console.log("Success! Setting success state");
-        console.log("Response data:", data);
         alert("✅ Server response: " + JSON.stringify(data));
         alert("✅ Registration successful! Your details have been saved.");
         setSuccess(true);
       } else {
-        console.log("Error from API:", data.error);
         alert("❌ API Error: " + JSON.stringify(data));
         setError(data.error || "Registration failed");
       }
     } catch (error) {
-      console.error("Catch error:", error);
       const errorMsg = error instanceof Error ? error.message : String(error);
-      console.error("Error type:", errorMsg);
       alert("❌ Fetch error: " + errorMsg);
       setApiResponse(`ERROR: ${errorMsg}`);
       setError(`Network error: ${errorMsg}`);
@@ -314,10 +302,6 @@ export function InvestorNetworkForm() {
           <button
             type="submit"
             disabled={loading}
-            onClick={(e) => {
-              alert("⚡ Button clicked!");
-              console.log("Button clicked, form should submit");
-            }}
             className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
             {loading ? "Registering..." : "Join Investor Network"}

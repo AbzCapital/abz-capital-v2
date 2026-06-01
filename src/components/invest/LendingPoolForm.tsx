@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -40,97 +40,81 @@ const COUNTRIES = [
 ];
 
 export function LendingPoolForm() {
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [apiResponse, setApiResponse] = useState<string>("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [countryCode, setCountryCode] = useState("+254");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [amount, setAmount] = useState("");
-  const [loanCategory, setLoanCategory] = useState("logbook_loans");
-  const [note, setNote] = useState("");
+  const [status, setStatus] = useState("");
+  const [statusType, setStatusType] = useState<"success" | "error" | "">(""); // success, error, or empty
+  const formRef = useRef<HTMLFormElement>(null);
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("✅ Form submit event fired!");
-    console.log("Form submitted");
-    setLoading(true);
-    setError("");
+  useEffect(() => {
+    const form = formRef.current;
+    const submitBtn = submitBtnRef.current;
 
-    try {
-      const preferences =
-        loanCategory === "both"
-          ? ["logbook_loans", "title_deed_loans"]
-          : [loanCategory];
+    if (!form || !submitBtn) return;
 
-      const body = {
+    const handleSubmit = async (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      alert("✅ Form submit event fired!");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+      setStatus("");
+
+      const formData = new FormData(form);
+      const data: Record<string, any> = {
         investor_type: "lending_pool",
-        first_name: firstName,
-        last_name: lastName,
-        country_code: countryCode,
-        phone_number: phoneNumber,
-        email,
-        investment_amount: parseFloat(amount),
-        investment_preferences: preferences,
-        investor_note: note,
       };
 
-      console.log("Sending data:", body);
-
-      console.log("About to fetch...");
-      setApiResponse("Sending request...");
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-      const response = await fetch("/api/investors/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        signal: controller.signal,
+      formData.forEach((value, key) => {
+        data[key] = value;
       });
-      clearTimeout(timeoutId);
 
-      console.log("Response status:", response.status);
-      setApiResponse(`Status: ${response.status} | Awaiting response body...`);
+      data.investment_preferences = [data.loan_category || "logbook_loans"];
+      delete data.loan_category;
+      data.investment_amount = parseFloat(data.investment_amount);
 
-      let data;
       try {
-        data = await response.json();
-        console.log("Response data:", data);
-      } catch (parseError) {
-        console.error("Failed to parse JSON:", parseError);
-        setApiResponse(`Status: ${response.status} | Parse Error: ${String(parseError)}`);
-        setError("Failed to parse API response");
-        return;
-      }
+        const response = await fetch("/api/investors/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
 
-      setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
+        const result = await response.json();
 
-      if (response.ok) {
-        console.log("Success! Setting success state");
-        alert("✅ Server response: " + JSON.stringify(data));
-        alert("✅ Registration successful! Your details have been saved.");
-        setSuccess(true);
-      } else {
-        console.log("Error from API:", data.error);
-        alert("❌ API Error: " + JSON.stringify(data));
-        setError(data.error || "Registration failed");
+        if (response.ok && result.success) {
+          alert("✅ Server response: " + JSON.stringify(result));
+          setStatusType("success");
+          setStatus("✅ Success! Your details have been saved. Redirecting...");
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.href = "/invest";
+          }, 1500);
+        } else {
+          throw new Error(result.error || "Submission failed");
+        }
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        alert("❌ Error: " + errorMsg);
+        setStatusType("error");
+        setStatus(`❌ Error: ${errorMsg}`);
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join Lending Pool";
       }
-    } catch (error) {
-      console.error("Catch error:", error);
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      console.error("Error type:", errorMsg);
-      alert("❌ Fetch Error: " + errorMsg);
-      setApiResponse(`ERROR: ${errorMsg}`);
-      setError(`Network error: ${errorMsg}`);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    form.addEventListener("submit", handleSubmit);
+    submitBtn.addEventListener("click", (e) => {
+      const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+      form.dispatchEvent(submitEvent);
+    });
+
+    return () => {
+      form.removeEventListener("submit", handleSubmit);
+    };
+  }, []);
 
   if (success) {
     return (
@@ -171,19 +155,19 @@ export function LendingPoolForm() {
 
         <h1 className="text-3xl font-bold text-ink mb-6">Join Lending Pool</h1>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
+        {status && (
+          <div
+            className={`px-4 py-3 rounded-lg mb-4 ${
+              statusType === "success"
+                ? "bg-green-50 border border-green-200 text-green-700"
+                : "bg-red-50 border border-red-200 text-red-700"
+            }`}
+          >
+            {status}
           </div>
         )}
 
-        {apiResponse && (
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-4 text-xs font-mono break-words">
-            <strong>API Debug:</strong> {apiResponse}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form ref={formRef} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-ink mb-2">
@@ -191,9 +175,8 @@ export function LendingPoolForm() {
               </label>
               <input
                 type="text"
+                name="first_name"
                 required
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               />
             </div>
@@ -203,9 +186,8 @@ export function LendingPoolForm() {
               </label>
               <input
                 type="text"
+                name="last_name"
                 required
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               />
             </div>
@@ -217,8 +199,8 @@ export function LendingPoolForm() {
             </label>
             <div className="flex gap-2">
               <select
-                value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
+                name="country_code"
+                defaultValue="+254"
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               >
                 {COUNTRIES.map((country) => (
@@ -229,9 +211,8 @@ export function LendingPoolForm() {
               </select>
               <input
                 type="tel"
+                name="phone_number"
                 required
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="700000000"
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
               />
@@ -244,9 +225,8 @@ export function LendingPoolForm() {
             </label>
             <input
               type="email"
+              name="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
@@ -257,9 +237,8 @@ export function LendingPoolForm() {
             </label>
             <input
               type="number"
+              name="investment_amount"
               required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
               placeholder="600000"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
@@ -273,27 +252,25 @@ export function LendingPoolForm() {
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
+                  name="loan_category"
                   value="logbook_loans"
-                  checked={loanCategory === "logbook_loans"}
-                  onChange={(e) => setLoanCategory(e.target.value)}
+                  defaultChecked
                 />
                 <span className="text-ink">Logbook Loans</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
+                  name="loan_category"
                   value="title_deed_loans"
-                  checked={loanCategory === "title_deed_loans"}
-                  onChange={(e) => setLoanCategory(e.target.value)}
                 />
                 <span className="text-ink">Title Deed Loans</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
+                  name="loan_category"
                   value="both"
-                  checked={loanCategory === "both"}
-                  onChange={(e) => setLoanCategory(e.target.value)}
                 />
                 <span className="text-ink">Both</span>
               </label>
@@ -305,26 +282,20 @@ export function LendingPoolForm() {
               Additional Notes <span className="text-xs text-muted-ink">(max 200)</span>
             </label>
             <textarea
-              value={note}
-              onChange={(e) => setNote(e.target.value.substring(0, 200))}
+              name="investor_note"
               maxLength={200}
               rows={3}
               placeholder="Any additional information..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
-            <p className="text-xs text-muted-ink mt-1">{note.length}/200</p>
           </div>
 
           <button
+            ref={submitBtnRef}
             type="submit"
-            disabled={loading}
-            onClick={(e) => {
-              alert("⚡ Button clicked!");
-              console.log("Button clicked, form should submit");
-            }}
             className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
-            {loading ? "Registering..." : "Join Lending Pool"}
+            Join Lending Pool
           </button>
         </form>
       </div>
