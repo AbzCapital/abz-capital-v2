@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -22,53 +22,66 @@ const SECTORS = [
 ];
 
 export function InvestorNetworkFormHTML() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState("");
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    const form = document.getElementById('investorNetworkForm');
+    if (!form) return;
 
-    if (selectedSectors.length === 0) {
-      setMessage("⚠️ Select at least one sector");
-      return;
-    }
+    const handleSubmit = async (e: Event) => {
+      // CRITICAL: Stop default form submission FIRST
+      e.preventDefault();
+      e.stopPropagation();
 
-    setIsSubmitting(true);
-    setMessage("📤 Submitting...");
+      console.log('✅ Form submitted - preventDefault worked');
 
-    try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const data: any = { investor_type: "investor_network" };
-
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
-
-      data.investment_preferences = selectedSectors;
-      data.investment_amount = parseFloat(data.investment_amount);
-
-      const response = await fetch("/api/investors/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        // Redirect to success page
-        window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}`;
-      } else {
-        throw new Error(result.error || "Submission failed");
+      if (selectedSectors.length === 0) {
+        alert("⚠️ Select at least one sector");
+        return;
       }
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : "Unknown error";
-      setMessage(`❌ Error: ${msg}`);
-      setIsSubmitting(false);
-    }
-  };
+
+      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      if (button) button.disabled = true;
+
+      try {
+        const formData = new FormData(form as HTMLFormElement);
+        const data: any = { investor_type: "investor_network" };
+
+        formData.forEach((value, key) => {
+          data[key] = value;
+        });
+
+        data.investment_preferences = selectedSectors;
+        data.investment_amount = parseFloat(data.investment_amount);
+
+        console.log('📤 Sending data:', data);
+
+        const response = await fetch("/api/investors/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        console.log('✅ API Response:', result);
+
+        if (response.ok && result.success) {
+          alert(`✅ Success! ID: ${result.investor_id}`);
+          window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}`;
+        } else {
+          throw new Error(result.error || "Submission failed");
+        }
+      } catch (error) {
+        const msg = error instanceof Error ? error.message : "Unknown error";
+        console.error('❌ Error:', msg);
+        alert(`❌ Error: ${msg}`);
+        if (button) button.disabled = false;
+      }
+    };
+
+    form.addEventListener('submit', handleSubmit, false);
+    return () => form.removeEventListener('submit', handleSubmit);
+  }, [selectedSectors]);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -78,19 +91,7 @@ export function InvestorNetworkFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Investor Network</h1>
 
-        {message && (
-          <div
-            className={`p-3 rounded mb-4 ${
-              message.startsWith("✅")
-                ? "bg-green-50 text-green-700"
-                : "bg-red-50 text-red-700"
-            }`}
-          >
-            {message}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form id="investorNetworkForm" className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">
               First Name *

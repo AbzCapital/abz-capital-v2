@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect } from "react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -9,47 +9,60 @@ const COUNTRIES = [
 ];
 
 export function LendingPoolFormHTML() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState("");
+  useEffect(() => {
+    const form = document.getElementById('lendingPoolForm');
+    if (!form) return;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setMessage("📤 Submitting...");
+    const handleSubmit = async (e: Event) => {
+      // CRITICAL: Stop default form submission FIRST
+      e.preventDefault();
+      e.stopPropagation();
 
-    try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const data: any = { investor_type: "lending_pool" };
+      console.log('✅ Form submitted - preventDefault worked');
 
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
+      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      if (button) button.disabled = true;
 
-      data.investment_preferences = [data.loan_category || "logbook_loans"];
-      delete data.loan_category;
-      data.investment_amount = parseFloat(data.investment_amount);
+      try {
+        const formData = new FormData(form as HTMLFormElement);
+        const data: any = { investor_type: "lending_pool" };
 
-      const response = await fetch("/api/investors/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+        formData.forEach((value, key) => {
+          data[key] = value;
+        });
 
-      const result = await response.json();
+        data.investment_preferences = [data.loan_category || "logbook_loans"];
+        delete data.loan_category;
+        data.investment_amount = parseFloat(data.investment_amount);
 
-      if (response.ok && result.success) {
-        // Redirect to success page
-        window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}`;
-      } else {
-        throw new Error(result.error || "Submission failed");
+        console.log('📤 Sending data:', data);
+
+        const response = await fetch("/api/investors/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        console.log('✅ API Response:', result);
+
+        if (response.ok && result.success) {
+          alert(`✅ Success! ID: ${result.investor_id}`);
+          window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}`;
+        } else {
+          throw new Error(result.error || "Submission failed");
+        }
+      } catch (error) {
+        const msg = error instanceof Error ? error.message : "Unknown error";
+        console.error('❌ Error:', msg);
+        alert(`❌ Error: ${msg}`);
+        if (button) button.disabled = false;
       }
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : "Unknown error";
-      setMessage(`❌ Error: ${msg}`);
-      setIsSubmitting(false);
-    }
-  };
+    };
+
+    form.addEventListener('submit', handleSubmit, false);
+    return () => form.removeEventListener('submit', handleSubmit);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -59,19 +72,7 @@ export function LendingPoolFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Lending Pool</h1>
 
-        {message && (
-          <div
-            className={`p-3 rounded mb-4 ${
-              message.startsWith("✅")
-                ? "bg-green-50 text-green-700"
-                : "bg-red-50 text-red-700"
-            }`}
-          >
-            {message}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form id="lendingPoolForm" className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">
               First Name *
