@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -9,61 +8,6 @@ const COUNTRIES = [
 ];
 
 export function LendingPoolFormHTML() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    const form = document.getElementById('lendingPoolForm');
-    if (!form) return;
-
-    const handleSubmit = async (e: Event) => {
-      // CRITICAL: Stop default form submission FIRST
-      e.preventDefault();
-      e.stopPropagation();
-
-      console.log('✅ Form submitted - preventDefault worked');
-
-      setIsSubmitting(true);
-
-      try {
-        const formData = new FormData(form as HTMLFormElement);
-        const data: any = { investor_type: "lending_pool" };
-
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
-
-        data.investment_preferences = [data.loan_category || "logbook_loans"];
-        delete data.loan_category;
-        data.investment_amount = parseFloat(data.investment_amount);
-
-        console.log('📤 Sending data:', data);
-
-        const response = await fetch("/api/investors/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        const result = await response.json();
-        console.log('✅ API Response:', result);
-
-        if (response.ok && result.success) {
-          alert(`✅ Success! ID: ${result.investor_id}`);
-          window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}`;
-        } else {
-          throw new Error(result.error || "Submission failed");
-        }
-      } catch (error) {
-        const msg = error instanceof Error ? error.message : "Unknown error";
-        console.error('❌ Error:', msg);
-        alert(`❌ Error: ${msg}`);
-        setIsSubmitting(false);
-      }
-    };
-
-    form.addEventListener('submit', handleSubmit, false);
-    return () => form.removeEventListener('submit', handleSubmit);
-  }, []);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -73,7 +17,8 @@ export function LendingPoolFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Lending Pool</h1>
 
-        <form id="lendingPoolForm" className="space-y-4">
+        <form method="POST" action="/api/investors/register" className="space-y-4">
+          <input type="hidden" name="investor_type" value="lending_pool" />
           <div>
             <label className="block text-sm font-semibold mb-1">
               First Name *
@@ -177,14 +122,9 @@ export function LendingPoolFormHTML() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-full py-3 font-bold rounded text-white ${
-              isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-indigo hover:bg-indigo-700"
-            }`}
+            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700"
           >
-            {isSubmitting ? "Submitting..." : "Join Lending Pool"}
+            Join Lending Pool
           </button>
         </form>
       </div>

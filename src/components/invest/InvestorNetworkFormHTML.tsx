@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -22,66 +22,7 @@ const SECTORS = [
 ];
 
 export function InvestorNetworkFormHTML() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
-
-  useEffect(() => {
-    const form = document.getElementById('investorNetworkForm');
-    if (!form) return;
-
-    const handleSubmit = async (e: Event) => {
-      // CRITICAL: Stop default form submission FIRST
-      e.preventDefault();
-      e.stopPropagation();
-
-      console.log('✅ Form submitted - preventDefault worked');
-
-      if (selectedSectors.length === 0) {
-        alert("⚠️ Select at least one sector");
-        return;
-      }
-
-      setIsSubmitting(true);
-
-      try {
-        const formData = new FormData(form as HTMLFormElement);
-        const data: any = { investor_type: "investor_network" };
-
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
-
-        data.investment_preferences = selectedSectors;
-        data.investment_amount = parseFloat(data.investment_amount);
-
-        console.log('📤 Sending data:', data);
-
-        const response = await fetch("/api/investors/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-
-        const result = await response.json();
-        console.log('✅ API Response:', result);
-
-        if (response.ok && result.success) {
-          alert(`✅ Success! ID: ${result.investor_id}`);
-          window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}`;
-        } else {
-          throw new Error(result.error || "Submission failed");
-        }
-      } catch (error) {
-        const msg = error instanceof Error ? error.message : "Unknown error";
-        console.error('❌ Error:', msg);
-        alert(`❌ Error: ${msg}`);
-        setIsSubmitting(false);
-      }
-    };
-
-    form.addEventListener('submit', handleSubmit, false);
-    return () => form.removeEventListener('submit', handleSubmit);
-  }, [selectedSectors]);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -91,7 +32,16 @@ export function InvestorNetworkFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Investor Network</h1>
 
-        <form id="investorNetworkForm" className="space-y-4">
+        <form method="POST" action="/api/investors/register" className="space-y-4" onSubmit={(e) => {
+          if (selectedSectors.length === 0) {
+            e.preventDefault();
+            alert("⚠️ Select at least one sector");
+          }
+        }}>
+          <input type="hidden" name="investor_type" value="investor_network" />
+          {selectedSectors.map(sector => (
+            <input key={sector} type="hidden" name="investment_preferences" value={sector} />
+          ))}
           <div>
             <label className="block text-sm font-semibold mb-1">
               First Name *
@@ -198,14 +148,9 @@ export function InvestorNetworkFormHTML() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-full py-3 font-bold rounded text-white ${
-              isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-indigo hover:bg-indigo-700"
-            }`}
+            className="w-full py-3 font-bold rounded text-white bg-indigo hover:bg-indigo-700"
           >
-            {isSubmitting ? "Submitting..." : "Join Investor Network"}
+            Join Investor Network
           </button>
         </form>
       </div>
