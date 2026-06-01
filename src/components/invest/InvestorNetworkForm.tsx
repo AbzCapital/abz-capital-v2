@@ -66,7 +66,6 @@ export function InvestorNetworkForm() {
   const [countryCode, setCountryCode] = useState("+254");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [amount, setAmount] = useState("");
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
   const [note, setNote] = useState("");
 
@@ -100,7 +99,6 @@ export function InvestorNetworkForm() {
           country_code: countryCode,
           phone_number: phoneNumber,
           email,
-          investment_amount: parseFloat(amount),
           investment_preferences: selectedSectors.length > 0 ? selectedSectors : ["Not specified"],
           investor_note: note,
         }),
@@ -261,24 +259,10 @@ export function InvestorNetworkForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-ink mb-2">
-              How much are you willing to invest? (KES)
-            </label>
-            <input
-              type="number"
-              required
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="600000"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
-          <div>
             <label className="block text-sm font-semibold text-ink mb-3">
               Investment Sector Preferences
             </label>
-            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+            <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto mb-4">
               {SECTORS.map((sector) => (
                 <label key={sector} className="flex items-center gap-2">
                   <input
@@ -291,6 +275,24 @@ export function InvestorNetworkForm() {
                 </label>
               ))}
             </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-2">
+                Or enter a specific sector if not listed:
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Biotech, Media, Tourism"
+                onBlur={(e) => {
+                  if (e.target.value.trim() && !selectedSectors.includes(e.target.value.trim())) {
+                    toggleSector(e.target.value.trim());
+                    e.target.value = "";
+                  }
+                }}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-2"
+              />
+            </div>
+
             {selectedSectors.length > 0 && (
               <p className="text-xs text-muted-ink mt-2">Selected: {selectedSectors.length} sector{selectedSectors.length !== 1 ? 's' : ''}</p>
             )}
