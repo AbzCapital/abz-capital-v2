@@ -184,10 +184,12 @@ model InvestorRegistration {
   investment_preferences  String[]  // JSON array of preferences
   investor_note           String?
   status                  String    @default("pending") // pending | approved | rejected
+  source                  String    @default("unknown") // mobile | desktop | unknown
   createdAt               DateTime  @default(now())
   updatedAt               DateTime  @updatedAt
 
   @@index([investor_type])
   @@index([email])
   @@index([status])
+  @@index([source])
 }
