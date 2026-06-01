@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
 
 const COUNTRIES = [
   { code: "+254", name: "Kenya" },
@@ -59,254 +59,270 @@ const SECTORS = [
 export function InvestorNetworkFormMobile() {
   const formRef = useRef<HTMLFormElement>(null);
   const submitBtnRef = useRef<HTMLButtonElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const debugPanelRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+
   const [success, setSuccess] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
-  const [status, setStatus] = useState("");
-  const [statusType, setStatusType] = useState<"success" | "error" | "">("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUsingLocalhost, setIsUsingLocalhost] = useState(false);
+  const [debugPanelOpen, setDebugPanelOpen] = useState(true);
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
-  const lastSubmitTimeRef = useRef<number>(0);
 
+  // Debug state - all visible on screen
+  const [debugLog, setDebugLog] = useState<Array<{ time: string; message: string; type: string }>>([]);
+
+  const addDebugLog = (message: string, type: "info" | "success" | "error" | "warning" = "info") => {
+    const time = new Date().toLocaleTimeString();
+    setDebugLog((prev) => [...prev, { time, message, type }].slice(-10)); // Keep last 10 logs
+    console.log(`[${type.toUpperCase()}] ${message}`);
+  };
+
+  const lastClickTimeRef = useRef<number>(0);
+
+  // Check for localhost on mobile
   useEffect(() => {
-    // Device detection: verify we're on real mobile
-    const isMobileUserAgent = /mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(
+    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    setIsUsingLocalhost(isLocalhost);
+
+    const isMobileUA = /mobile|android|iphone|ipad|ipod|windows phone|blackberry/i.test(
       navigator.userAgent
     );
-    console.log("🔍 InvestorNetworkFormMobile mounted - Device:", isMobileUserAgent ? "MOBILE" : "DESKTOP");
-    console.log("📱 User-Agent:", navigator.userAgent);
+    const deviceType = isMobileUA ? "MOBILE" : "DESKTOP";
+    const screenSize = `${window.innerWidth}x${window.innerHeight}`;
+
+    addDebugLog(`Page loaded - Device: ${deviceType} (${screenSize})`, "info");
+    addDebugLog(`User-Agent: ${navigator.userAgent}`, "info");
+
+    if (isLocalhost && isMobileUA) {
+      addDebugLog("⚠️ LOCALHOST DETECTED ON MOBILE - Use PC IP instead!", "warning");
+    }
   }, []);
 
+  // Attach event listeners
   useEffect(() => {
     const form = formRef.current;
     const submitBtn = submitBtnRef.current;
 
     if (!form || !submitBtn) {
-      alert("⚠️ Form elements not found - refresh page");
-      console.error("❌ Form or button refs not initialized");
+      addDebugLog("❌ Form or button refs not found", "error");
       return;
     }
 
-    console.log("✅ Form refs initialized:", { form, submitBtn });
+    addDebugLog("✅ Form refs initialized", "success");
 
-    // Scroll button into view after virtual keyboard closes
-    const handleInputBlur = (e: Event) => {
-      const input = e.target as HTMLInputElement;
-      setTimeout(() => {
-        try {
-          submitBtn.scrollIntoView({ behavior: "smooth", block: "center" });
-        } catch (err) {
-          console.log("Scroll-into-view not supported");
-        }
-      }, 300);
-    };
+    // Handle form submit
+    const handleFormSubmit = async (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    // Add blur listeners to all inputs for virtual keyboard handling
-    const inputs = form.querySelectorAll("input, textarea, select");
-    inputs.forEach((input) => {
-      input.addEventListener("blur", handleInputBlur);
-    });
-
-    const handleSubmit = async (event: Event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      alert("🔵 Button tapped - starting submission...");
-      console.log("📤 Form submit triggered");
-
-      // Prevent double submission
       const now = Date.now();
-      if (isSubmitting || submitBtn.disabled || now - lastSubmitTimeRef.current < 1000) {
-        alert("⏳ Please wait - submission in progress");
+      if (now - lastClickTimeRef.current < 1000) {
+        addDebugLog("⏸️ Double-click prevented (< 1 second)", "warning");
         return;
       }
+      lastClickTimeRef.current = now;
 
-      lastSubmitTimeRef.current = now;
-      setIsSubmitting(true);
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Submitting...";
-      setStatus("");
-
-      try {
-        // Validate form before submitting
-        if (!form.checkValidity()) {
-          throw new Error("Please fill in all required fields");
-        }
-
-        // Collect form data using FormData API
-        const formData = new FormData(form);
-        const data: Record<string, any> = {
-          investor_type: "investor_network",
-        };
-
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
-
-        // Transform data - use selected sectors from state
-        data.investment_preferences = selectedSectors.length > 0 ? selectedSectors : ["Not specified"];
-        data.investment_amount = parseFloat(data.investment_amount);
-
-        console.log("📝 Submitting data:", { email: data.email, sectors: data.investment_preferences });
-
-        // API call with timeout (15 seconds)
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => {
-          controller.abort();
-          console.error("⏱️ Request timeout (15s)");
-        }, 15000);
-
-        const response = await fetch("/api/investors/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-          signal: controller.signal,
-        });
-
-        clearTimeout(timeoutId);
-
-        console.log("📡 Response status:", response.status);
-
-        // Check for duplicate submission (429 Too Many Requests)
-        if (response.status === 429) {
-          throw new Error("You recently submitted. Please wait a moment before submitting again.");
-        }
-
-        const result = await response.json();
-        console.log("📥 API Response:", { success: result.success, investor_id: result.investor_id });
-
-        // Validate response structure
-        if (!result.investor_id || !result.success) {
-          throw new Error(result.error || "Invalid server response");
-        }
-
-        if (response.ok && result.success) {
-          alert("✅ Registration successful!\nInvestor ID: " + result.investor_id);
-          setStatusType("success");
-          setStatus("✅ Success! Your details have been saved. Redirecting...");
-          setSuccessData({
-            investor_id: result.investor_id,
-            email: data.email,
-            investment_amount: data.investment_amount,
-          });
-          setSuccess(true);
-
-          // Redirect after 2 seconds
-          setTimeout(() => {
-            window.location.href = "/invest";
-          }, 2000);
-        } else {
-          throw new Error(result.error || "Submission failed");
-        }
-      } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : String(error);
-
-        console.error("❌ Form error:", errorMsg);
-
-        // Provide helpful error message
-        let userMessage = errorMsg;
-        if (errorMsg.includes("AbortError") || errorMsg.includes("timeout")) {
-          userMessage = "Connection timeout. Please check your internet and try again.";
-        } else if (errorMsg.includes("Failed to fetch")) {
-          userMessage = "Network error. Please check your internet connection.";
-        } else if (errorMsg.includes("already registered")) {
-          userMessage = "This email is already registered. Please use a different email.";
-        } else if (errorMsg.includes("fill in all required")) {
-          userMessage = "Please fill in all required fields before submitting.";
-        }
-
-        alert("❌ Error: " + userMessage);
-        setStatusType("error");
-        setStatus(`❌ Error: ${userMessage}`);
-
-        // Re-enable button on error
-        setIsSubmitting(false);
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Join Investor Network";
-      }
+      addDebugLog("📤 Form submit event fired", "info");
+      await submitForm();
     };
 
-    // PRIMARY: Form submit listener with capture to catch all events
-    form.addEventListener("submit", handleSubmit, { capture: true });
-
-    // TOUCH EVENT: Direct touch listener for immediate response (no 300ms delay)
-    const handleTouchStart = (e: TouchEvent) => {
-      console.log("👆 Touch detected on button");
-      (e.target as HTMLElement).style.opacity = "0.8";
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      (e.target as HTMLElement).style.opacity = "1";
-    };
-
-    submitBtn.addEventListener("touchstart", handleTouchStart, { passive: false });
-    submitBtn.addEventListener("touchend", handleTouchEnd, { passive: false });
-
-    // BACKUP: Click listener for mouse/hybrid devices
-    const handleButtonClick = (e: MouseEvent) => {
-      console.log("🖱️ Click detected on button");
+    // Handle button click (fallback)
+    const handleButtonClick = (e: Event) => {
       e.preventDefault();
+      e.stopPropagation();
+
+      const now = Date.now();
+      if (now - lastClickTimeRef.current < 1000) {
+        addDebugLog("⏸️ Double-click prevented on button", "warning");
+        return;
+      }
+      lastClickTimeRef.current = now;
+
+      addDebugLog("🖱️ Button click detected", "info");
       const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
       form.dispatchEvent(submitEvent);
     };
 
-    submitBtn.addEventListener("click", handleButtonClick);
+    // Attach listeners with capture to ensure they fire first
+    form.addEventListener("submit", handleFormSubmit, { capture: true });
+    submitBtn.addEventListener("click", handleButtonClick, { passive: false });
 
-    // Also log when listeners are attached
-    console.log("✅ Event listeners attached:", {
-      formSubmit: "capture mode",
-      touchstart: "passive:false",
-      touchend: "passive:false",
-      buttonClick: "backup handler",
-    });
+    addDebugLog("✅ Event listeners attached (form + button)", "success");
 
     return () => {
-      form.removeEventListener("submit", handleSubmit, { capture: true });
-      submitBtn.removeEventListener("touchstart", handleTouchStart);
-      submitBtn.removeEventListener("touchend", handleTouchEnd);
+      form.removeEventListener("submit", handleFormSubmit, { capture: true });
       submitBtn.removeEventListener("click", handleButtonClick);
-      inputs.forEach((input) => {
-        input.removeEventListener("blur", handleInputBlur);
-      });
     };
-  }, [isSubmitting, selectedSectors]);
+  }, [isSubmitting]);
 
-  // React onClick handler as additional fallback
-  const handleReactClick = () => {
-    alert("🟢 React onClick fired!");
-    console.log("React onClick handler triggered");
+  // Main submit function
+  const submitForm = async () => {
     const form = formRef.current;
-    if (form) {
-      const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
-      form.dispatchEvent(submitEvent);
+    const submitBtn = submitBtnRef.current;
+
+    if (!form || !submitBtn) {
+      addDebugLog("❌ Form refs missing during submit", "error");
+      return;
+    }
+
+    // Check HTML5 validation
+    if (!form.checkValidity()) {
+      addDebugLog("⚠️ Form validation failed - missing required fields", "warning");
+      form.reportValidity();
+      return;
+    }
+
+    // Check at least one sector selected
+    if (selectedSectors.length === 0) {
+      addDebugLog("⚠️ Please select at least one investment sector", "warning");
+      return;
+    }
+
+    setIsSubmitting(true);
+    submitBtn.disabled = true;
+    addDebugLog("⏳ Starting submission...", "info");
+
+    try {
+      // Collect form data
+      const formData = new FormData(form);
+      const data: Record<string, any> = {
+        investor_type: "investor_network",
+      };
+
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      data.investment_preferences = selectedSectors.length > 0 ? selectedSectors : ["Not specified"];
+      data.investment_amount = parseFloat(data.investment_amount);
+
+      addDebugLog(`📝 Data collected: ${data.email}`, "info");
+      addDebugLog(`📝 Sectors selected: ${data.investment_preferences.join(", ")}`, "info");
+
+      // Build fetch URL
+      const apiUrl = "/api/investors/register";
+      const fullUrl = `${window.location.origin}${apiUrl}`;
+      addDebugLog(`📡 Fetching: ${apiUrl}`, "info");
+      addDebugLog(`Full URL: ${fullUrl}`, "info");
+
+      // Submit with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+        addDebugLog("⏱️ Request timeout (15 seconds)", "warning");
+      }, 15000);
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      addDebugLog(`📥 Response received - Status: ${response.status}`, "info");
+
+      // Check for errors
+      if (response.status === 429) {
+        throw new Error("Duplicate submission - please wait a moment");
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success || !result.investor_id) {
+        addDebugLog(`❌ Server error: ${result.error || "Unknown error"}`, "error");
+        throw new Error(result.error || "Server validation failed");
+      }
+
+      addDebugLog(`✅ SUCCESS! Investor ID: ${result.investor_id}`, "success");
+
+      setSuccessData({
+        investor_id: result.investor_id,
+        email: data.email,
+        investment_amount: data.investment_amount,
+      });
+      setSuccess(true);
+
+      // Scroll success message into view
+      setTimeout(() => {
+        statusRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
+
+      setTimeout(() => {
+        window.location.href = "/invest";
+      }, 3000);
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      addDebugLog(`❌ ERROR: ${errorMsg}`, "error");
+
+      setIsSubmitting(false);
+      submitBtn.disabled = false;
+
+      // Scroll error into view
+      setTimeout(() => {
+        statusRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
     }
   };
 
-  const toggleSector = (sector: string) => {
-    setSelectedSectors((prev) =>
-      prev.includes(sector)
-        ? prev.filter((s) => s !== sector)
-        : [...prev, sector]
-    );
+  // Test API function
+  const testAPI = async () => {
+    addDebugLog("🧪 Testing API with hardcoded data...", "info");
+
+    const testData = {
+      investor_type: "investor_network",
+      first_name: "Test",
+      last_name: "User",
+      email: `test-${Date.now()}@example.com`,
+      phone_number: "700000000",
+      country_code: "+254",
+      investment_amount: 100000,
+      investment_preferences: ["FinTech", "Agritech"],
+      investor_note: "API Test",
+    };
+
+    try {
+      const apiUrl = "/api/investors/register";
+      addDebugLog(`🧪 POST ${apiUrl}`, "info");
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(testData),
+      });
+
+      addDebugLog(`🧪 Response Status: ${response.status}`, "info");
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        addDebugLog(`🧪 ✅ API WORKS! ID: ${result.investor_id}`, "success");
+      } else {
+        addDebugLog(`🧪 ❌ API Error: ${result.error || "Unknown"}`, "error");
+      }
+    } catch (error) {
+      addDebugLog(`🧪 ❌ Fetch failed: ${error instanceof Error ? error.message : String(error)}`, "error");
+    }
   };
 
   if (success && successData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
-        <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
+        <div ref={statusRef} className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
           <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
-          <p className="text-muted-ink mb-6 font-semibold">
-            Your details have been saved successfully.
-          </p>
+          <p className="text-muted-ink mb-6 font-semibold">Your details have been saved successfully.</p>
 
-          {/* Show confirmation data */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 text-left">
             <p className="text-sm text-gray-600 mb-2">
               <strong>Confirmation ID:</strong>
             </p>
-            <p className="font-mono text-sm text-gray-800 break-all mb-4">
-              {successData.investor_id}
-            </p>
+            <p className="font-mono text-sm text-gray-800 break-all mb-4">{successData.investor_id}</p>
             <p className="text-sm text-gray-600 mb-2">
               <strong>Email:</strong> {successData.email}
             </p>
@@ -316,11 +332,8 @@ export function InvestorNetworkFormMobile() {
           </div>
 
           <p className="text-muted-ink mb-6">
-            You will receive notifications whenever an investment opportunity matching your preferred sectors becomes available.
-          </p>
-
-          <p className="text-sm text-ink mb-6">
-            Our investment team may also contact you directly regarding suitable opportunities.
+            You will receive notifications whenever an investment opportunity matching your preferred sectors
+            becomes available.
           </p>
 
           <Link href="/invest" className="block text-indigo hover:text-indigo/80 font-semibold">
@@ -334,47 +347,88 @@ export function InvestorNetworkFormMobile() {
   return (
     <div className="min-h-screen bg-white pb-8">
       <div className="max-w-md mx-auto px-4 py-8">
+        {/* LOCALHOST WARNING */}
+        {isUsingLocalhost && (
+          <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+            <p className="text-red-700 font-semibold text-sm">
+              ⚠️ LOCALHOST DETECTED
+            </p>
+            <p className="text-red-600 text-xs mt-1">
+              You're using localhost:3000. Mobile devices can't reach localhost. Use your PC's IP address instead:
+              <br />
+              <code className="bg-red-100 px-2 py-1 rounded text-red-900 font-mono">http://192.168.x.x:3000</code>
+            </p>
+          </div>
+        )}
+
+        {/* DEBUG PANEL */}
+        <div className="bg-gray-100 border border-gray-300 rounded-lg mb-6 overflow-hidden">
+          <button
+            onClick={() => setDebugPanelOpen(!debugPanelOpen)}
+            className="w-full px-4 py-3 bg-gray-200 hover:bg-gray-300 flex items-center justify-between text-sm font-semibold text-gray-800"
+          >
+            <span>🐛 Debug Panel</span>
+            {debugPanelOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+          </button>
+
+          {debugPanelOpen && (
+            <div className="p-4 bg-white text-xs font-mono space-y-1 max-h-48 overflow-y-auto">
+              {debugLog.length === 0 ? (
+                <div className="text-gray-500">Waiting for events...</div>
+              ) : (
+                debugLog.map((log, i) => (
+                  <div key={i} className={`${
+                    log.type === "success" ? "text-green-600" :
+                    log.type === "error" ? "text-red-600" :
+                    log.type === "warning" ? "text-orange-600" :
+                    "text-gray-700"
+                  }`}>
+                    <span className="text-gray-400">[{log.time}]</span> {log.message}
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+
         <Link href="/invest" className="inline-flex items-center gap-2 text-indigo mb-6">
           <ArrowLeft className="size-4" /> Back
         </Link>
 
         <h1 className="text-3xl font-bold text-ink mb-6">Join Investor Network</h1>
 
-        {status && (
-          <div
-            className={`px-4 py-3 rounded-lg mb-4 ${
-              statusType === "success"
-                ? "bg-green-50 border border-green-200 text-green-700"
-                : "bg-red-50 border border-red-200 text-red-700"
-            }`}
-          >
-            {status}
-          </div>
-        )}
+        {/* STATUS MESSAGES */}
+        <div ref={statusRef} id="status-messages"></div>
 
-        {/* NATIVE HTML FORM - Never use React state for form fields */}
+        {/* TEST API BUTTON */}
+        <button
+          onClick={testAPI}
+          className="w-full mb-4 py-2 px-4 bg-purple-500 hover:bg-purple-600 text-white text-sm font-semibold rounded-lg transition"
+        >
+          🧪 Test API with Sample Data
+        </button>
+
+        {/* NATIVE HTML FORM */}
         <form ref={formRef} className="space-y-4">
           {/* First Name & Last Name */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-ink mb-2">
-                First Name
-              </label>
+              <label className="block text-sm font-semibold text-ink mb-2">First Name</label>
               <input
                 type="text"
                 name="first_name"
                 required
+                minLength={2}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-ink mb-2">
-                Last Name
-              </label>
+              <label className="block text-sm font-semibold text-ink mb-2">Last Name</label>
               <input
                 type="text"
                 name="last_name"
                 required
+                minLength={2}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo"
               />
             </div>
@@ -382,13 +436,12 @@ export function InvestorNetworkFormMobile() {
 
           {/* Mobile Number */}
           <div>
-            <label className="block text-sm font-semibold text-ink mb-2">
-              Mobile Number
-            </label>
+            <label className="block text-sm font-semibold text-ink mb-2">Mobile Number</label>
             <div className="flex gap-2">
               <select
                 name="country_code"
                 defaultValue="+254"
+                required
                 className="px-3 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo"
               >
                 {COUNTRIES.map((country) => (
@@ -402,6 +455,7 @@ export function InvestorNetworkFormMobile() {
                 name="phone_number"
                 required
                 placeholder="700000000"
+                pattern="[0-9]{9,}"
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo"
               />
             </div>
@@ -409,9 +463,7 @@ export function InvestorNetworkFormMobile() {
 
           {/* Email Address */}
           <div>
-            <label className="block text-sm font-semibold text-ink mb-2">
-              Email Address
-            </label>
+            <label className="block text-sm font-semibold text-ink mb-2">Email Address</label>
             <input
               type="email"
               name="email"
@@ -429,6 +481,7 @@ export function InvestorNetworkFormMobile() {
               type="number"
               name="investment_amount"
               required
+              min="1000"
               placeholder="600000"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo"
             />
@@ -437,7 +490,7 @@ export function InvestorNetworkFormMobile() {
           {/* Investment Sector Preferences */}
           <div>
             <label className="block text-sm font-semibold text-ink mb-3">
-              Investment Sector Preferences
+              Investment Sector Preferences <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
               {SECTORS.map((sector) => (
@@ -445,7 +498,13 @@ export function InvestorNetworkFormMobile() {
                   <input
                     type="checkbox"
                     checked={selectedSectors.includes(sector)}
-                    onChange={() => toggleSector(sector)}
+                    onChange={() =>
+                      setSelectedSectors((prev) =>
+                        prev.includes(sector)
+                          ? prev.filter((s) => s !== sector)
+                          : [...prev, sector]
+                      )
+                    }
                     className="w-4 h-4"
                   />
                   <span className="text-sm text-ink">{sector}</span>
@@ -473,16 +532,14 @@ export function InvestorNetworkFormMobile() {
             />
           </div>
 
-          {/* SUBMIT BUTTON - Mobile optimized with 48x48px minimum and touch optimizations */}
+          {/* SUBMIT BUTTON */}
           <button
             ref={submitBtnRef}
             type="submit"
-            onClick={handleReactClick}
             disabled={isSubmitting}
             className={`
               w-full py-4 font-bold text-base rounded-xl transition-all
               min-h-[48px] min-w-[48px]
-              touch-action-manipulation pointer-events-auto relative z-10
               ${
                 isSubmitting
                   ? "bg-gray-400 text-gray-600 cursor-not-allowed opacity-50"
