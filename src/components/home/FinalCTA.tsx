@@ -26,7 +26,7 @@ export function FinalCTA() {
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/funding"
+              href="/fundraise"
               className="inline-flex items-center gap-2 rounded-xl bg-peach px-7 py-3.5 text-sm font-bold text-indigo shadow-[0_8px_24px_rgba(255,189,89,0.35)] transition hover:brightness-105"
             >
               Apply for funding

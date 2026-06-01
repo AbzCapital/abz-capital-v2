@@ -49,7 +49,7 @@ export function Hero() {
                 <ArrowRight className="size-4" aria-hidden />
               </Link>
               <Link
-                href="/funding"
+                href="/fundraise"
                 className="inline-flex items-center gap-2 rounded-xl border border-indigo/20 bg-white px-6 py-3.5 text-sm font-semibold text-indigo transition hover:bg-indigo/5"
               >
                 Apply for funding
