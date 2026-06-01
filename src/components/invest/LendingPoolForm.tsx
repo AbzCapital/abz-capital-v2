@@ -55,6 +55,7 @@ export function LendingPoolForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    alert("✅ Form submit event fired!");
     console.log("Form submitted");
     setLoading(true);
     setError("");
@@ -111,16 +112,19 @@ export function LendingPoolForm() {
 
       if (response.ok) {
         console.log("Success! Setting success state");
+        alert("✅ Server response: " + JSON.stringify(data));
         alert("✅ Registration successful! Your details have been saved.");
         setSuccess(true);
       } else {
         console.log("Error from API:", data.error);
+        alert("❌ API Error: " + JSON.stringify(data));
         setError(data.error || "Registration failed");
       }
     } catch (error) {
       console.error("Catch error:", error);
       const errorMsg = error instanceof Error ? error.message : String(error);
       console.error("Error type:", errorMsg);
+      alert("❌ Fetch Error: " + errorMsg);
       setApiResponse(`ERROR: ${errorMsg}`);
       setError(`Network error: ${errorMsg}`);
     } finally {

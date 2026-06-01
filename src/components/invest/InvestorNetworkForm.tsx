@@ -80,6 +80,7 @@ export function InvestorNetworkForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    alert("✅ Form submit event fired!");
     console.log("Form submitted");
     console.log("Selected sectors:", selectedSectors);
     setError("");
@@ -128,17 +129,21 @@ export function InvestorNetworkForm() {
       if (response.ok) {
         console.log("Success! Setting success state");
         console.log("Response data:", data);
+        alert("✅ Server response: " + JSON.stringify(data));
         alert("✅ Registration successful! Your details have been saved.");
         setSuccess(true);
       } else {
         console.log("Error from API:", data.error);
+        alert("❌ API Error: " + JSON.stringify(data));
         setError(data.error || "Registration failed");
       }
     } catch (error) {
       console.error("Catch error:", error);
-      console.error("Error type:", error instanceof Error ? error.message : String(error));
-      setApiResponse(`ERROR: ${String(error)}`);
-      setError(`Network error: ${String(error)}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error("Error type:", errorMsg);
+      alert("❌ Fetch error: " + errorMsg);
+      setApiResponse(`ERROR: ${errorMsg}`);
+      setError(`Network error: ${errorMsg}`);
     } finally {
       setLoading(false);
     }
