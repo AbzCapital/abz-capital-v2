@@ -51,8 +51,10 @@ export function LendingPoolFormMobile() {
   const [isUsingLocalhost, setIsUsingLocalhost] = useState(false);
   const [debugPanelOpen, setDebugPanelOpen] = useState(true);
 
-  // Debug state - all visible on screen
-  const [debugLog, setDebugLog] = useState<Array<{ time: string; message: string; type: string }>>([]);
+  // Debug state - all visible on screen - initialize with startup message
+  const [debugLog, setDebugLog] = useState<Array<{ time: string; message: string; type: string }>>([
+    { time: new Date().toLocaleTimeString(), message: "🟢 Component loaded and initialized", type: "success" }
+  ]);
 
   const addDebugLog = (message: string, type: "info" | "success" | "error" | "warning" = "info") => {
     const time = new Date().toLocaleTimeString();
