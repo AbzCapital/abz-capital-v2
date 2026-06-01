@@ -13,7 +13,7 @@ const CHIPS = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-mesh pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-28 lg:pb-32">
+    <section className="relative overflow-hidden bg-white pt-16 pb-20 sm:pt-24 sm:pb-28 lg:pt-28 lg:pb-32">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute right-[-12%] top-[-10%] h-[480px] w-[480px] rounded-full bg-indigo/15 blur-3xl" />
         <div className="absolute -left-32 bottom-[-20%] h-[420px] w-[420px] rounded-full bg-peach/35 blur-3xl" />
