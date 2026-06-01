@@ -7,14 +7,12 @@ import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import { PRODUCT_WA_MESSAGES } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
-  title: "Submit a funding opportunity",
+  title: "Fundraise - Book a pitch or submit an opportunity",
   description:
-    "Book a pitch with ABZ Capital's investor team or submit a funding opportunity for review.",
+    "Book a pitch with ABZ Capital's investor team or submit a funding opportunity for review. We respond within one business day.",
 };
 
 export default function FundingPage() {
-  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL;
-
   return (
     <>
       <section className="bg-mesh pt-20 pb-12 sm:pt-28 sm:pb-16">
@@ -46,31 +44,27 @@ export default function FundingPage() {
                   30-minute call with our investor team. Bring your deck or a short brief.
                 </p>
 
-                {calendlyUrl ? (
-                  <div className="mt-5 overflow-hidden rounded-xl border border-line">
-                    <iframe
-                      src={calendlyUrl}
-                      title="Book a pitch with ABZ Capital"
-                      className="h-[640px] w-full"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <div className="mt-5 rounded-xl border border-dashed border-indigo/30 bg-indigo/5 p-5 text-sm leading-relaxed text-indigo">
-                    <strong className="block text-ink">Calendly coming soon</strong>
-                    <p className="mt-1 text-muted-ink">
-                      Meanwhile, WhatsApp our investor team and we&rsquo;ll set up a slot manually.
+                <div className="mt-6 flex flex-col gap-3">
+                  <a
+                    href="https://cal.com/abinah-gekara"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block w-full rounded-xl bg-indigo px-6 py-3 text-center font-bold text-white transition hover:bg-indigo/90"
+                  >
+                    Schedule a meeting
+                  </a>
+                  <div className="border-t border-line pt-3">
+                    <p className="text-xs text-muted-ink mb-2">
+                      Prefer WhatsApp? We can book manually:
                     </p>
-                    <div className="mt-3">
-                      <WhatsAppButton
-                        message={PRODUCT_WA_MESSAGES.funding()}
-                        size="md"
-                      >
-                        Book on WhatsApp
-                      </WhatsAppButton>
-                    </div>
+                    <WhatsAppButton
+                      message={PRODUCT_WA_MESSAGES.funding()}
+                      size="md"
+                    >
+                      Book on WhatsApp
+                    </WhatsAppButton>
                   </div>
-                )}
+                </div>
               </div>
 
               <div className="mt-5 rounded-3xl border border-line bg-white p-6 shadow-card sm:p-8">
