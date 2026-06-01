@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
 
       <p><strong>Join our WhatsApp group for instant deal alerts and investment opportunities:</strong></p>
 
-      <a href="https://chat.whatsapp.com/your-group-link" class="cta-button">👉 Join WhatsApp Group</a>
+      <a href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1" class="cta-button">👉 Join WhatsApp Group</a>
 
       <p>In the WhatsApp group, you'll receive:</p>
       <ul>

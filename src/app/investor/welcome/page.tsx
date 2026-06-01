@@ -42,7 +42,7 @@ function InvestorWelcomeContent() {
             Get instant alerts for new investment opportunities and deal updates.
           </p>
           <a
-            href="https://chat.whatsapp.com/your-group-link"
+            href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
