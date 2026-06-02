@@ -180,7 +180,7 @@ export function JoinLendingPoolModal({
                 required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-transparent"
               />
             </div>
             <div>
@@ -192,7 +192,7 @@ export function JoinLendingPoolModal({
                 required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-transparent"
               />
             </div>
           </div>
@@ -205,7 +205,7 @@ export function JoinLendingPoolModal({
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700"
               >
                 {COUNTRIES.map((country) => (
                   <option key={country.code} value={country.code}>
@@ -219,7 +219,7 @@ export function JoinLendingPoolModal({
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="700000000"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-transparent"
               />
             </div>
           </div>
@@ -233,7 +233,7 @@ export function JoinLendingPoolModal({
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-transparent"
             />
           </div>
 
@@ -247,7 +247,7 @@ export function JoinLendingPoolModal({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="600000"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-transparent"
             />
           </div>
 
@@ -304,7 +304,7 @@ export function JoinLendingPoolModal({
               maxLength={200}
               rows={3}
               placeholder="Any additional information..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-700 focus:border-transparent"
             />
             <p className="text-xs text-muted-ink mt-1">
               {note.length}/200 characters
@@ -314,7 +314,7 @@ export function JoinLendingPoolModal({
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:brightness-110 disabled:opacity-50 transition"
+            className="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:brightness-110 disabled:opacity-50 transition"
           >
             {loading ? "Registering..." : "Join Lending Pool"}
           </button>

@@ -12,10 +12,10 @@ export function LendingPoolCard() {
     <Section spacing="lg" background="white">
       <Container>
         <div className="max-w-3xl mx-auto">
-          <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 p-8 sm:p-10 md:p-12">
+          <div className="rounded-2xl bg-blue-700/10 border border-blue-700/20 p-8 sm:p-10 md:p-12">
             {/* Header */}
             <div className="mb-8">
-              <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
+              <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
                 Main Investment Vehicle
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-ink mb-4">
@@ -30,8 +30,8 @@ export function LendingPoolCard() {
             {/* Three Trust Points */}
             <div className="grid gap-6 sm:grid-cols-3 mb-8">
               <div className="flex gap-4">
-                <div className="rounded-lg bg-blue-500/20 p-3 h-fit">
-                  <Shield className="size-5 text-blue-500 shrink-0" />
+                <div className="rounded-lg bg-blue-700/20 p-3 h-fit">
+                  <Shield className="size-5 text-blue-700 shrink-0" />
                 </div>
                 <div>
                   <h4 className="font-bold text-ink mb-1">100% Secured</h4>
@@ -40,8 +40,8 @@ export function LendingPoolCard() {
               </div>
 
               <div className="flex gap-4">
-                <div className="rounded-lg bg-blue-500/20 p-3 h-fit">
-                  <Lock className="size-5 text-blue-500 shrink-0" />
+                <div className="rounded-lg bg-blue-700/20 p-3 h-fit">
+                  <Lock className="size-5 text-blue-700 shrink-0" />
                 </div>
                 <div>
                   <h4 className="font-bold text-ink mb-1">Humane Lending</h4>
@@ -50,8 +50,8 @@ export function LendingPoolCard() {
               </div>
 
               <div className="flex gap-4">
-                <div className="rounded-lg bg-blue-500/20 p-3 h-fit">
-                  <FileText className="size-5 text-blue-500 shrink-0" />
+                <div className="rounded-lg bg-blue-700/20 p-3 h-fit">
+                  <FileText className="size-5 text-blue-700 shrink-0" />
                 </div>
                 <div>
                   <h4 className="font-bold text-ink mb-1">Transparent</h4>
@@ -61,23 +61,23 @@ export function LendingPoolCard() {
             </div>
 
             {/* Expandable Protection Section */}
-            <div className="mb-8 border-t border-blue-500/20 pt-8">
+            <div className="mb-8 border-t border-blue-700/20 pt-8">
               <button
                 onClick={() => setExpandedProtection(!expandedProtection)}
-                className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-blue-500/5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40"
+                className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-blue-700/5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40"
               >
                 <span className="font-bold text-ink text-left">How We Protect Your Investment</span>
                 <ChevronDown
-                  className={`size-5 text-blue-500 transition-transform ${
+                  className={`size-5 text-blue-700 transition-transform ${
                     expandedProtection ? "rotate-180" : ""
                   }`}
                 />
               </button>
 
               {expandedProtection && (
-                <div className="mt-4 space-y-3 p-4 rounded-xl bg-white border border-blue-500/10">
+                <div className="mt-4 space-y-3 p-4 rounded-xl bg-white border border-blue-700/10">
                   <div className="flex items-start gap-3">
-                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-xs font-bold text-blue-500 mt-1 shrink-0">
+                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-xs font-bold text-blue-700 mt-1 shrink-0">
                       ✓
                     </span>
                     <p className="text-sm sm:text-base text-ink">
@@ -85,7 +85,7 @@ export function LendingPoolCard() {
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-xs font-bold text-blue-500 mt-1 shrink-0">
+                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-xs font-bold text-blue-700 mt-1 shrink-0">
                       ✓
                     </span>
                     <p className="text-sm sm:text-base text-ink">
@@ -93,7 +93,7 @@ export function LendingPoolCard() {
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-xs font-bold text-blue-500 mt-1 shrink-0">
+                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-xs font-bold text-blue-700 mt-1 shrink-0">
                       ✓
                     </span>
                     <p className="text-sm sm:text-base text-ink">
@@ -101,7 +101,7 @@ export function LendingPoolCard() {
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-xs font-bold text-blue-500 mt-1 shrink-0">
+                    <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-xs font-bold text-blue-700 mt-1 shrink-0">
                       ✓
                     </span>
                     <p className="text-sm sm:text-base text-ink">
@@ -114,10 +114,10 @@ export function LendingPoolCard() {
 
             {/* Call to Action */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="flex-1 rounded-xl bg-blue-500 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40">
+              <button className="flex-1 rounded-xl bg-blue-700 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40">
                 Explore Loans
               </button>
-              <button className="flex-1 rounded-xl border-2 border-blue-500 bg-transparent px-6 py-3.5 text-sm font-bold text-blue-500 transition hover:bg-blue-500/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40">
+              <button className="flex-1 rounded-xl border-2 border-blue-700 bg-transparent px-6 py-3.5 text-sm font-bold text-blue-700 transition hover:bg-blue-700/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40">
                 View Sample Alert
               </button>
             </div>

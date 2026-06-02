@@ -18,7 +18,7 @@ export function OfferingCardsSection() {
       <Container>
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Option 1: Loanbook */}
-          <div className="rounded-2xl bg-blue-500 p-8 sm:p-10">
+          <div className="rounded-2xl bg-blue-700 p-8 sm:p-10">
             <div className="mb-6">
               <span className="inline-block text-xs font-bold uppercase tracking-widest text-peach mb-4">
                 Option 1
@@ -108,7 +108,7 @@ export function OfferingCardsSection() {
           {/* Option 2: SME & Opportunity */}
           <div className="rounded-2xl bg-peach/20 p-8 sm:p-10 border-2 border-peach/30">
             <div className="mb-6">
-              <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-500 mb-4">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-700 mb-4">
                 Option 2
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-ink mb-2">
@@ -126,42 +126,42 @@ export function OfferingCardsSection() {
 
             {/* Key Features */}
             <div className="mb-8">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-700 mb-4">
                 Key Features
               </p>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-blue-500">
+                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-blue-700">
                     ✓
                   </span>
                   <span className="text-ink">Curated investment opportunities</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-blue-500">
+                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-blue-700">
                     ✓
                   </span>
                   <span className="text-ink">Business and founder screening</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-blue-500">
+                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-blue-700">
                     ✓
                   </span>
                   <span className="text-ink">Contract & supply financing opportunities</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-blue-500">
+                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-blue-700">
                     ✓
                   </span>
                   <span className="text-ink">Sector-based investor matching</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-blue-500">
+                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-blue-700">
                     ✓
                   </span>
                   <span className="text-ink">Structured investment discussions</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-500/20 text-blue-500">
+                  <span className="inline-flex items-center justify-center size-5 rounded-full bg-blue-700/20 text-blue-700">
                     ✓
                   </span>
                   <span className="text-ink">Ongoing monitoring and support</span>
@@ -172,7 +172,7 @@ export function OfferingCardsSection() {
             {/* CTA */}
             <Link
               href="/investor-network"
-              className="w-full rounded-xl bg-blue-500 px-6 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full rounded-xl bg-blue-700 px-6 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 flex items-center justify-center gap-2 cursor-pointer"
             >
               Join Investor Network
               <ArrowRight className="size-4" />

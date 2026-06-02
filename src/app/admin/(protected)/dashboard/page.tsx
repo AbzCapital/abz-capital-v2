@@ -47,7 +47,7 @@ export default function AdminDashboard() {
       description: "Manage loan fees, interest rates, and terms",
       href: "/admin/loans",
       icon: Settings,
-      color: "bg-blue-500",
+      color: "bg-blue-700",
     },
     {
       title: "Products",
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
       description: "Manage product categories",
       href: "/admin/categories",
       icon: Layers,
-      color: "bg-blue-500",
+      color: "bg-blue-700",
     },
     {
       title: "Leads",
@@ -82,7 +82,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-6">
           <p className="text-sm text-muted-ink mb-1">Total Leads</p>
-          <p className="text-3xl font-bold text-blue-500">{stats.leadsCount}</p>
+          <p className="text-3xl font-bold text-blue-700">{stats.leadsCount}</p>
         </Card>
         <Card className="p-6">
           <p className="text-sm text-muted-ink mb-1">Products</p>
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
         </Card>
         <Card className="p-6">
           <p className="text-sm text-muted-ink mb-1">Categories</p>
-          <p className="text-3xl font-bold text-blue-500">
+          <p className="text-3xl font-bold text-blue-700">
             {stats.categoriesCount}
           </p>
         </Card>

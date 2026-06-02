@@ -13,7 +13,7 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
       <div className="my-12 mx-auto max-w-4xl px-4">
         <div className="rounded-3xl bg-white shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between bg-blue-500 p-6 sm:p-8 text-white">
+          <div className="flex items-center justify-between bg-blue-700 p-6 sm:p-8 text-white">
             <div className="flex items-center gap-3">
               <div className="text-3xl">✓</div>
               <div>
@@ -88,7 +88,7 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
             </div>
 
             {/* Returns Section */}
-            <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 p-6 sm:p-8">
+            <div className="rounded-2xl bg-blue-700/10 border border-blue-700/20 p-6 sm:p-8">
               <h3 className="text-lg sm:text-xl font-bold text-ink mb-6">
                 Your Investor Returns
               </h3>
@@ -103,11 +103,11 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-muted-ink mb-1">Per Month</p>
-                    <p className="text-lg font-bold text-blue-500">+{SAMPLE_LOAN.returnPerMonth}</p>
+                    <p className="text-lg font-bold text-blue-700">+{SAMPLE_LOAN.returnPerMonth}</p>
                   </div>
                 </div>
 
-                <div className="h-px bg-blue-500/20" />
+                <div className="h-px bg-blue-700/20" />
 
                 <div>
                   <p className="text-sm text-muted-ink mb-3">
@@ -122,10 +122,10 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
                       <span className="text-sm text-muted-ink">Loan Principal</span>
                       <span className="font-bold text-ink">{SAMPLE_LOAN.loanAmount}</span>
                     </div>
-                    <div className="h-px bg-blue-500/20 my-2" />
+                    <div className="h-px bg-blue-700/20 my-2" />
                     <div className="flex justify-between items-center">
-                      <span className="text-sm font-bold text-blue-500">Your Total Return</span>
-                      <span className="text-xl font-extrabold text-blue-500">
+                      <span className="text-sm font-bold text-blue-700">Your Total Return</span>
+                      <span className="text-xl font-extrabold text-blue-700">
                         {SAMPLE_LOAN.investorReturn}
                       </span>
                     </div>
@@ -148,7 +148,7 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
                 type="button"
-                className="flex-1 rounded-xl bg-blue-500 px-6 py-4 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 cursor-pointer active:scale-95"
+                className="flex-1 rounded-xl bg-blue-700 px-6 py-4 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 cursor-pointer active:scale-95"
                 style={{ touchAction: 'manipulation' }}
               >
                 Fund This Loan →
@@ -156,7 +156,7 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
               <button
                 onClick={onClose}
                 type="button"
-                className="flex-1 rounded-xl border-2 border-blue-500 bg-transparent px-6 py-4 text-sm font-bold text-blue-500 transition hover:bg-blue-500/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 cursor-pointer"
+                className="flex-1 rounded-xl border-2 border-blue-700 bg-transparent px-6 py-4 text-sm font-bold text-blue-700 transition hover:bg-blue-700/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 cursor-pointer"
               >
                 Close
               </button>

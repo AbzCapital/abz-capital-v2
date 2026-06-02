@@ -68,8 +68,8 @@ export function WhyChooseSection() {
                 key={idx}
                 className="rounded-2xl bg-white p-8 shadow-card hover:shadow-lg transition"
               >
-                <div className="rounded-lg bg-blue-500/10 p-3 w-fit mb-4">
-                  <Icon className="size-6 text-blue-500" />
+                <div className="rounded-lg bg-blue-700/10 p-3 w-fit mb-4">
+                  <Icon className="size-6 text-blue-700" />
                 </div>
                 <h3 className="text-lg font-bold text-ink mb-3">
                   {reason.title}

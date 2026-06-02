@@ -20,8 +20,8 @@ export function EarningsBreakdown() {
           {/* Investment Breakdown */}
           <div className="space-y-8">
             {/* Example 1: KES 100,000 */}
-            <div className="rounded-2xl border border-blue-500/20 p-6 sm:p-8 bg-white">
-              <p className="text-sm font-semibold uppercase tracking-widest text-blue-500 mb-4">
+            <div className="rounded-2xl border border-blue-700/20 p-6 sm:p-8 bg-white">
+              <p className="text-sm font-semibold uppercase tracking-widest text-blue-700 mb-4">
                 Example 1: Conservative Investment
               </p>
 
@@ -35,19 +35,19 @@ export function EarningsBreakdown() {
 
                 <div className="flex items-center justify-between">
                   <span className="text-muted-ink">3% per month:</span>
-                  <p className="text-xl font-bold text-blue-500">KES 3,000/month</p>
+                  <p className="text-xl font-bold text-blue-700">KES 3,000/month</p>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <span className="text-muted-ink">12 months:</span>
-                  <p className="text-xl font-bold text-blue-500">KES 36,000/year</p>
+                  <p className="text-xl font-bold text-blue-700">KES 36,000/year</p>
                 </div>
 
                 <div className="h-px bg-line" />
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="font-bold text-ink">Total return on capital:</span>
-                  <p className="text-2xl font-extrabold text-blue-500">36%</p>
+                  <p className="text-2xl font-extrabold text-blue-700">36%</p>
                 </div>
 
                 <p className="text-xs text-muted-ink mt-3">
@@ -58,7 +58,7 @@ export function EarningsBreakdown() {
 
             {/* Example 2: Larger Investment */}
             <div className="rounded-2xl border border-peach/20 p-6 sm:p-8 bg-white">
-              <p className="text-sm font-semibold uppercase tracking-widest text-blue-500 mb-4">
+              <p className="text-sm font-semibold uppercase tracking-widest text-blue-700 mb-4">
                 Example 2: Larger Deployment
               </p>
 
@@ -72,19 +72,19 @@ export function EarningsBreakdown() {
 
                 <div className="flex items-center justify-between">
                   <span className="text-muted-ink">3% per month:</span>
-                  <p className="text-xl font-bold text-blue-500">KES 15,000/month</p>
+                  <p className="text-xl font-bold text-blue-700">KES 15,000/month</p>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <span className="text-muted-ink">12 months:</span>
-                  <p className="text-xl font-bold text-blue-500">KES 180,000/year</p>
+                  <p className="text-xl font-bold text-blue-700">KES 180,000/year</p>
                 </div>
 
                 <div className="h-px bg-line" />
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="font-bold text-ink">Total return on capital:</span>
-                  <p className="text-2xl font-extrabold text-blue-500">36%</p>
+                  <p className="text-2xl font-extrabold text-blue-700">36%</p>
                 </div>
 
                 <p className="text-xs text-muted-ink mt-3">
@@ -95,29 +95,29 @@ export function EarningsBreakdown() {
           </div>
 
           {/* Key Info Box */}
-          <div className="mt-12 rounded-xl bg-blue-500/5 border border-blue-500/20 p-6 sm:p-8">
+          <div className="mt-12 rounded-xl bg-blue-700/5 border border-blue-700/20 p-6 sm:p-8">
             <h3 className="font-bold text-ink mb-4">Key Takeaways</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500 mt-2" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700 mt-2" />
                 <span className="text-ink">
                   <strong>3% per month</strong> = 36% per year (on individual loans you fund)
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500 mt-2" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700 mt-2" />
                 <span className="text-ink">
                   <strong>Portfolio average: up to 24% p.a.</strong> (accounts for mix of loan types and occasional defaults)
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500 mt-2" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700 mt-2" />
                 <span className="text-ink">
                   <strong>You choose payout timing:</strong> Monthly deposits or lump sum at end of loan term
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500 mt-2" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700 mt-2" />
                 <span className="text-ink">
                   <strong>100% protected:</strong> Every earning is backed by collateral + insurance
                 </span>

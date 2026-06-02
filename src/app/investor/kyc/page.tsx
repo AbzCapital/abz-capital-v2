@@ -120,13 +120,13 @@ export default function KYCPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-500 text-white hover:brightness-110"
+              className="w-full bg-blue-700 text-white hover:brightness-110"
             >
               {loading ? "Submitting..." : "Submit KYC"}
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-blue-500/5 rounded-lg">
+          <div className="mt-6 p-4 bg-blue-700/5 rounded-lg">
             <p className="text-xs text-muted-ink">
               Your information is secure and will only be used to verify your investor status and
               match you with suitable deals.

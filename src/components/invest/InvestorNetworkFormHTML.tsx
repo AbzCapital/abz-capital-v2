@@ -82,7 +82,7 @@ export function InvestorNetworkFormHTML() {
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="max-w-md mx-auto py-8">
-        <Link href="/invest" className="text-blue-500 mb-6 inline-block">
+        <Link href="/invest" className="text-blue-700 mb-6 inline-block">
           ← Back
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Investor Network</h1>
@@ -187,7 +187,7 @@ export function InvestorNetworkFormHTML() {
 
           <button
             type="submit"
-            className="w-full py-3 font-bold rounded text-white bg-blue-500 hover:bg-blue-500-700"
+            className="w-full py-3 font-bold rounded text-white bg-blue-700 hover:bg-blue-700-700"
           >
             Join Investor Network
           </button>

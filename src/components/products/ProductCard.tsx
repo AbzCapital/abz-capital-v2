@@ -17,8 +17,8 @@ export function ProductCard({ product, category }: ProductCardProps) {
   const waMessage = PRODUCT_WA_MESSAGES.product(product.title);
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card transition hover:-translate-y-1 hover:border-blue-500/30 hover:shadow-elev">
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-blue-500/5">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card transition hover:-translate-y-1 hover:border-blue-700/30 hover:shadow-elev">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-blue-700/5">
         <Image
           src={product.imageUrl}
           alt={product.title}
@@ -26,7 +26,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
         />
-        <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-500 backdrop-blur">
+        <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-700 backdrop-blur">
           {product.termLabel}
         </div>
       </div>
@@ -45,7 +45,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
             {product.highlights.map((h) => (
               <li
                 key={h}
-                className="rounded-full bg-blue-500/5 px-2.5 py-1 text-[11px] font-semibold text-blue-500"
+                className="rounded-full bg-blue-700/5 px-2.5 py-1 text-[11px] font-semibold text-blue-700"
                 dangerouslySetInnerHTML={{ __html: h }}
               />
             ))}
@@ -56,7 +56,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
           {product.hasSimulator && (
             <Link
               href="/simulator"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-blue-500 transition active:brightness-95 touch-manipulation"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-peach bg-peach px-3 py-3 text-xs sm:text-sm font-semibold text-blue-700 transition active:brightness-95 touch-manipulation"
               style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
             >
               View Loan Terms
@@ -64,7 +64,7 @@ export function ProductCard({ product, category }: ProductCardProps) {
           )}
           <a
             href={mailto}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-500 px-3 py-3 text-xs sm:text-sm font-semibold text-white transition active:brightness-95 touch-manipulation"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-700 px-3 py-3 text-xs sm:text-sm font-semibold text-white transition active:brightness-95 touch-manipulation"
             style={{ WebkitUserSelect: "none", WebkitTouchCallout: "none" } as React.CSSProperties}
           >
             <Mail className="size-4" />

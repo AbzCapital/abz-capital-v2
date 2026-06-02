@@ -39,7 +39,7 @@ export function LoanBreakdown({
       {/* Breakdown Table */}
       <div className="overflow-x-auto rounded-lg border border-line">
         <table className="w-full text-sm">
-          <thead className="bg-blue-500 text-white">
+          <thead className="bg-blue-700 text-white">
             <tr>
               <th className="px-4 py-3 text-left font-semibold">Item</th>
               <th className="px-4 py-3 text-right font-semibold">Amount (KES)</th>
@@ -101,7 +101,7 @@ export function LoanBreakdown({
                 {formatKES(schedule.feesTotal)}
               </td>
             </tr>
-            <tr className="bg-blue-500 text-white">
+            <tr className="bg-blue-700 text-white">
               <td className="px-4 py-4 font-bold">Net Loan Amount</td>
               <td className="px-4 py-4 text-right font-bold text-lg">
                 {formatKES(schedule.principal)}
@@ -123,7 +123,7 @@ export function LoanBreakdown({
         </Button>
         <Button
           onClick={onViewSchedule}
-          className="flex-1 bg-blue-500 text-white hover:brightness-110 py-3 sm:py-2 text-sm sm:text-base"
+          className="flex-1 bg-blue-700 text-white hover:brightness-110 py-3 sm:py-2 text-sm sm:text-base"
         >
           View Payment Schedule
           <ArrowRight className="size-4 ml-2" />

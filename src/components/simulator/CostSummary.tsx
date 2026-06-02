@@ -42,7 +42,7 @@ export function CostSummary({ schedule }: CostSummaryProps) {
               className={`flex justify-between ${item.highlight ? "font-semibold text-ink" : "text-muted-ink"}`}
             >
               <span>{item.label}</span>
-              <span className={item.highlight ? "text-blue-500" : ""}>
+              <span className={item.highlight ? "text-blue-700" : ""}>
                 {formatKES(item.value)}
               </span>
             </div>
@@ -51,11 +51,11 @@ export function CostSummary({ schedule }: CostSummaryProps) {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl bg-blue-500/5 p-4 border border-blue-500/10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-1">
+        <div className="rounded-xl bg-blue-700/5 p-4 border border-blue-700/10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-700 mb-1">
             Fixed Principal
           </p>
-          <p className="text-2xl font-extrabold text-blue-500">
+          <p className="text-2xl font-extrabold text-blue-700">
             {formatKES(schedule.fixedPrincipalPayment)}
           </p>
         </div>

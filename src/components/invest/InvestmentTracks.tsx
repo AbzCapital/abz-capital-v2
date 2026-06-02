@@ -13,7 +13,7 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
     <Section spacing="lg" background="white">
       <Container>
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
             Two investment tracks
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink">
@@ -23,7 +23,7 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Option 1: Asset-Backed Lending */}
-          <div className="rounded-2xl bg-blue-500 p-8 sm:p-10 text-white">
+          <div className="rounded-2xl bg-blue-700 p-8 sm:p-10 text-white">
             <div className="flex items-center gap-3 mb-6">
               <div className="rounded-lg bg-white/20 p-3">
                 <Shield className="size-6" />
@@ -74,7 +74,7 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
           <div className="rounded-2xl bg-peach/20 p-8 sm:p-10 border border-peach/20">
             <div className="flex items-center gap-3 mb-6">
               <div className="rounded-lg bg-peach/20 p-3">
-                <TrendingUp className="size-6 text-blue-500" />
+                <TrendingUp className="size-6 text-blue-700" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-ink">SME & Innovation Network</h3>
             </div>
@@ -85,7 +85,7 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
 
             {/* Key Features Checklist */}
             <div className="space-y-3 mb-8">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-500">Key features</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-700">Key features</p>
 
               {[
                 "Pre-screened & validated SMEs",
@@ -96,14 +96,14 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
                 "Exit & liquidity pathways",
               ].map((feature, idx) => (
                 <div key={idx} className="flex items-center gap-3">
-                  <Check className="size-5 text-blue-500 shrink-0" />
+                  <Check className="size-5 text-blue-700 shrink-0" />
                   <span className="text-sm text-ink">{feature}</span>
                 </div>
               ))}
             </div>
 
             {/* CTA Button */}
-            <button className="w-full rounded-xl bg-blue-500 px-6 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 flex items-center justify-center gap-2">
+            <button className="w-full rounded-xl bg-blue-700 px-6 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 flex items-center justify-center gap-2">
               Access Opportunities
               <ArrowRight className="size-4" />
             </button>

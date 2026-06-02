@@ -8,7 +8,7 @@ export function FinalCTA() {
   return (
     <section className="relative overflow-hidden bg-[#0a0820] py-20 text-white sm:py-24">
       <div className="absolute inset-0 -z-10 opacity-50">
-        <div className="absolute -top-32 left-1/4 h-96 w-96 rounded-full bg-blue-500 blur-3xl" />
+        <div className="absolute -top-32 left-1/4 h-96 w-96 rounded-full bg-blue-700 blur-3xl" />
         <div className="absolute -bottom-40 right-10 h-[28rem] w-[28rem] rounded-full bg-peach/30 blur-3xl" />
       </div>
 
@@ -27,7 +27,7 @@ export function FinalCTA() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/fundraise"
-              className="inline-flex items-center gap-2 rounded-xl bg-peach px-7 py-3.5 text-sm font-bold text-blue-500 shadow-[0_8px_24px_rgba(255,189,89,0.35)] transition hover:brightness-105"
+              className="inline-flex items-center gap-2 rounded-xl bg-peach px-7 py-3.5 text-sm font-bold text-blue-700 shadow-[0_8px_24px_rgba(255,189,89,0.35)] transition hover:brightness-105"
             >
               Apply for funding
               <ArrowRight className="size-4" aria-hidden />

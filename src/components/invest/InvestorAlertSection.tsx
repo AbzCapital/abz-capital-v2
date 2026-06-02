@@ -97,7 +97,7 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
                 </div>
 
                 {/* Investor Returns Section */}
-                <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 p-6 sm:p-8">
+                <div className="rounded-2xl bg-blue-700/10 border border-blue-700/20 p-6 sm:p-8">
                   <h3 className="text-lg sm:text-xl font-bold text-ink mb-6">
                     Your Investor Returns
                   </h3>
@@ -113,14 +113,14 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-muted-ink mb-1">Per Month</p>
-                        <p className="text-lg font-bold text-blue-500">
+                        <p className="text-lg font-bold text-blue-700">
                           +{SAMPLE_LOAN.returnPerMonth}
                         </p>
                       </div>
                     </div>
 
                     {/* Divider */}
-                    <div className="h-px bg-blue-500/20" />
+                    <div className="h-px bg-blue-700/20" />
 
                     {/* Return Calculation */}
                     <div>
@@ -144,12 +144,12 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
                             {SAMPLE_LOAN.loanAmount}
                           </span>
                         </div>
-                        <div className="h-px bg-blue-500/20 my-2" />
+                        <div className="h-px bg-blue-700/20 my-2" />
                         <div className="flex justify-between items-center">
-                          <span className="text-sm font-bold text-blue-500">
+                          <span className="text-sm font-bold text-blue-700">
                             Your Total Return
                           </span>
-                          <span className="text-xl font-extrabold text-blue-500">
+                          <span className="text-xl font-extrabold text-blue-700">
                             {SAMPLE_LOAN.investorReturn}
                           </span>
                         </div>
@@ -170,11 +170,11 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                  <button type="button" className="flex-1 rounded-xl bg-blue-500 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 flex items-center justify-center gap-2 cursor-pointer">
+                  <button type="button" className="flex-1 rounded-xl bg-blue-700 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 flex items-center justify-center gap-2 cursor-pointer">
                     Fund This Loan
                     <ArrowRight className="size-4" />
                   </button>
-                  <button type="button" onClick={onClose} className="flex-1 rounded-xl border-2 border-blue-500 bg-transparent px-6 py-3.5 text-sm font-bold text-blue-500 transition hover:bg-blue-500/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 cursor-pointer">
+                  <button type="button" onClick={onClose} className="flex-1 rounded-xl border-2 border-blue-700 bg-transparent px-6 py-3.5 text-sm font-bold text-blue-700 transition hover:bg-blue-700/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 cursor-pointer">
                     Close
                   </button>
                 </div>

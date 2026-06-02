@@ -77,7 +77,7 @@ export function LendingPoolFormMobile() {
           <h2 className="text-2xl font-bold text-green-600 mb-4">✅ Success!</h2>
           <p className="mb-2"><strong>ID:</strong> {successData.investor_id}</p>
           <p><strong>Email:</strong> {successData.email}</p>
-          <Link href="/invest" className="text-blue-500 mt-4 block">Back to Invest</Link>
+          <Link href="/invest" className="text-blue-700 mt-4 block">Back to Invest</Link>
         </div>
       </div>
     );
@@ -86,7 +86,7 @@ export function LendingPoolFormMobile() {
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="max-w-md mx-auto py-8">
-        <Link href="/invest" className="text-blue-500 mb-6 inline-block">← Back</Link>
+        <Link href="/invest" className="text-blue-700 mb-6 inline-block">← Back</Link>
         <h1 className="text-3xl font-bold mb-6">Join Lending Pool</h1>
 
         {message && (
@@ -141,7 +141,7 @@ export function LendingPoolFormMobile() {
             type="button"
             onClick={handleClick}
             disabled={isSubmitting}
-            className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-500-700"}`}
+            className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-700-700"}`}
           >
             {isSubmitting ? "Submitting..." : "Join Lending Pool"}
           </button>

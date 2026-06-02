@@ -36,7 +36,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
       {/* Amortization Table */}
       <div className="overflow-x-auto rounded-lg border border-line bg-white">
         <table className="w-full text-xs sm:text-sm">
-          <thead className="bg-blue-500 text-white sticky top-0">
+          <thead className="bg-blue-700 text-white sticky top-0">
             <tr>
               <th className="px-2 sm:px-3 py-3 text-center font-bold">Month</th>
               <th className="px-2 sm:px-3 py-3 text-right font-bold">Outstanding Balance</th>
@@ -78,7 +78,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="rounded-lg bg-blue-500 p-4 sm:p-6 text-white">
+        <div className="rounded-lg bg-blue-700 p-4 sm:p-6 text-white">
           <p className="text-xs font-bold uppercase tracking-widest opacity-90 mb-2">
             Total Repayment
           </p>
@@ -88,10 +88,10 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
         </div>
 
         <div className="rounded-lg bg-peach p-4 sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-blue-500/80 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-blue-700/80 mb-2">
             Total Interest Paid
           </p>
-          <p className="text-2xl sm:text-3xl font-bold text-blue-500">
+          <p className="text-2xl sm:text-3xl font-bold text-blue-700">
             {formatKES(schedule.totalInterest)}
           </p>
         </div>
@@ -110,7 +110,7 @@ export function LoanScheduleView({ schedule, onBackToBreakdown }: LoanScheduleVi
 
         <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="w-full">
           <Button
-            className="w-full bg-blue-500 text-white hover:brightness-110 font-semibold py-3 sm:py-2 text-sm sm:text-base"
+            className="w-full bg-blue-700 text-white hover:brightness-110 font-semibold py-3 sm:py-2 text-sm sm:text-base"
           >
             <MessageSquare className="size-4 mr-2" />
             Apply for This Loan

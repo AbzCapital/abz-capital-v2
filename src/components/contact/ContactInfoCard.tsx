@@ -11,7 +11,7 @@ const EMAILS = [
 
 export function ContactInfoCard() {
   return (
-    <aside className="flex flex-col gap-6 rounded-3xl bg-blue-500 p-7 text-white shadow-elev sm:p-8">
+    <aside className="flex flex-col gap-6 rounded-3xl bg-blue-700 p-7 text-white shadow-elev sm:p-8">
       <div className="absolute" aria-hidden />
 
       <div>
@@ -36,36 +36,36 @@ export function ContactInfoCard() {
 
       <div className="space-y-4 rounded-2xl bg-white/5 p-5 backdrop-blur">
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 inline-flex size-9 items-center justify-center rounded-lg bg-peach text-blue-500">
+          <span className="mt-0.5 inline-flex size-9 items-center justify-center rounded-lg bg-peach text-blue-700">
             <Phone className="size-4" />
           </span>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Phone</div>
-            <a href="tel:+254141576254" className="text-sm font-semibold text-blue-500 hover:text-peach">
+            <a href="tel:+254141576254" className="text-sm font-semibold text-blue-700 hover:text-peach">
               +254 141 576 254
             </a>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 inline-flex size-9 items-center justify-center rounded-lg bg-peach text-blue-500">
+          <span className="mt-0.5 inline-flex size-9 items-center justify-center rounded-lg bg-peach text-blue-700">
             <MapPin className="size-4" />
           </span>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Office</div>
-            <p className="text-sm text-blue-500/80">
+            <p className="text-sm text-blue-700/80">
               34487 Nairobi Office, Solaret Building, Utawala — next to Miaduck shop
             </p>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 inline-flex size-9 items-center justify-center rounded-lg bg-peach text-blue-500">
+          <span className="mt-0.5 inline-flex size-9 items-center justify-center rounded-lg bg-peach text-blue-700">
             <Clock className="size-4" />
           </span>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-peach">Hours</div>
-            <p className="text-sm text-blue-500/80">Mon – Sat · 8:30 AM – 6:00 PM EAT</p>
+            <p className="text-sm text-blue-700/80">Mon – Sat · 8:30 AM – 6:00 PM EAT</p>
           </div>
         </div>
       </div>
@@ -77,15 +77,15 @@ export function ContactInfoCard() {
             <li key={item.email}>
               <a
                 href={`mailto:${item.email}`}
-                className="group flex items-start gap-2.5 rounded-lg border border-blue-500/20 bg-blue-500/5 px-3 py-2.5 transition hover:bg-blue-500/10"
+                className="group flex items-start gap-2.5 rounded-lg border border-blue-700/20 bg-blue-700/5 px-3 py-2.5 transition hover:bg-blue-700/10"
               >
                 <Mail className="mt-0.5 size-4 shrink-0 text-peach" />
                 <span>
                   <span
-                    className="block text-[11px] font-semibold uppercase tracking-wider text-blue-500/70"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-blue-700/70"
                     dangerouslySetInnerHTML={{ __html: item.label }}
                   />
-                  <span className="text-xs font-semibold text-blue-500 group-hover:text-peach">
+                  <span className="text-xs font-semibold text-blue-700 group-hover:text-peach">
                     {item.email}
                   </span>
                 </span>

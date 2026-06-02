@@ -22,7 +22,7 @@ export function HeroSectionNew() {
         {/* Three Offering Boxes */}
         <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
           {/* Box 1: Lending Pool */}
-          <div className="rounded-2xl bg-blue-500 p-6 sm:p-8 text-white border border-blue-500/30 shadow-lg hover:shadow-xl transition">
+          <div className="rounded-2xl bg-blue-700 p-6 sm:p-8 text-white border border-blue-700/30 shadow-lg hover:shadow-xl transition">
             <div className="mb-4">
               <div className="inline-block rounded-lg bg-white/20 p-3 mb-4">
                 <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,7 +62,7 @@ export function HeroSectionNew() {
           <div className="rounded-2xl bg-white p-6 sm:p-8 border-2 border-peach/30 shadow-lg hover:shadow-xl transition">
             <div className="mb-4">
               <div className="inline-block rounded-lg bg-peach/20 p-3 mb-4">
-                <svg className="size-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="size-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
@@ -76,30 +76,30 @@ export function HeroSectionNew() {
 
             <ul className="space-y-3 mb-8 text-sm">
               <li className="flex items-center gap-2">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700" />
                 <span className="text-ink">Pre-screened businesses</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700" />
                 <span className="text-ink">Flexible structures</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700" />
                 <span className="text-ink">Quarterly updates</span>
               </li>
             </ul>
 
-            <button className="w-full rounded-xl bg-blue-500/10 hover:bg-blue-500/20 px-4 py-3 text-sm font-bold text-blue-500 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 flex items-center justify-center gap-2">
+            <button className="w-full rounded-xl bg-blue-700/10 hover:bg-blue-700/20 px-4 py-3 text-sm font-bold text-blue-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 flex items-center justify-center gap-2">
               Browse Opportunities
               <ArrowRight className="size-4" />
             </button>
           </div>
 
           {/* Box 3: Innovation */}
-          <div className="rounded-2xl bg-white p-6 sm:p-8 border-2 border-blue-500/20 shadow-lg hover:shadow-xl transition">
+          <div className="rounded-2xl bg-white p-6 sm:p-8 border-2 border-blue-700/20 shadow-lg hover:shadow-xl transition">
             <div className="mb-4">
-              <div className="inline-block rounded-lg bg-blue-500/10 p-3 mb-4">
-                <svg className="size-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-block rounded-lg bg-blue-700/10 p-3 mb-4">
+                <svg className="size-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5h.01" />
                 </svg>
               </div>
@@ -113,20 +113,20 @@ export function HeroSectionNew() {
 
             <ul className="space-y-3 mb-8 text-sm">
               <li className="flex items-center gap-2">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700" />
                 <span className="text-ink">Curated opportunities</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700" />
                 <span className="text-ink">Growth potential</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block size-1.5 rounded-full bg-blue-500" />
+                <span className="inline-block size-1.5 rounded-full bg-blue-700" />
                 <span className="text-ink">Monthly monitoring</span>
               </li>
             </ul>
 
-            <button className="w-full rounded-xl bg-blue-500 px-4 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 flex items-center justify-center gap-2">
+            <button className="w-full rounded-xl bg-blue-700 px-4 py-3 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 flex items-center justify-center gap-2">
               View Startups
               <ArrowRight className="size-4" />
             </button>

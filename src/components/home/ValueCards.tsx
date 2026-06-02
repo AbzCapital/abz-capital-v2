@@ -10,7 +10,7 @@ const CARDS = [
     description:
       "Logbook, title deed, and bond-backed loans with transparent fees and clear repayment schedules. Keep using your asset while you repay.",
     href: "/products#asset-backed",
-    accent: "bg-blue-500",
+    accent: "bg-blue-700",
   },
   {
     icon: Building2,
@@ -18,7 +18,7 @@ const CARDS = [
     description:
       "Working capital, expansion funding, and investor linkage services for ambitious Kenyan businesses ready to scale.",
     href: "/products#sme",
-    accent: "bg-blue-500",
+    accent: "bg-blue-700",
   },
   {
     icon: ShieldCheck,
@@ -35,7 +35,7 @@ export function ValueCards() {
     <Section spacing="lg" background="white" id="value-cards">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-700">
             What we do
           </span>
           <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
@@ -51,7 +51,7 @@ export function ValueCards() {
             <Link
               key={card.title}
               href={card.href}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-blue-500/30 hover:shadow-elev"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-blue-700/30 hover:shadow-elev"
             >
               <div
                 className={`inline-flex size-12 items-center justify-center rounded-xl ${card.accent} text-white shadow-button`}
@@ -60,7 +60,7 @@ export function ValueCards() {
               </div>
               <h3 className="mt-5 text-xl font-bold text-ink" dangerouslySetInnerHTML={{ __html: card.title }} />
               <p className="mt-3 text-sm leading-relaxed text-muted-ink" dangerouslySetInnerHTML={{ __html: card.description }} />
-              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-500">
+              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700">
                 Learn more
                 <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
               </span>

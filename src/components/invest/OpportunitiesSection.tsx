@@ -49,7 +49,7 @@ export function OpportunitiesSection() {
     <Section spacing="lg" background="white">
       <Container>
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
             Deal types
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink">
@@ -76,7 +76,7 @@ export function OpportunitiesSection() {
                     className="h-full w-full object-cover"
                   />
                   {/* Icon Badge */}
-                  <div className="absolute top-4 right-4 rounded-lg bg-blue-500 p-3 shadow-lg">
+                  <div className="absolute top-4 right-4 rounded-lg bg-blue-700 p-3 shadow-lg">
                     <Icon className="size-6 text-white" />
                   </div>
                 </div>
@@ -94,14 +94,14 @@ export function OpportunitiesSection() {
                   <ul className="space-y-2 mb-6">
                     {opp.items.map((item, itemIdx) => (
                       <li key={itemIdx} className="flex items-start gap-3">
-                        <Check className="size-4 text-blue-500 shrink-0 mt-1" />
+                        <Check className="size-4 text-blue-700 shrink-0 mt-1" />
                         <span className="text-sm text-ink">{item}</span>
                       </li>
                     ))}
                   </ul>
 
                   {/* CTA Button */}
-                  <button className="w-full rounded-xl bg-blue-500/10 hover:bg-blue-500/20 px-4 py-2 text-sm font-bold text-blue-500 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40">
+                  <button className="w-full rounded-xl bg-blue-700/10 hover:bg-blue-700/20 px-4 py-2 text-sm font-bold text-blue-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40">
                     Learn More
                   </button>
                 </div>

@@ -30,7 +30,7 @@ export function WhyABZ() {
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-5">
-            <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">
+            <span className="text-xs font-semibold uppercase tracking-widest text-blue-700">
               Why ABZ Capital
             </span>
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
@@ -46,10 +46,10 @@ export function WhyABZ() {
             {REASONS.map((reason, idx) => (
               <li
                 key={reason.title}
-                className="group relative rounded-2xl border border-line bg-white p-6 transition hover:border-blue-500/20 hover:shadow-card"
+                className="group relative rounded-2xl border border-line bg-white p-6 transition hover:border-blue-700/20 hover:shadow-card"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-peach-50 text-base font-extrabold text-blue-500">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-peach-50 text-base font-extrabold text-blue-700">
                     {String(idx + 1).padStart(2, "0")}
                   </div>
                   <div>

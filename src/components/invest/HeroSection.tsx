@@ -82,7 +82,7 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
             <div className="grid gap-4 sm:gap-6 mt-8 md:mt-0">
               {/* Card 1: Projected Returns */}
               <div className="rounded-2xl bg-white/95 backdrop-blur p-6 sm:p-8 shadow-lg">
-                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-700 mb-2">
                   Projected Returns
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink">18-24%</p>
@@ -91,7 +91,7 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
 
               {/* Card 2: Total Funded */}
               <div className="rounded-2xl bg-white/95 backdrop-blur p-6 sm:p-8 shadow-lg">
-                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-700 mb-2">
                   Total Funded
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink">KES 450M+</p>
@@ -100,12 +100,12 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
 
               {/* Card 3: Repayment Rate */}
               <div className="rounded-2xl bg-white/95 backdrop-blur p-6 sm:p-8 shadow-lg">
-                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-700 mb-2">
                   Repayment Rate
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink">96.3%</p>
                 <div className="mt-3 h-2 w-full rounded-full bg-ink/10 overflow-hidden">
-                  <div className="h-full w-[96.3%] bg-blue-500 rounded-full" />
+                  <div className="h-full w-[96.3%] bg-blue-700 rounded-full" />
                 </div>
                 <p className="text-sm text-muted-ink mt-2">Average on funded assets</p>
               </div>

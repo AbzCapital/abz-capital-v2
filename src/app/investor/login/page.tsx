@@ -100,7 +100,7 @@ export default function InvestorLoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-500 text-white hover:brightness-110"
+              className="w-full bg-blue-700 text-white hover:brightness-110"
             >
               {loading ? "Loading..." : mode === "login" ? "Login" : "Create Account"}
             </Button>
@@ -110,7 +110,7 @@ export default function InvestorLoginPage() {
             <button
               type="button"
               onClick={() => setMode(mode === "login" ? "signup" : "login")}
-              className="text-sm text-blue-500 hover:underline"
+              className="text-sm text-blue-700 hover:underline"
             >
               {mode === "login"
                 ? "Don't have an account? Sign up"

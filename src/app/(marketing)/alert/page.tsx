@@ -13,7 +13,7 @@ export default function AlertPage() {
       <Container>
         <Link
           href="/invest"
-          className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-500/80 transition mb-6"
+          className="inline-flex items-center gap-2 text-blue-700 hover:text-blue-700/80 transition mb-6"
         >
           ← Back
         </Link>
@@ -69,7 +69,7 @@ export default function AlertPage() {
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="text-muted-ink">Monthly Return</span>
-                <span className="font-semibold text-blue-500">3%</span>
+                <span className="font-semibold text-blue-700">3%</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <span className="text-muted-ink">Monthly Earnings</span>
@@ -87,7 +87,7 @@ export default function AlertPage() {
           </div>
 
           {/* CTA Button */}
-          <button className="w-full rounded-xl bg-blue-500 text-white px-6 py-4 text-base font-bold shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 cursor-pointer">
+          <button className="w-full rounded-xl bg-blue-700 text-white px-6 py-4 text-base font-bold shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 cursor-pointer">
             Fund this Loan
           </button>
         </div>

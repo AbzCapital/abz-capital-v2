@@ -14,7 +14,7 @@ export default function ContactPage() {
     <section className="bg-mesh-soft py-16 sm:py-24">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-700">
             Talk to us
           </span>
           <h1 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">

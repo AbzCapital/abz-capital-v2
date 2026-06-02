@@ -13,13 +13,13 @@ export function SimulatorPageContent() {
           <div className="flex items-center gap-4 py-4">
             <Link
               href="/products"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-blue-500/5 active:brightness-95 touch-manipulation"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-blue-700/5 active:brightness-95 touch-manipulation"
               aria-label="Back to products"
             >
               <ArrowLeft className="size-5" />
             </Link>
             <div>
-              <h1 className="text-xl font-extrabold text-blue-500">Loan Terms Simulator</h1>
+              <h1 className="text-xl font-extrabold text-blue-700">Loan Terms Simulator</h1>
               <p className="text-sm text-muted-ink">Calculate your loan schedule</p>
             </div>
           </div>
@@ -47,7 +47,7 @@ export function SimulatorPageContent() {
                 id="loanAmount"
                 placeholder="e.g. 500000"
                 defaultValue="500000"
-                className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
               />
             </div>
           </div>
@@ -69,7 +69,7 @@ export function SimulatorPageContent() {
                 id="insurancePremium"
                 placeholder="e.g. 50000"
                 defaultValue="50000"
-                className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full h-12 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
               />
             </div>
           </div>
@@ -87,14 +87,14 @@ export function SimulatorPageContent() {
               id="loanPeriod"
               placeholder="e.g. 12"
               defaultValue="12"
-              className="w-full h-12 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full h-12 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent"
             />
           </div>
 
           {/* Calculate Button */}
           <button
             id="calculateBtn"
-            className="w-full h-12 bg-blue-500 text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation"
+            className="w-full h-12 bg-blue-700 text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation"
             style={{
               WebkitUserSelect: "none",
               WebkitTouchCallout: "none",
@@ -124,7 +124,7 @@ export function SimulatorPageContent() {
                   className="w-full text-xs sm:text-sm"
                   style={{ minWidth: "500px" }}
                 >
-                  <thead className="bg-blue-500 text-white">
+                  <thead className="bg-blue-700 text-white">
                     <tr>
                       <th className="px-3 py-3 text-center font-bold">Month</th>
                       <th className="px-3 py-3 text-right font-bold">Outstanding Balance</th>
@@ -142,7 +142,7 @@ export function SimulatorPageContent() {
               <div className="flex gap-3 mt-6">
                 <button
                   id="downloadPdfBtn"
-                  className="flex-1 h-12 bg-blue-500 text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation text-sm"
+                  className="flex-1 h-12 bg-blue-700 text-white font-semibold rounded-lg hover:brightness-110 active:brightness-95 transition touch-manipulation text-sm"
                   style={{
                     WebkitUserSelect: "none",
                     WebkitTouchCallout: "none",
@@ -263,7 +263,7 @@ export function SimulatorPageContent() {
                   <div class="flex justify-between"><span>Logbook Transfer Fee:</span><span class="font-semibold">KES 2,500</span></div>
                   <div class="flex justify-between"><span>Tracker Fee:</span><span class="font-semibold">KES 15,000</span></div>
                   <div class="border-t border-line pt-2 flex justify-between"><span>Total Fees:</span><span class="font-semibold">\${formatKES(feesTotal)}</span></div>
-                  <div class="border-t border-line pt-2 flex justify-between font-bold text-blue-500"><span>Loan Principal:</span><span>\${formatKES(principal)}</span></div>
+                  <div class="border-t border-line pt-2 flex justify-between font-bold text-blue-700"><span>Loan Principal:</span><span>\${formatKES(principal)}</span></div>
                   <div class="flex justify-between text-blue-700"><span>Total Interest:</span><span class="font-bold text-lg">\${formatKES(totalInterestCharged)}</span></div>
                   <div class="flex justify-between text-blue-700"><span>Total Repayment:</span><span class="font-bold text-lg">\${formatKES(totalRepayment)}</span></div>
                 \`;

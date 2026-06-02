@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-mesh p-4">
       <Card className="w-full max-w-md p-8 shadow-lg">
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-blue-500 mb-2">ABZ Admin</h1>
+          <h1 className="text-3xl font-extrabold text-blue-700 mb-2">ABZ Admin</h1>
           <p className="text-muted-ink">Sign in to access the admin panel</p>
         </div>
 
@@ -103,13 +103,13 @@ export default function AdminLoginPage() {
             type="submit"
             disabled={isLoading || !email || !password}
             suppressHydrationWarning
-            className="w-full bg-blue-500 text-white hover:brightness-110 py-2 font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-blue-700 text-white hover:brightness-110 py-2 font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
-        <div className="mt-6 p-4 bg-blue-500/5 rounded-lg">
+        <div className="mt-6 p-4 bg-blue-700/5 rounded-lg">
           <p className="text-xs text-muted-ink">
             <strong>Demo credentials:</strong>
             <br />

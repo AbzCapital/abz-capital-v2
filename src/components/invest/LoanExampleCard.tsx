@@ -9,7 +9,7 @@ export function LoanExampleCard() {
     <Section spacing="lg" background="mesh-soft">
       <Container>
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
             Real Example
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-ink mb-4">
@@ -105,21 +105,21 @@ export function LoanExampleCard() {
             </div>
 
             {/* Your Earning Highlight */}
-            <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-6 sm:p-8 mb-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
+            <div className="rounded-xl bg-blue-700/10 border border-blue-700/20 p-6 sm:p-8 mb-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
                 Your Investment Returns
               </p>
               <div className="space-y-3">
                 <div className="flex items-end justify-between">
                   <span className="text-muted-ink">If you invest KES 100,000:</span>
-                  <p className="text-2xl sm:text-3xl font-extrabold text-blue-500">
+                  <p className="text-2xl sm:text-3xl font-extrabold text-blue-700">
                     KES 3,000/month
                   </p>
                 </div>
-                <div className="h-px bg-blue-500/20" />
+                <div className="h-px bg-blue-700/20" />
                 <div className="flex items-end justify-between">
                   <span className="text-muted-ink">Annual earning (3% monthly):</span>
-                  <p className="text-xl font-bold text-blue-500">
+                  <p className="text-xl font-bold text-blue-700">
                     KES 36,000/year
                   </p>
                 </div>
@@ -139,11 +139,11 @@ export function LoanExampleCard() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="flex-1 rounded-xl bg-blue-500 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 flex items-center justify-center gap-2">
+              <button className="flex-1 rounded-xl bg-blue-700 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 flex items-center justify-center gap-2">
                 Fund This Loan
                 <ArrowRight className="size-4" />
               </button>
-              <button className="flex-1 rounded-xl border-2 border-blue-500 bg-transparent px-6 py-3.5 text-sm font-bold text-blue-500 transition hover:bg-blue-500/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40">
+              <button className="flex-1 rounded-xl border-2 border-blue-700 bg-transparent px-6 py-3.5 text-sm font-bold text-blue-700 transition hover:bg-blue-700/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40">
                 View More Loans
               </button>
             </div>

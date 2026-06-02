@@ -38,7 +38,7 @@ export function AlertModal({ open, onOpenChange }: AlertModalProps) {
           <div className="grid gap-8 lg:grid-cols-2 mb-8">
             {/* Loan Details Section */}
             <div>
-              <h2 className="text-lg font-bold text-ink mb-4 border-b-2 border-blue-500 pb-2">
+              <h2 className="text-lg font-bold text-ink mb-4 border-b-2 border-blue-700 pb-2">
                 Loan Details
               </h2>
               <div className="space-y-2">
@@ -85,7 +85,7 @@ export function AlertModal({ open, onOpenChange }: AlertModalProps) {
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-200">
                   <span className="text-muted-ink">Monthly Return</span>
-                  <span className="font-semibold text-blue-500">3%</span>
+                  <span className="font-semibold text-blue-700">3%</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-200">
                   <span className="text-muted-ink">Monthly Earnings</span>
@@ -104,7 +104,7 @@ export function AlertModal({ open, onOpenChange }: AlertModalProps) {
           </div>
 
           {/* CTA Button */}
-          <button className="w-full rounded-xl bg-blue-500 text-white px-6 py-4 text-base font-bold shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 cursor-pointer">
+          <button className="w-full rounded-xl bg-blue-700 text-white px-6 py-4 text-base font-bold shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700/40 cursor-pointer">
             Fund this Loan
           </button>
         </div>
