@@ -18,9 +18,6 @@ export function LendingPoolFormMobile() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleClick = () => {
-    console.log("Button clicked!");
-    alert("✅ Button click detected!");
-
     if (isSubmitting) return;
     setIsSubmitting(true);
     setMessage("📤 Submitting form...");
@@ -49,21 +46,26 @@ export function LendingPoolFormMobile() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
+          redirect: "follow",
         });
 
-        const result = await response.json();
-
-        if (response.ok && result.success) {
-          alert("✅ SUCCESS! ID: " + result.investor_id);
-          setMessage("✅ Success! Investor ID: " + result.investor_id);
-          setSuccess(true);
-          setSuccessData(result);
+        if (response.redirected) {
+          setMessage("✅ Success! Redirecting...");
+          setTimeout(() => {
+            window.location.href = response.url;
+          }, 500);
         } else {
-          throw new Error(result.error || "Failed");
+          const result = await response.json();
+          if (response.ok) {
+            setMessage("✅ Success!");
+            setSuccess(true);
+            setSuccessData(result);
+          } else {
+            throw new Error(result.error || "Failed to register");
+          }
         }
       } catch (error) {
         const msg = error instanceof Error ? error.message : "Unknown error";
-        alert("❌ " + msg);
         setMessage("❌ Error: " + msg);
         setIsSubmitting(false);
       }
