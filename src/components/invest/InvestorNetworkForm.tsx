@@ -79,7 +79,6 @@ export function InvestorNetworkForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("✅ Form submit event fired!");
     setError("");
     setLoading(true);
 

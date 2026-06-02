@@ -88,12 +88,6 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
                     <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.loanAmount}</p>
                   </div>
 
-                  <div className="rounded-lg bg-gray-50 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-ink mb-1">
-                      Investor Returns (3% of loan amount per month)
-                    </p>
-                    <p className="text-lg font-bold text-ink">{SAMPLE_LOAN.monthlyPayment}/month</p>
-                  </div>
                 </div>
 
                 {/* Investor Returns Section */}
@@ -103,25 +97,6 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
                   </h3>
 
                   <div className="space-y-6">
-                    {/* Monthly Payment */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-muted-ink mb-1">Monthly Payment</p>
-                        <p className="text-2xl sm:text-3xl font-bold text-ink">
-                          {SAMPLE_LOAN.monthlyPayment}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm text-muted-ink mb-1">Per Month</p>
-                        <p className="text-lg font-bold text-blue-700">
-                          +{SAMPLE_LOAN.returnPerMonth}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Divider */}
-                    <div className="h-px bg-blue-700/20" />
-
                     {/* Return Calculation */}
                     <div>
                       <p className="text-sm text-muted-ink mb-3">

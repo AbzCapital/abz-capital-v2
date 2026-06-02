@@ -56,8 +56,6 @@ export function LendingPoolForm() {
       event.preventDefault();
       event.stopPropagation();
 
-      alert("✅ Form submit event fired!");
-
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
       setStatus("");
