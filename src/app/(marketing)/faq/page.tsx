@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export const metadata: Metadata = {
   title: "FAQ - ABZ Capital",
@@ -218,18 +217,14 @@ export default function FAQPage() {
               {faqCategories.map((category) => (
                 <div key={category.title}>
                   <h2 className="text-2xl font-bold text-ink mb-6">{category.title}</h2>
-                  <Accordion type="single" collapsible className="space-y-3">
+                  <div className="space-y-4">
                     {category.items.map((item, index) => (
-                      <AccordionItem key={index} value={`${category.title}-${index}`} className="border border-gray-200 rounded-lg px-6">
-                        <AccordionTrigger className="text-ink hover:text-blue-700 py-4 font-semibold">
-                          {item.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-muted-ink pb-4 pt-2">
-                          {item.answer}
-                        </AccordionContent>
-                      </AccordionItem>
+                      <div key={index} className="border border-gray-200 rounded-lg px-6 py-4">
+                        <h3 className="text-lg font-semibold text-ink mb-3">{item.question}</h3>
+                        <p className="text-muted-ink leading-relaxed">{item.answer}</p>
+                      </div>
                     ))}
-                  </Accordion>
+                  </div>
                 </div>
               ))}
             </div>
