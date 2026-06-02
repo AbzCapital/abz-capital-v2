@@ -69,10 +69,10 @@ export function InvestorNetworkFormMobile() {
         setMessage("✅ Your details have been submitted! We'll be in touch soon.");
         setIsSubmitting(false);
 
-        // Auto-redirect to welcome page after 3 seconds
-        setTimeout(() => {
-          window.location.href = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}&type=${result.type}`;
-        }, 3000);
+        // Redirect to welcome page immediately
+        const welcomeUrl = `/investor/welcome?id=${result.investor_id}&email=${encodeURIComponent(result.email)}&type=${result.type}`;
+        console.log("[FORM] Redirecting to:", welcomeUrl);
+        window.location.href = welcomeUrl;
       } else {
         throw new Error(result.message || result.error || "Failed to register");
       }
