@@ -77,8 +77,9 @@ export function InvestorNetworkFormMobile() {
         console.log("[FORM] Redirect detected - Status:", response.status, "URL:", redirectUrl);
 
         if (redirectUrl) {
-          // Set success state FIRST to show success page
+          // Set success state AND dummy data to show success page
           setSuccess(true);
+          setSuccessData({ investor_id: "processing", email: data.email });
           setMessage("✅ Registration successful! Redirecting...");
 
           // Wait 2 seconds to let success page render, then redirect
