@@ -49,13 +49,17 @@ export function LendingPoolFormMobile() {
           redirect: "follow",
         });
 
+        alert(`🔍 API Response: Status=${response.status}, Redirected=${response.redirected}, URL=${response.url}`);
+
         if (response.redirected) {
+          alert(`✅ REDIRECT DETECTED: Going to ${response.url}`);
           setMessage("✅ Success! Redirecting...");
           setTimeout(() => {
             window.location.href = response.url;
           }, 500);
         } else {
           const result = await response.json();
+          alert(`📊 NON-REDIRECT RESPONSE: OK=${response.ok}, Result=${JSON.stringify(result)}`);
           if (response.ok) {
             setMessage("✅ Success!");
             setSuccess(true);
