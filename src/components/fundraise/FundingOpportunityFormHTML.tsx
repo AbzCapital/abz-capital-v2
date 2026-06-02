@@ -38,116 +38,53 @@ const COUNTRIES = [
 ];
 
 export function FundingOpportunityFormHTML() {
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [apiResponse, setApiResponse] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [countryCode, setCountryCode] = useState("+254");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [category, setCategory] = useState("");
-  const [opportunityType, setOpportunityType] = useState("");
-  const [description, setDescription] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("🔵 Form submit handler called!");
-    alert("✅ Form submitted! Processing...");
-    setError("");
-    setApiResponse("");
-    setLoading(true);
+    e.stopPropagation();
+
+    setIsSubmitting(true);
+    setMessage({ text: "Submitting...", type: "info" });
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      countryCode: formData.get("countryCode"),
+      phoneNumber: formData.get("phoneNumber"),
+      category: formData.get("category"),
+      opportunityType: formData.get("opportunityType"),
+      description: formData.get("description"),
+    };
 
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("countryCode", countryCode);
-      formData.append("phoneNumber", phoneNumber);
-      formData.append("category", category);
-      formData.append("opportunityType", opportunityType);
-      formData.append("description", description);
-
-      // Append files
-      files.forEach((file) => {
-        formData.append("files", file);
-      });
-
-      console.log("🔵 FormData prepared, sending to API...");
-      setApiResponse("Sending to API...");
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-
       const response = await fetch("/api/submit/funding-opportunity", {
         method: "POST",
-        body: formData,
-        signal: controller.signal,
-        redirect: "follow",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      clearTimeout(timeoutId);
 
-      console.log("🔵 API Response Status:", response.status);
-      setApiResponse(`API Response: ${response.status}`);
+      const result = await response.json();
 
-      const data = await response.json();
-      console.log("🔵 API Response Data:", data);
-      setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
-
-      if (response.ok && data.ok) {
-        console.log("✅ Success! Redirecting...");
-        setSuccess(true);
-        setTimeout(() => {
-          window.location.href = "/fundraise";
-        }, 2000);
+      if (response.ok && result.ok) {
+        setMessage({ text: "✅ Success! Your opportunity has been submitted. Check your email.", type: "success" });
+        e.currentTarget.reset();
       } else {
-        const errorMsg = data.error || "Submission failed";
-        console.log("❌ Error:", errorMsg);
-        setError(errorMsg);
+        throw new Error(result.error || "Submission failed");
       }
     } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      console.log("❌ Catch Error:", errorMsg);
-      setApiResponse(`ERROR: ${errorMsg}`);
-      setError(`Network error: ${errorMsg}`);
+      setMessage({ text: `❌ Error: ${error instanceof Error ? error.message : "Unknown error"}`, type: "error" });
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
-        <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
-          <p className="text-muted-ink mb-6 font-semibold">
-            Your funding opportunity has been submitted.
-          </p>
-          <p className="text-muted-ink">
-            Our investor team will review it and be in touch shortly.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-md mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-ink mb-6">Submit Opportunity</h1>
-
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-            {error}
-          </div>
-        )}
-
-        {apiResponse && (
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-4 text-xs font-mono break-words">
-            <strong>API Debug:</strong> {apiResponse}
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -156,9 +93,8 @@ export function FundingOpportunityFormHTML() {
             </label>
             <input
               type="text"
+              name="name"
               required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             />
           </div>
@@ -169,9 +105,8 @@ export function FundingOpportunityFormHTML() {
             </label>
             <input
               type="email"
+              name="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             />
           </div>
@@ -182,8 +117,8 @@ export function FundingOpportunityFormHTML() {
             </label>
             <div className="flex gap-2">
               <select
-                value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
+                name="countryCode"
+                defaultValue="+254"
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               >
                 {COUNTRIES.map((country) => (
@@ -194,9 +129,8 @@ export function FundingOpportunityFormHTML() {
               </select>
               <input
                 type="tel"
+                name="phoneNumber"
                 required
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="700000000"
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
               />
@@ -208,9 +142,8 @@ export function FundingOpportunityFormHTML() {
               Category *
             </label>
             <select
+              name="category"
               required
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             >
               <option value="">Select a category</option>
@@ -226,9 +159,8 @@ export function FundingOpportunityFormHTML() {
               Opportunity Type *
             </label>
             <select
+              name="opportunityType"
               required
-              value={opportunityType}
-              onChange={(e) => setOpportunityType(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             >
               <option value="">Select opportunity type</option>
@@ -244,38 +176,35 @@ export function FundingOpportunityFormHTML() {
               Description *
             </label>
             <textarea
+              name="description"
               required
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
               rows={5}
               placeholder="Describe the deal, its size, sector, and what you're looking for"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2">
-              Attachments (optional)
-            </label>
-            <input
-              type="file"
-              multiple
-              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
-              onChange={(e) => setFiles(Array.from(e.target.files || []))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
-            <p className="text-xs text-muted-ink mt-1">
-              PDF, Word, Excel, Images (max 5 files)
-            </p>
-          </div>
-
           <button
             type="submit"
-            disabled={loading}
+            disabled={isSubmitting}
             className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
-            {loading ? "Submitting..." : "Submit Opportunity"}
+            {isSubmitting ? "Submitting..." : "Submit Opportunity"}
           </button>
+
+          {message.text && (
+            <div
+              className={`mt-4 p-3 rounded-lg ${
+                message.type === "success"
+                  ? "bg-green-50 border border-green-200 text-green-700"
+                  : message.type === "error"
+                  ? "bg-red-50 border border-red-200 text-red-700"
+                  : "bg-blue-50 border border-blue-200 text-blue-700"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
         </form>
       </div>
     </div>
