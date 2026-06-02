@@ -42,7 +42,7 @@ export function Header() {
               aria-label="ABZ Capital home"
             >
               <ChevronMark size={34} className="transition-transform group-hover:scale-105" />
-              <span className="text-[19px] font-extrabold tracking-tight text-indigo leading-none sm:text-xl">
+              <span className="text-[19px] font-extrabold tracking-tight text-blue-500 leading-none sm:text-xl">
                 ABZ Capital
               </span>
             </Link>
@@ -57,8 +57,8 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "relative text-sm font-medium text-ink/80 transition hover:text-indigo",
-                      active && "text-indigo"
+                      "relative text-sm font-medium text-ink/80 transition hover:text-blue-500",
+                      active && "text-blue-500"
                     )}
                   >
                     {item.label}
@@ -73,7 +73,7 @@ export function Header() {
             <div className="hidden lg:flex">
               <Link
                 href="/products#asset-backed"
-                className="inline-flex items-center justify-center rounded-lg bg-indigo px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo/30"
+                className="inline-flex items-center justify-center rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-button transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/30"
               >
                 Apply for a loan now
               </Link>

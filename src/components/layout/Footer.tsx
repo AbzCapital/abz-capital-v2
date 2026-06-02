@@ -28,7 +28,7 @@ export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden bg-[#0a0820] text-white">
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute -left-32 top-10 size-72 rounded-full bg-indigo blur-3xl" />
+        <div className="absolute -left-32 top-10 size-72 rounded-full bg-blue-500 blur-3xl" />
         <div className="absolute right-0 bottom-0 size-80 rounded-full bg-peach/40 blur-3xl" />
       </div>
 

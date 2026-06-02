@@ -249,7 +249,7 @@ export function FundingOpportunityForm() {
           <button
             ref={submitBtnRef}
             type="submit"
-            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
+            className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
             Submit Opportunity
           </button>

@@ -58,13 +58,13 @@ export default function InvestorDashboard() {
         <Container>
           <div className="flex justify-between items-center h-16">
             <div>
-              <h1 className="text-xl font-extrabold text-indigo">ABZ Investor</h1>
+              <h1 className="text-xl font-extrabold text-blue-500">ABZ Investor</h1>
               <p className="text-xs text-muted-ink">{session?.user?.email}</p>
             </div>
             <div className="flex gap-2">
               {!investor?.kycStatus || investor.kycStatus === "pending" ? (
                 <Link href="/investor/kyc">
-                  <Button className="bg-peach text-indigo">
+                  <Button className="bg-peach text-blue-500">
                     <FileText className="size-4 mr-2" />
                     Complete KYC
                   </Button>
@@ -87,21 +87,21 @@ export default function InvestorDashboard() {
           <div className="grid gap-6 md:grid-cols-3 mb-8">
             <Card className="p-6">
               <p className="text-sm text-muted-ink mb-1">KYC Status</p>
-              <p className="text-2xl font-extrabold text-indigo">
+              <p className="text-2xl font-extrabold text-blue-500">
                 {investor?.kycStatus || "Pending"}
               </p>
             </Card>
 
             <Card className="p-6">
               <p className="text-sm text-muted-ink mb-1">Ticket Size</p>
-              <p className="text-2xl font-extrabold text-indigo">
+              <p className="text-2xl font-extrabold text-blue-500">
                 {investor?.ticketSize || "Not set"}
               </p>
             </Card>
 
             <Card className="p-6">
               <p className="text-sm text-muted-ink mb-1">Available Deals</p>
-              <p className="text-2xl font-extrabold text-indigo">{deals.length}</p>
+              <p className="text-2xl font-extrabold text-blue-500">{deals.length}</p>
             </Card>
           </div>
 
@@ -131,7 +131,7 @@ export default function InvestorDashboard() {
               ) : (
                 <div className="space-y-2 text-sm">
                   {deals.map((deal: any) => (
-                    <div key={deal.id} className="p-2 bg-indigo/5 rounded">
+                    <div key={deal.id} className="p-2 bg-blue-500/5 rounded">
                       <p className="font-medium text-ink">{deal.title}</p>
                       <p className="text-muted-ink">{deal.status}</p>
                     </div>

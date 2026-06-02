@@ -29,7 +29,7 @@ export function InvestPageClient() {
         <Container size="lg">
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-5">
-              <span className="text-xs font-semibold uppercase tracking-widest text-indigo mb-3">
+              <span className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
                 Next Step
               </span>
               <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl mb-4">
@@ -41,19 +41,19 @@ export function InvestPageClient() {
 
               <ul className="grid gap-3 text-sm text-muted-ink">
                 <li className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo text-[10px] font-bold text-white">
+                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">
                     1
                   </span>
                   <span>Tell us your preferred track and ticket size</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo text-[10px] font-bold text-white">
+                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">
                     2
                   </span>
                   <span>We&rsquo;ll share a tailored opportunity brief</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo text-[10px] font-bold text-white">
+                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">
                     3
                   </span>
                   <span>Schedule a call &amp; co-design your position</span>

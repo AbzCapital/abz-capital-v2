@@ -16,7 +16,7 @@ const bgMap: Record<NonNullable<SectionProps["background"]>, string> = {
   white: "bg-background",
   mesh: "bg-mesh",
   "mesh-soft": "bg-mesh-soft",
-  indigo: "bg-indigo text-white",
+  indigo: "bg-blue-500 text-white",
   ink: "bg-ink text-white",
 };
 

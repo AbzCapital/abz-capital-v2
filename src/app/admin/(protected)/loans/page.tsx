@@ -78,7 +78,7 @@ export default function LoanConfigPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="size-8 text-indigo animate-spin" />
+        <Loader2 className="size-8 text-blue-500 animate-spin" />
       </div>
     );
   }
@@ -238,8 +238,8 @@ export default function LoanConfigPage() {
               />
             </div>
 
-            <div className="bg-indigo/5 p-4 rounded-lg">
-              <p className="text-sm font-medium text-indigo mb-2">
+            <div className="bg-blue-500/5 p-4 rounded-lg">
+              <p className="text-sm font-medium text-blue-500 mb-2">
                 Summary
               </p>
               <ul className="text-xs space-y-1 text-muted-ink">
@@ -277,7 +277,7 @@ export default function LoanConfigPage() {
         <Button
           onClick={handleSave}
           disabled={isSaving}
-          className="bg-indigo text-white hover:brightness-110 px-6 py-2 font-semibold flex items-center gap-2"
+          className="bg-blue-500 text-white hover:brightness-110 px-6 py-2 font-semibold flex items-center gap-2"
         >
           {isSaving && <Loader2 className="size-4 animate-spin" />}
           {isSaving ? "Saving..." : "Save Configuration"}

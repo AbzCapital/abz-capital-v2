@@ -89,7 +89,7 @@ export function HeroWithMetrics() {
             <div className="grid gap-6 mt-8 lg:mt-0">
               {/* Card 1 */}
               <div className="rounded-2xl bg-white p-6 shadow-lg">
-                <p className="text-xs font-semibold uppercase tracking-widest text-indigo mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
                   Loanbook Returns
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink mb-1">
@@ -100,7 +100,7 @@ export function HeroWithMetrics() {
 
               {/* Card 2 */}
               <div className="rounded-2xl bg-white p-6 shadow-lg">
-                <p className="text-xs font-semibold uppercase tracking-widest text-indigo mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
                   Total Funded
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink">
@@ -111,7 +111,7 @@ export function HeroWithMetrics() {
 
               {/* Card 3 */}
               <div className="rounded-2xl bg-white p-6 shadow-lg">
-                <p className="text-xs font-semibold uppercase tracking-widest text-indigo mb-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
                   Loan Repayment Rate
                 </p>
                 <div className="flex items-center justify-between">

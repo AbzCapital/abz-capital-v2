@@ -55,7 +55,7 @@ function InvestorWelcomeContent() {
 
         <Link
           href="/invest"
-          className="inline-block bg-indigo text-white font-semibold py-2 px-6 rounded hover:bg-indigo-700"
+          className="inline-block bg-blue-500 text-white font-semibold py-2 px-6 rounded hover:bg-blue-500-700"
         >
           Back to Invest
         </Link>

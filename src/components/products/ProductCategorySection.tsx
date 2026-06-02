@@ -24,7 +24,7 @@ export function ProductCategorySection({ category, index }: ProductCategorySecti
       <Container className="py-16 sm:py-20">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-indigo">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500">
               {String.fromCharCode(65 + index)} · Category
             </span>
             <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
@@ -40,7 +40,7 @@ export function ProductCategorySection({ category, index }: ProductCategorySecti
               href={`mailto:${category.emailRecipient}?subject=${encodeURIComponent(
                 `Enquiry — ${category.title}`
               )}`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-indigo/15 bg-white px-3 py-1.5 font-semibold text-indigo hover:bg-indigo/5"
+              className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/15 bg-white px-3 py-1.5 font-semibold text-blue-500 hover:bg-blue-500/5"
             >
               <Mail className="size-3.5" />
               {category.emailRecipient}

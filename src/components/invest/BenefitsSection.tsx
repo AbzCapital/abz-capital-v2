@@ -55,7 +55,7 @@ export function BenefitsSection() {
     <Section spacing="lg" background="mesh-soft">
       <Container>
         <div className="text-center mb-12 sm:mb-16">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-indigo mb-3">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500 mb-3">
             Why investors choose us
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-ink">
@@ -74,8 +74,8 @@ export function BenefitsSection() {
                 key={idx}
                 className="rounded-2xl bg-white p-6 sm:p-8 shadow-card transition hover:shadow-lg hover:-translate-y-1"
               >
-                <div className="rounded-lg bg-indigo/10 p-3 w-fit mb-4">
-                  <Icon className="size-6 text-indigo" />
+                <div className="rounded-lg bg-blue-500/10 p-3 w-fit mb-4">
+                  <Icon className="size-6 text-blue-500" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-ink mb-3">
                   {benefit.title}

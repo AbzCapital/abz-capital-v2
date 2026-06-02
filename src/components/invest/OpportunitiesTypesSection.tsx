@@ -53,7 +53,7 @@ export function OpportunitiesTypesSection() {
                     alt={opp.title}
                     className="h-full w-full object-cover"
                   />
-                  <div className="absolute top-4 right-4 rounded-lg bg-indigo p-3">
+                  <div className="absolute top-4 right-4 rounded-lg bg-blue-500 p-3">
                     <Icon className="size-5 text-white" />
                   </div>
                 </div>
@@ -67,7 +67,7 @@ export function OpportunitiesTypesSection() {
                   <ul className="space-y-2">
                     {opp.items.map((item, itemIdx) => (
                       <li key={itemIdx} className="flex items-start gap-2 text-sm text-ink">
-                        <span className="inline-block size-1.5 rounded-full bg-indigo mt-2 shrink-0" />
+                        <span className="inline-block size-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}

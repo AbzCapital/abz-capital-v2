@@ -17,7 +17,7 @@ export function AmortizationTable({ schedule }: AmortizationTableProps) {
       <div className="overflow-x-auto rounded-xl border border-line">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-line bg-indigo/5">
+            <tr className="border-b border-line bg-blue-500/5">
               <th className="px-3 py-2.5 text-center font-semibold text-ink">Month</th>
               <th className="px-3 py-2.5 text-right font-semibold text-ink">Outstanding Balance</th>
               <th className="px-3 py-2.5 text-right font-semibold text-ink">Interest (6%)</th>
@@ -30,7 +30,7 @@ export function AmortizationTable({ schedule }: AmortizationTableProps) {
             {schedule.rows.map((row) => (
               <tr
                 key={row.month}
-                className="border-b border-line/50 hover:bg-indigo/2.5 transition"
+                className="border-b border-line/50 hover:bg-blue-500/2.5 transition"
               >
                 <td className="px-3 py-2 text-center text-ink font-medium">{row.month}</td>
                 <td className="px-3 py-2 text-right text-muted-ink">
@@ -45,7 +45,7 @@ export function AmortizationTable({ schedule }: AmortizationTableProps) {
                 <td className="px-3 py-2 text-right font-semibold text-ink">
                   {formatKESCompact(row.monthlyPayment)}
                 </td>
-                <td className="px-3 py-2 text-right font-semibold text-indigo">
+                <td className="px-3 py-2 text-right font-semibold text-blue-500">
                   {formatKESCompact(row.newBalance)}
                 </td>
               </tr>

@@ -31,8 +31,8 @@ export function BottomNav() {
               className={cn(
                 "flex flex-col items-center justify-center py-3 px-2 min-h-16 text-xs font-medium transition touch-manipulation",
                 isActive
-                  ? "text-indigo"
-                  : "text-muted-ink hover:text-indigo"
+                  ? "text-blue-500"
+                  : "text-muted-ink hover:text-blue-500"
               )}
               style={{
                 WebkitUserSelect: "none",

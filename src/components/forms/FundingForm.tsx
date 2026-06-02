@@ -188,7 +188,7 @@ export function FundingForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+        className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-6 py-3.5 text-sm font-bold text-white shadow-button transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {isSubmitting ? "Submitting..." : "Submit opportunity"}
         {!isSubmitting && <ArrowRight className="size-4" />}

@@ -161,7 +161,7 @@ export function InvestorNetworkForm() {
           <p className="text-sm text-ink mb-6">
             Our investment team may also contact you directly regarding suitable opportunities.
           </p>
-          <Link href="/invest" className="inline-block text-indigo hover:text-indigo/80 font-semibold">
+          <Link href="/invest" className="inline-block text-blue-500 hover:text-blue-500/80 font-semibold">
             Back to Invest
           </Link>
         </div>
@@ -172,7 +172,7 @@ export function InvestorNetworkForm() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-md mx-auto px-4 py-8">
-        <Link href="/invest" className="inline-flex items-center gap-2 text-indigo mb-6">
+        <Link href="/invest" className="inline-flex items-center gap-2 text-blue-500 mb-6">
           <ArrowLeft className="size-4" /> Back
         </Link>
 
@@ -201,7 +201,7 @@ export function InvestorNetworkForm() {
                 required
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -213,7 +213,7 @@ export function InvestorNetworkForm() {
                 required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -226,7 +226,7 @@ export function InvestorNetworkForm() {
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 {COUNTRIES.map((country) => (
                   <option key={country.code} value={country.code}>
@@ -316,7 +316,7 @@ export function InvestorNetworkForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
+            className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
             {loading ? "Registering..." : "Join Investor Network"}
           </button>

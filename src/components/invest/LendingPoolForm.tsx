@@ -149,7 +149,7 @@ export function LendingPoolForm() {
           >
             <span>📱</span> Join WhatsApp Group
           </a>
-          <Link href="/invest" className="block text-indigo hover:text-indigo/80 font-semibold">
+          <Link href="/invest" className="block text-blue-500 hover:text-blue-500/80 font-semibold">
             Back to Invest
           </Link>
         </div>
@@ -160,7 +160,7 @@ export function LendingPoolForm() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-md mx-auto px-4 py-8">
-        <Link href="/invest" className="inline-flex items-center gap-2 text-indigo mb-6">
+        <Link href="/invest" className="inline-flex items-center gap-2 text-blue-500 mb-6">
           <ArrowLeft className="size-4" /> Back
         </Link>
 
@@ -188,7 +188,7 @@ export function LendingPoolForm() {
                 type="text"
                 name="first_name"
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
@@ -199,7 +199,7 @@ export function LendingPoolForm() {
                 type="text"
                 name="last_name"
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -212,7 +212,7 @@ export function LendingPoolForm() {
               <select
                 name="country_code"
                 defaultValue="+254"
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 {COUNTRIES.map((country) => (
                   <option key={country.code} value={country.code}>
@@ -304,7 +304,7 @@ export function LendingPoolForm() {
           <button
             ref={submitBtnRef}
             type="submit"
-            className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
+            className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
             Join Lending Pool
           </button>

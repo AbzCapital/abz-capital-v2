@@ -53,7 +53,7 @@ export function InputsSection({
                   const num = parseInt(e.target.value.replace(/[^0-9]/g, "")) || 0;
                   onTakeHomeChange(num);
                 }}
-                className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+                className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </label>
@@ -81,7 +81,7 @@ export function InputsSection({
                 }}
                 min="1"
                 step="10000"
-                className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+                className="w-full h-10 pl-12 pr-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 style={{
                   WebkitAppearance: "none",
                   MozAppearance: "textfield",
@@ -115,7 +115,7 @@ export function InputsSection({
               }}
               min="1"
               step="1"
-              className="w-full h-10 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-indigo focus:border-transparent"
+              className="w-full h-10 px-4 rounded-lg border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               style={{
                 WebkitAppearance: "none",
                 MozAppearance: "textfield",
@@ -139,7 +139,7 @@ export function InputsSection({
           onGenerate();
         }}
         disabled={isLoading}
-        className="w-full bg-peach text-indigo font-semibold hover:brightness-95 active:brightness-90 py-6 text-base rounded-lg border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+        className="w-full bg-peach text-blue-500 font-semibold hover:brightness-95 active:brightness-90 py-6 text-base rounded-lg border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
         style={{
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
@@ -152,7 +152,7 @@ export function InputsSection({
       </button>
 
       {/* Info Box */}
-      <div className="bg-indigo/5 rounded-lg p-4 border border-indigo/10">
+      <div className="bg-blue-500/5 rounded-lg p-4 border border-blue-500/10">
         <p className="text-xs text-muted-ink leading-relaxed">
           <strong>How it works:</strong> Enter the amount you need (after fees), your insurance cost, and how long you want to repay. We'll show you the exact monthly payment, total interest, and full payment schedule.
         </p>

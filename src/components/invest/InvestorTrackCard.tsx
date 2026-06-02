@@ -26,7 +26,7 @@ export function InvestorTrackCard({
       className={cn(
         "relative flex flex-col overflow-hidden rounded-3xl p-8 shadow-elev sm:p-10",
         variant === "indigo"
-          ? "bg-indigo text-white"
+          ? "bg-blue-500 text-white"
           : "bg-[#fff5e3] text-ink"
       )}
     >
@@ -34,14 +34,14 @@ export function InvestorTrackCard({
         aria-hidden
         className={cn(
           "absolute right-[-30px] top-[-30px] size-44 rounded-full blur-3xl",
-          variant === "indigo" ? "bg-peach/30" : "bg-indigo/20"
+          variant === "indigo" ? "bg-peach/30" : "bg-blue-500/20"
         )}
       />
 
       <span
         className={cn(
           "inline-flex size-12 items-center justify-center rounded-xl",
-          variant === "indigo" ? "bg-peach text-indigo" : "bg-indigo text-white"
+          variant === "indigo" ? "bg-peach text-blue-500" : "bg-blue-500 text-white"
         )}
       >
         <Icon className="size-5" aria-hidden />
@@ -50,7 +50,7 @@ export function InvestorTrackCard({
       <span
         className={cn(
           "mt-6 text-xs font-semibold uppercase tracking-widest",
-          variant === "indigo" ? "text-peach" : "text-indigo"
+          variant === "indigo" ? "text-peach" : "text-blue-500"
         )}
       >
         {label}
@@ -73,7 +73,7 @@ export function InvestorTrackCard({
                 "mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
                 variant === "indigo"
                   ? "bg-white/15 text-peach"
-                  : "bg-indigo text-white"
+                  : "bg-blue-500 text-white"
               )}
               aria-hidden
             >
@@ -89,8 +89,8 @@ export function InvestorTrackCard({
         className={cn(
           "mt-8 inline-flex w-fit items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition",
           variant === "indigo"
-            ? "bg-peach text-indigo hover:brightness-105"
-            : "bg-indigo text-white hover:brightness-110"
+            ? "bg-peach text-blue-500 hover:brightness-105"
+            : "bg-blue-500 text-white hover:brightness-110"
         )}
       >
         Register interest

@@ -19,7 +19,7 @@ export default function ProductsPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
-              <span className="inline-block text-xs font-semibold uppercase tracking-widest text-indigo">
+              <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500">
                 Our products
               </span>
               <h1 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
@@ -36,15 +36,15 @@ export default function ProductsPage() {
                   <li key={cat.key}>
                     <Link
                       href={`#${cat.anchor}`}
-                      className="group flex items-center justify-between rounded-xl border border-line bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-indigo/30 hover:bg-indigo/5"
+                      className="group flex items-center justify-between rounded-xl border border-line bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:border-blue-500/30 hover:bg-blue-500/5"
                     >
                       <span className="inline-flex items-center gap-2">
-                        <span className="inline-flex size-7 items-center justify-center rounded-md bg-indigo/5 text-xs font-bold text-indigo">
+                        <span className="inline-flex size-7 items-center justify-center rounded-md bg-blue-500/5 text-xs font-bold text-blue-500">
                           {String.fromCharCode(65 + idx)}
                         </span>
                         {cat.title}
                       </span>
-                      <ArrowRight className="size-4 text-indigo transition-transform group-hover:translate-x-0.5" />
+                      <ArrowRight className="size-4 text-blue-500 transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   </li>
                 ))}
@@ -60,7 +60,7 @@ export default function ProductsPage() {
 
       <Section spacing="lg" background="white">
         <Container>
-          <div className="overflow-hidden rounded-3xl bg-indigo p-10 text-white sm:p-14">
+          <div className="overflow-hidden rounded-3xl bg-blue-500 p-10 text-white sm:p-14">
             <div className="grid items-center gap-8 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <h3 className="text-2xl font-extrabold sm:text-3xl">
@@ -73,7 +73,7 @@ export default function ProductsPage() {
               <div className="flex flex-wrap items-center gap-3 lg:justify-end">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-indigo transition hover:brightness-105"
+                  className="inline-flex items-center gap-2 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-blue-500 transition hover:brightness-105"
                 >
                   Talk to us
                   <ArrowRight className="size-4" />

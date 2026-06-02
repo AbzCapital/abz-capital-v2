@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="border-b border-line bg-white shadow-sm sticky top-0 z-40">
         <Container>
           <div className="flex items-center justify-between h-16">
-            <Link href="/admin/dashboard" className="text-xl font-extrabold text-indigo">
+            <Link href="/admin/dashboard" className="text-xl font-extrabold text-blue-500">
               ABZ Admin
             </Link>
 
@@ -36,8 +36,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   href={item.href}
                   className={`px-3 py-2 text-sm font-medium rounded-lg transition ${
                     pathname === item.href
-                      ? "bg-indigo text-white"
-                      : "text-muted-ink hover:bg-indigo/10"
+                      ? "bg-blue-500 text-white"
+                      : "text-muted-ink hover:bg-blue-500/10"
                   }`}
                 >
                   {item.label}

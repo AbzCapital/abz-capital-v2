@@ -50,7 +50,7 @@ export function FundingOpportunityFormHTML() {
               type="text"
               name="name"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -62,7 +62,7 @@ export function FundingOpportunityFormHTML() {
               type="email"
               name="email"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -74,7 +74,7 @@ export function FundingOpportunityFormHTML() {
               <select
                 name="countryCode"
                 defaultValue="+254"
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
                 {COUNTRIES.map((country) => (
                   <option key={country.code} value={country.code}>
@@ -99,7 +99,7 @@ export function FundingOpportunityFormHTML() {
             <select
               name="category"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a category</option>
               <option value="asset-backed">Asset-backed</option>
@@ -116,7 +116,7 @@ export function FundingOpportunityFormHTML() {
             <select
               name="opportunityType"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select opportunity type</option>
               <option value="equity">Equity</option>
@@ -141,7 +141,7 @@ export function FundingOpportunityFormHTML() {
 
           <button
             type="submit"
-            className="w-full bg-indigo text-white font-bold py-3 rounded-xl hover:bg-indigo/90 transition"
+            className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-blue-500/90 transition"
           >
             Submit Opportunity
           </button>

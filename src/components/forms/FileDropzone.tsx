@@ -65,7 +65,7 @@ export function FileDropzone({
         }}
         className={cn(
           "relative flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-line bg-white px-6 py-9 text-center transition",
-          over && "border-indigo/40 bg-indigo/5",
+          over && "border-blue-500/40 bg-blue-500/5",
           error && "border-red-300"
         )}
       >
@@ -81,9 +81,9 @@ export function FileDropzone({
             e.currentTarget.value = "";
           }}
         />
-        <Upload className="size-7 text-indigo" aria-hidden />
+        <Upload className="size-7 text-blue-500" aria-hidden />
         <div className="text-sm font-semibold text-ink">
-          Drop files or <span className="text-indigo">browse</span>
+          Drop files or <span className="text-blue-500">browse</span>
         </div>
         <p className="text-xs text-muted-ink">
           PDF, DOCX, XLSX, JPG, PNG · max {maxFiles} files · {maxSizeMB} MB each
@@ -98,7 +98,7 @@ export function FileDropzone({
               className="flex items-center justify-between gap-3 rounded-lg border border-line bg-white px-3 py-2 text-sm"
             >
               <span className="flex min-w-0 items-center gap-2">
-                <FileText className="size-4 shrink-0 text-indigo" />
+                <FileText className="size-4 shrink-0 text-blue-500" />
                 <span className="truncate text-ink">{f.name}</span>
                 <span className="shrink-0 text-xs text-muted-ink">
                   {(f.size / 1024 / 1024).toFixed(1)} MB

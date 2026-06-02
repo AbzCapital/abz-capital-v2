@@ -25,7 +25,7 @@ export default function AboutPage() {
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <span className="inline-block text-xs font-semibold uppercase tracking-widest text-indigo">
+              <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-500">
                 About ABZ Capital
               </span>
               <h1 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
@@ -39,7 +39,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="lg:col-span-5">
-              <div className="relative aspect-square overflow-hidden rounded-3xl bg-indigo p-8 text-white shadow-elev">
+              <div className="relative aspect-square overflow-hidden rounded-3xl bg-blue-500 p-8 text-white shadow-elev">
                 <div className="absolute right-[-30px] top-[-30px] size-44 rounded-full bg-peach/40 blur-3xl" />
                 <Compass className="size-10 text-peach" />
                 <p className="mt-8 text-2xl font-extrabold leading-tight">
@@ -58,7 +58,7 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2">
             <div className="rounded-3xl border border-line bg-white p-8 shadow-card sm:p-10">
-              <span className="inline-flex size-12 items-center justify-center rounded-xl bg-indigo text-white">
+              <span className="inline-flex size-12 items-center justify-center rounded-xl bg-blue-500 text-white">
                 <Compass className="size-5" />
               </span>
               <h2 className="mt-5 text-2xl font-extrabold text-ink">Vision</h2>
@@ -67,7 +67,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="rounded-3xl border border-line bg-white p-8 shadow-card sm:p-10">
-              <span className="inline-flex size-12 items-center justify-center rounded-xl bg-peach text-indigo">
+              <span className="inline-flex size-12 items-center justify-center rounded-xl bg-peach text-blue-500">
                 <Flag className="size-5" />
               </span>
               <h2 className="mt-5 text-2xl font-extrabold text-ink">Mission</h2>
@@ -82,7 +82,7 @@ export default function AboutPage() {
       <Section spacing="lg" background="mesh-soft">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-widest text-indigo">Our values</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-blue-500">Our values</span>
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
               Principles that shape every deal.
             </h2>
@@ -91,9 +91,9 @@ export default function AboutPage() {
             {VALUES.map((v) => (
               <div
                 key={v.label}
-                className="rounded-2xl border border-line bg-white p-6 text-left shadow-card transition hover:-translate-y-1 hover:border-indigo/20"
+                className="rounded-2xl border border-line bg-white p-6 text-left shadow-card transition hover:-translate-y-1 hover:border-blue-500/20"
               >
-                <span className="inline-flex size-10 items-center justify-center rounded-lg bg-indigo/5 text-indigo">
+                <span className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-500/5 text-blue-500">
                   <v.icon className="size-5" />
                 </span>
                 <h3 className="mt-4 text-base font-extrabold text-ink">{v.label}</h3>
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
       <Section spacing="lg" background="white">
         <Container>
-          <div className="overflow-hidden rounded-3xl bg-indigo p-10 text-white sm:p-14">
+          <div className="overflow-hidden rounded-3xl bg-blue-500 p-10 text-white sm:p-14">
             <div className="grid items-center gap-8 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <h3 className="text-2xl font-extrabold sm:text-3xl">
@@ -119,7 +119,7 @@ export default function AboutPage() {
               <div className="flex flex-wrap items-center gap-3 lg:justify-end">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-indigo transition hover:brightness-105"
+                  className="inline-flex items-center gap-2 rounded-xl bg-peach px-6 py-3 text-sm font-bold text-blue-500 transition hover:brightness-105"
                 >
                   Talk to us
                   <ArrowRight className="size-4" />

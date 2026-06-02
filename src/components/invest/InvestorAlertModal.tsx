@@ -120,7 +120,7 @@ export function InvestorAlertModal({ isOpen, onClose }: InvestorAlertModalProps)
           <div className="space-y-3">
             <button
               onClick={() => console.log("Fund loan clicked")}
-              className="w-full bg-indigo text-white font-bold py-4 rounded-full hover:brightness-110 transition active:scale-95 cursor-pointer"
+              className="w-full bg-blue-500 text-white font-bold py-4 rounded-full hover:brightness-110 transition active:scale-95 cursor-pointer"
               style={{ touchAction: "manipulation" }}
             >
               💰 Fund This Loan
