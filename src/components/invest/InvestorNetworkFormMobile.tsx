@@ -77,9 +77,15 @@ export function InvestorNetworkFormMobile() {
         console.log("[FORM] Redirect detected - Status:", response.status, "URL:", redirectUrl);
 
         if (redirectUrl) {
-          // Immediately redirect without waiting
-          console.log("[FORM] Executing redirect now...");
-          window.location.href = redirectUrl;
+          // Set success state FIRST to show success page
+          setSuccess(true);
+          setMessage("✅ Registration successful! Redirecting...");
+
+          // Wait 2 seconds to let success page render, then redirect
+          setTimeout(() => {
+            console.log("[FORM] Executing redirect now...");
+            window.location.href = redirectUrl;
+          }, 2000);
           return; // Stop execution
         }
       }
@@ -89,11 +95,12 @@ export function InvestorNetworkFormMobile() {
       const result = await response.json();
       console.log("[FORM] JSON result:", result);
 
-      if (response.ok && result.success) {
+      if (response.ok) {
+        // Show success page without redirecting
         setMessage("✅ Success!");
         setSuccess(true);
         setSuccessData(result);
-      } else if (!response.ok) {
+      } else {
         throw new Error(result.error || "Failed to register");
       }
     } catch (error) {
