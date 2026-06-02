@@ -24,6 +24,8 @@ const LEGAL_LINKS = [
   { href: "/contact", label: "Contact" },
   { href: "/terms", label: "Terms & Conditions" },
   { href: "/privacy", label: "Privacy Policy" },
+  { href: "/risk-disclosure", label: "Risk Disclosure" },
+  { href: "/cookies", label: "Cookies & Preferences" },
   { href: "/faq", label: "FAQ" },
 ];
 
