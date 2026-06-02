@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { getResend } from "@/lib/email/resend";
 
 interface FormData {
@@ -13,19 +13,36 @@ interface FormData {
 
 export const runtime = "nodejs";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    // Handle JSON from React form
-    const body = await req.json();
-    const data: FormData = {
-      name: body.name,
-      email: body.email,
-      countryCode: body.countryCode,
-      phoneNumber: body.phoneNumber,
-      category: body.category,
-      opportunityType: body.opportunityType,
-      description: body.description,
-    };
+    const contentType = req.headers.get("content-type") || "";
+    let data: FormData;
+
+    // Handle form-urlencoded from native HTML form
+    if (contentType.includes("application/x-www-form-urlencoded")) {
+      const formData = await req.formData();
+      data = {
+        name: (formData.get("name") as string) || "",
+        email: (formData.get("email") as string) || "",
+        countryCode: (formData.get("countryCode") as string) || "+254",
+        phoneNumber: (formData.get("phoneNumber") as string) || "",
+        category: (formData.get("category") as string) || "",
+        opportunityType: (formData.get("opportunityType") as string) || "",
+        description: (formData.get("description") as string) || "",
+      };
+    } else {
+      // Handle JSON from React fetch
+      const body = await req.json();
+      data = {
+        name: body.name || "",
+        email: body.email || "",
+        countryCode: body.countryCode || "+254",
+        phoneNumber: body.phoneNumber || "",
+        category: body.category || "",
+        opportunityType: body.opportunityType || "",
+        description: body.description || "",
+      };
+    }
 
     // Validate required fields
     if (!data.name || !data.email || !data.phoneNumber || !data.description) {
@@ -63,6 +80,7 @@ export async function POST(req: Request) {
     `;
 
     // Send email to admin
+    console.log("[API] Sending email to admin...");
     const { error: emailError } = await resend.emails.send({
       from: "ABZ Capital <onboarding@resend.dev>",
       to: "abz1capital@gmail.com",
@@ -72,11 +90,13 @@ export async function POST(req: Request) {
     });
 
     if (emailError) {
-      console.error("Email error:", emailError);
-      // Still return success since submission was received
+      console.error("[EMAIL ERROR] Admin email failed:", emailError);
+    } else {
+      console.log("[EMAIL SUCCESS] Admin email sent");
     }
 
     // Send confirmation email to submitter
+    console.log("[API] Sending confirmation email to submitter...");
     const confirmationEmail = `
 <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
   <h2 style="color: #4F46E5;">Thank You for Your Submission 🎉</h2>
@@ -103,14 +123,28 @@ export async function POST(req: Request) {
 </div>
     `;
 
-    await resend.emails.send({
+    const { error: confirmError } = await resend.emails.send({
       from: "ABZ Capital <onboarding@resend.dev>",
       to: data.email,
       subject: "We've Received Your Funding Opportunity Submission",
       html: confirmationEmail,
     });
 
-    // Return success response
+    if (confirmError) {
+      console.error("[EMAIL ERROR] Confirmation email failed:", confirmError);
+    } else {
+      console.log("[EMAIL SUCCESS] Confirmation email sent");
+    }
+
+    // Redirect for native form, return JSON for React fetch
+    if (contentType.includes("application/x-www-form-urlencoded")) {
+      // Native form submission - redirect to success page
+      const baseUrl = req.headers.get("origin") || "http://localhost:3000";
+      const redirectUrl = new URL("/fundraise?submitted=true", baseUrl);
+      return NextResponse.redirect(redirectUrl, { status: 303 });
+    }
+
+    // React fetch - return JSON
     return NextResponse.json({ ok: true, message: "Opportunity submitted" }, { status: 200 });
   } catch (error) {
     console.error("Funding opportunity submission error:", error);
