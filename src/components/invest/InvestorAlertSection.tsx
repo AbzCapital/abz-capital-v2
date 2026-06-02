@@ -97,7 +97,7 @@ export function InvestorAlertSection({ isVisible, onClose }: InvestorAlertSectio
                 </div>
 
                 {/* Investor Returns Section */}
-                <div className="rounded-2xl bg-gradient-to-br from-indigo/10 to-indigo/5 border border-indigo/20 p-6 sm:p-8">
+                <div className="rounded-2xl bg-indigo/10 border border-indigo/20 p-6 sm:p-8">
                   <h3 className="text-lg sm:text-xl font-bold text-ink mb-6">
                     Your Investor Returns
                   </h3>

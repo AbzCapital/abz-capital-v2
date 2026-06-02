@@ -23,7 +23,7 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Option 1: Asset-Backed Lending */}
-          <div className="rounded-2xl bg-gradient-to-br from-indigo to-indigo/80 p-8 sm:p-10 text-white">
+          <div className="rounded-2xl bg-indigo p-8 sm:p-10 text-white">
             <div className="flex items-center gap-3 mb-6">
               <div className="rounded-lg bg-white/20 p-3">
                 <Shield className="size-6" />
@@ -71,7 +71,7 @@ export function InvestmentTracks({ onOpenModal }: InvestmentTracksProps) {
           </div>
 
           {/* Option 2: SME & Opportunity Network */}
-          <div className="rounded-2xl bg-gradient-to-br from-peach/20 to-peach/10 p-8 sm:p-10 border border-peach/20">
+          <div className="rounded-2xl bg-peach/20 p-8 sm:p-10 border border-peach/20">
             <div className="flex items-center gap-3 mb-6">
               <div className="rounded-lg bg-peach/20 p-3">
                 <TrendingUp className="size-6 text-indigo" />

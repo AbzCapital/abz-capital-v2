@@ -39,7 +39,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="lg:col-span-5">
-              <div className="relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-indigo to-[#3a1ccc] p-8 text-white shadow-elev">
+              <div className="relative aspect-square overflow-hidden rounded-3xl bg-indigo p-8 text-white shadow-elev">
                 <div className="absolute right-[-30px] top-[-30px] size-44 rounded-full bg-peach/40 blur-3xl" />
                 <Compass className="size-10 text-peach" />
                 <p className="mt-8 text-2xl font-extrabold leading-tight">
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
       <Section spacing="lg" background="white">
         <Container>
-          <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-indigo to-[#3a1ccc] p-10 text-white sm:p-14">
+          <div className="overflow-hidden rounded-3xl bg-indigo p-10 text-white sm:p-14">
             <div className="grid items-center gap-8 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <h3 className="text-2xl font-extrabold sm:text-3xl">

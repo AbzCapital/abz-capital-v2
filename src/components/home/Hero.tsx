@@ -100,7 +100,7 @@ export function Hero() {
 function HeroVisual() {
   return (
     <div className="relative mx-auto aspect-[4/5] w-full max-w-md">
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo to-[#3a1ccc] shadow-elev" />
+      <div className="absolute inset-0 rounded-3xl bg-indigo shadow-elev" />
 
       <div className="absolute right-[-18px] top-8 w-[78%] rounded-2xl bg-white p-5 shadow-elev">
         <div className="flex items-center justify-between text-xs font-semibold text-muted-ink">
@@ -138,7 +138,7 @@ function HeroVisual() {
           </div>
         </div>
         <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-indigo/10">
-          <div className="h-full w-3/4 rounded-full bg-gradient-to-r from-indigo to-peach" />
+          <div className="h-full w-3/4 rounded-full bg-indigo" />
         </div>
         <div className="mt-2 flex justify-between text-[10px] text-muted-ink">
           <span>Application</span>

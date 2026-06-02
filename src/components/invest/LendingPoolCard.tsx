@@ -12,7 +12,7 @@ export function LendingPoolCard() {
     <Section spacing="lg" background="white">
       <Container>
         <div className="max-w-3xl mx-auto">
-          <div className="rounded-2xl bg-gradient-to-br from-indigo/10 to-indigo/5 border border-indigo/20 p-8 sm:p-10 md:p-12">
+          <div className="rounded-2xl bg-indigo/10 border border-indigo/20 p-8 sm:p-10 md:p-12">
             {/* Header */}
             <div className="mb-8">
               <span className="inline-block text-xs font-semibold uppercase tracking-widest text-indigo mb-3">

@@ -26,8 +26,8 @@ export function InvestorTrackCard({
       className={cn(
         "relative flex flex-col overflow-hidden rounded-3xl p-8 shadow-elev sm:p-10",
         variant === "indigo"
-          ? "bg-gradient-to-br from-indigo to-[#3a1ccc] text-white"
-          : "bg-gradient-to-br from-[#fff5e3] to-[#ffd99a] text-ink"
+          ? "bg-indigo text-white"
+          : "bg-[#fff5e3] text-ink"
       )}
     >
       <div

@@ -22,7 +22,7 @@ export default async function FundingPage({
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
+      <div className="min-h-screen bg-green-50 p-6 flex items-center justify-center">
         <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
           <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
           <p className="text-muted-ink mb-6 font-semibold">

@@ -13,7 +13,7 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
       <div className="my-12 mx-auto max-w-4xl px-4">
         <div className="rounded-3xl bg-white shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between bg-gradient-to-r from-indigo to-indigo/80 p-6 sm:p-8 text-white">
+          <div className="flex items-center justify-between bg-indigo p-6 sm:p-8 text-white">
             <div className="flex items-center gap-3">
               <div className="text-3xl">✓</div>
               <div>
@@ -88,7 +88,7 @@ export function InvestorAlertDisplay({ onClose }: InvestorAlertDisplayProps) {
             </div>
 
             {/* Returns Section */}
-            <div className="rounded-2xl bg-gradient-to-br from-indigo/10 to-indigo/5 border border-indigo/20 p-6 sm:p-8">
+            <div className="rounded-2xl bg-indigo/10 border border-indigo/20 p-6 sm:p-8">
               <h3 className="text-lg sm:text-xl font-bold text-ink mb-6">
                 Your Investor Returns
               </h3>

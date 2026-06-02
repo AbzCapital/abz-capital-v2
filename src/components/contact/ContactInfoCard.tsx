@@ -11,7 +11,7 @@ const EMAILS = [
 
 export function ContactInfoCard() {
   return (
-    <aside className="flex flex-col gap-6 rounded-3xl bg-gradient-to-br from-indigo to-[#3a1ccc] p-7 text-white shadow-elev sm:p-8">
+    <aside className="flex flex-col gap-6 rounded-3xl bg-indigo p-7 text-white shadow-elev sm:p-8">
       <div className="absolute" aria-hidden />
 
       <div>

@@ -105,7 +105,7 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
                 </p>
                 <p className="text-3xl sm:text-4xl font-extrabold text-ink">96.3%</p>
                 <div className="mt-3 h-2 w-full rounded-full bg-ink/10 overflow-hidden">
-                  <div className="h-full w-[96.3%] bg-gradient-to-r from-indigo to-peach rounded-full" />
+                  <div className="h-full w-[96.3%] bg-indigo rounded-full" />
                 </div>
                 <p className="text-sm text-muted-ink mt-2">Average on funded assets</p>
               </div>

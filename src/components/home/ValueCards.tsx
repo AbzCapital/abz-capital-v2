@@ -10,7 +10,7 @@ const CARDS = [
     description:
       "Logbook, title deed, and bond-backed loans with transparent fees and clear repayment schedules. Keep using your asset while you repay.",
     href: "/products#asset-backed",
-    accent: "from-indigo to-[#3a1ccc]",
+    accent: "bg-indigo",
   },
   {
     icon: Building2,
@@ -18,7 +18,7 @@ const CARDS = [
     description:
       "Working capital, expansion funding, and investor linkage services for ambitious Kenyan businesses ready to scale.",
     href: "/products#sme",
-    accent: "from-[#4a2bcc] to-indigo",
+    accent: "bg-indigo",
   },
   {
     icon: ShieldCheck,
@@ -26,7 +26,7 @@ const CARDS = [
     description:
       "Motor, WIBA, medical, travel, performance bonds, and contractor cover — protection that lets you grow with confidence.",
     href: "/products#insurance",
-    accent: "from-peach to-[#ffa31a]",
+    accent: "bg-peach",
   },
 ];
 
@@ -54,7 +54,7 @@ export function ValueCards() {
               className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-indigo/30 hover:shadow-elev"
             >
               <div
-                className={`inline-flex size-12 items-center justify-center rounded-xl bg-gradient-to-br ${card.accent} text-white shadow-button`}
+                className={`inline-flex size-12 items-center justify-center rounded-xl ${card.accent} text-white shadow-button`}
               >
                 <card.icon className="size-5" aria-hidden />
               </div>

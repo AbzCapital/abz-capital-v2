@@ -20,7 +20,7 @@ export function EarningsBreakdown() {
           {/* Investment Breakdown */}
           <div className="space-y-8">
             {/* Example 1: KES 100,000 */}
-            <div className="rounded-2xl border border-indigo/20 p-6 sm:p-8 bg-gradient-to-br from-indigo/5 to-white">
+            <div className="rounded-2xl border border-indigo/20 p-6 sm:p-8 bg-white">
               <p className="text-sm font-semibold uppercase tracking-widest text-indigo mb-4">
                 Example 1: Conservative Investment
               </p>
@@ -57,7 +57,7 @@ export function EarningsBreakdown() {
             </div>
 
             {/* Example 2: Larger Investment */}
-            <div className="rounded-2xl border border-peach/20 p-6 sm:p-8 bg-gradient-to-br from-peach/5 to-white">
+            <div className="rounded-2xl border border-peach/20 p-6 sm:p-8 bg-white">
               <p className="text-sm font-semibold uppercase tracking-widest text-indigo mb-4">
                 Example 2: Larger Deployment
               </p>

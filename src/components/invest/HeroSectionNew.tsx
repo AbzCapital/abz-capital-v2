@@ -5,7 +5,7 @@ import { Container } from "@/components/shared/Container";
 
 export function HeroSectionNew() {
   return (
-    <section className="relative bg-gradient-to-b from-indigo/5 to-white py-12 sm:py-20 md:py-28">
+    <section className="relative bg-white py-12 sm:py-20 md:py-28">
       <Container>
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-ink mb-4 sm:mb-6">
@@ -22,7 +22,7 @@ export function HeroSectionNew() {
         {/* Three Offering Boxes */}
         <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
           {/* Box 1: Lending Pool */}
-          <div className="rounded-2xl bg-gradient-to-br from-indigo to-indigo/80 p-6 sm:p-8 text-white border border-indigo/30 shadow-lg hover:shadow-xl transition">
+          <div className="rounded-2xl bg-indigo p-6 sm:p-8 text-white border border-indigo/30 shadow-lg hover:shadow-xl transition">
             <div className="mb-4">
               <div className="inline-block rounded-lg bg-white/20 p-3 mb-4">
                 <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

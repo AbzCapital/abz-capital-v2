@@ -105,7 +105,7 @@ export function LoanExampleCard() {
             </div>
 
             {/* Your Earning Highlight */}
-            <div className="rounded-xl bg-gradient-to-br from-indigo/10 to-indigo/5 border border-indigo/20 p-6 sm:p-8 mb-8">
+            <div className="rounded-xl bg-indigo/10 border border-indigo/20 p-6 sm:p-8 mb-8">
               <p className="text-xs font-semibold uppercase tracking-widest text-indigo mb-3">
                 Your Investment Returns
               </p>
