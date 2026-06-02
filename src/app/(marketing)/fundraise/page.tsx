@@ -12,12 +12,13 @@ export const metadata: Metadata = {
     "Book a pitch with ABZ Capital's investor team or submit a funding opportunity for review. We respond within one business day.",
 };
 
-export default function FundingPage({
+export default async function FundingPage({
   searchParams,
 }: {
-  searchParams: { submitted?: string };
+  searchParams: Promise<{ submitted?: string }>;
 }) {
-  const showSuccess = searchParams.submitted === "true";
+  const params = await searchParams;
+  const showSuccess = params.submitted === "true";
 
   if (showSuccess) {
     return (
