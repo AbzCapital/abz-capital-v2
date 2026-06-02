@@ -1,0 +1,22 @@
+# Robots.txt for ABZ Capital
+# https://www.abzcapital.co.ke
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /investor/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*.json
+Disallow: /*?*
+Disallow: /_next/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.abzcapital.co.ke/sitemap.xml
