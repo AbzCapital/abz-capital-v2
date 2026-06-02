@@ -99,15 +99,15 @@ export function InvestorAlertModal({ isOpen, onClose }: InvestorAlertModalProps)
 
           {/* Returns Box */}
           <div className="bg-yellow-50 rounded-2xl p-4 mb-6 text-center">
-            <h3 className="font-bold text-ink mb-1">Investor Returns</h3>
+            <h3 className="font-bold text-ink mb-1">Total Investor Earnings</h3>
             <p className="text-xs text-muted-ink mb-2">
-              (3% of loan amount per month)
+              {SAMPLE_LOAN.loanTerm}
             </p>
-            <p className="text-2xl font-bold text-orange-600 mb-1">
+            <p className="text-2xl font-bold text-orange-600">
               {SAMPLE_LOAN.investorReturn}
             </p>
-            <p className="text-xs text-muted-ink">
-              {SAMPLE_LOAN.monthlyPayment}/month for {SAMPLE_LOAN.loanTerm}
+            <p className="text-xs text-muted-ink mt-2">
+              {SAMPLE_LOAN.returnPercentage} return on capital
             </p>
           </div>
 

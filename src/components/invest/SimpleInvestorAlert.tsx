@@ -51,12 +51,6 @@ export function SimpleInvestorAlert() {
                 </p>
               </div>
 
-              {/* Returns */}
-              <div className="bg-blue-700/5 rounded-xl p-4 mb-6 border border-blue-700/10">
-                <p className="text-sm text-muted-ink mb-2">Monthly Return</p>
-                <p className="text-2xl font-bold text-blue-700">{SAMPLE_LOAN.monthlyPayment}</p>
-                <p className="text-xs text-muted-ink mt-1">3% of {SAMPLE_LOAN.loanAmount} per month</p>
-              </div>
 
               {/* CTA */}
               <button className="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:brightness-110 transition cursor-pointer">
