@@ -17,8 +17,6 @@ const SECTORS = [
 export function InvestorNetworkFormMobile() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [successData, setSuccessData] = useState<any>(null);
   const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -41,7 +39,6 @@ export function InvestorNetworkFormMobile() {
     }
 
     setIsSubmitting(true);
-    setMessage("📤 Submitting form...");
 
     try {
       const form = formRef.current;
@@ -59,71 +56,35 @@ export function InvestorNetworkFormMobile() {
       data.investment_preferences = selectedSectors;
       data.investment_amount = parseFloat(data.investment_amount);
 
-      setMessage("📡 Calling API...");
-      console.log("[FORM] Starting fetch to /api/investors/register");
-
       const response = await fetch("/api/investors/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-        redirect: "manual",
       });
 
-      console.log("[FORM] Got response:", { status: response.status, statusText: response.statusText });
+      if (response.ok || response.status === 303) {
+        // Success - show message and clear form
+        setMessage("✅ Your details have been submitted! We'll be in touch soon.");
+        setIsSubmitting(false);
 
-      // Check for redirect status codes (303, 302, 301, 307, 308)
-      if ([301, 302, 303, 307, 308].includes(response.status)) {
-        const redirectUrl = response.headers.get("location");
-        console.log("[FORM] Redirect detected - Status:", response.status, "URL:", redirectUrl);
-
-        if (redirectUrl) {
-          // Set success state AND dummy data to show success page
-          setSuccess(true);
-          setSuccessData({ investor_id: "processing", email: data.email });
-          setMessage("✅ Registration successful! Redirecting...");
-
-          // Wait 2 seconds to let success page render, then redirect
-          setTimeout(() => {
-            console.log("[FORM] Executing redirect now...");
-            window.location.href = redirectUrl;
-          }, 2000);
-          return; // Stop execution
-        }
-      }
-
-      // If not a redirect, try to parse response
-      console.log("[FORM] No redirect detected, parsing JSON...");
-      const result = await response.json();
-      console.log("[FORM] JSON result:", result);
-
-      if (response.ok) {
-        // Show success page without redirecting
-        setMessage("✅ Success!");
-        setSuccess(true);
-        setSuccessData(result);
+        // Clear form after 1 second
+        setTimeout(() => {
+          if (formRef.current) {
+            formRef.current.reset();
+            setSelectedSectors([]);
+            setMessage("");
+          }
+        }, 1000);
       } else {
+        const result = await response.json();
         throw new Error(result.error || "Failed to register");
       }
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Unknown error";
-      console.log("[FORM] Error caught:", msg);
       setMessage("❌ Error: " + msg);
       setIsSubmitting(false);
     }
   };
-
-  if (success && successData) {
-    return (
-      <div className="min-h-screen bg-green-50 p-6 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow p-8 text-center max-w-md">
-          <h2 className="text-2xl font-bold text-green-600 mb-4">✅ Success!</h2>
-          <p className="mb-2"><strong>ID:</strong> {successData.investor_id}</p>
-          <p><strong>Email:</strong> {successData.email}</p>
-          <Link href="/invest" className="text-blue-700 mt-4 block">Back to Invest</Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white p-4">
