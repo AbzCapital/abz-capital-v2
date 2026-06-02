@@ -26,7 +26,6 @@ const LEGAL_LINKS = [
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/risk-disclosure", label: "Risk Disclosure" },
   { href: "/cookies", label: "Cookies & Preferences" },
-  { href: "/faq", label: "FAQ" },
 ];
 
 export function Footer() {
