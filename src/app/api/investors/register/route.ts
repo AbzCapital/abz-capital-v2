@@ -120,10 +120,49 @@ export async function POST(request: NextRequest) {
     });
     console.log("[API] Investor record created:", investor.id);
 
-    // Send email notification with HTML content and WhatsApp link
+    // Send email notifications
     try {
       const resend = getResend();
 
+      // Admin notification email
+      const adminEmailContent = `
+<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <h2 style="color: #4F46E5;">New Investor Registration</h2>
+
+  <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+    <p><strong>Investor Type:</strong> ${investor_type === "lending_pool" ? "Lending Pool" : "Investor Network"}</p>
+    <p><strong>Name:</strong> ${fullName}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Phone:</strong> ${country_code}${phone_number}</p>
+    <p><strong>Investment Amount:</strong> KES ${parseFloat(investment_amount).toLocaleString()}</p>
+    <p><strong>Preferences:</strong> ${investment_preferences.join(", ")}</p>
+    ${investor_note ? `<p><strong>Note:</strong> ${investor_note}</p>` : ""}
+    <p><strong>Source:</strong> ${source}</p>
+    <p><strong>Status:</strong> Pending Review</p>
+  </div>
+
+  <p style="font-size: 14px; color: #666; margin-top: 30px;">
+    <em>Submitted from: Invest Page</em>
+  </p>
+</div>
+      `;
+
+      console.log("[EMAIL] Sending admin notification...");
+      const { error: adminError } = await resend.emails.send({
+        from: "ABZ Capital <onboarding@resend.dev>",
+        to: "abz1capital@gmail.com",
+        replyTo: email,
+        subject: `[New Investor] ${fullName} - ${investor_type === "lending_pool" ? "Lending Pool" : "Investor Network"}`,
+        html: adminEmailContent,
+      });
+
+      if (adminError) {
+        console.error("[EMAIL ERROR] Admin email failed:", adminError);
+      } else {
+        console.log("[EMAIL SUCCESS] Admin email sent");
+      }
+
+      // Confirmation email to investor
       const emailHtml = `
 <!DOCTYPE html>
 <html>
@@ -133,11 +172,7 @@ export async function POST(request: NextRequest) {
     .container { max-width: 600px; margin: 0 auto; padding: 20px; }
     .header { background-color: #4f46e5; color: white; padding: 20px; text-align: center; border-radius: 5px; }
     .content { padding: 20px; }
-    .cta-button { display: inline-block; background-color: #25d366; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; }
-    .investor-id { background-color: #f0f0f0; padding: 15px; border-left: 4px solid #4f46e5; margin: 20px 0; font-family: monospace; }
     .footer { color: #666; font-size: 12px; text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; }
-    ul { padding-left: 20px; }
-    li { margin-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -172,28 +207,18 @@ export async function POST(request: NextRequest) {
 </html>
 `;
 
-      // Handle Resend testing mode limitation
-      const resendTestingMode = process.env.RESEND_TESTING_MODE === "true";
-      const sendToEmail = resendTestingMode ? (process.env.RESEND_TEST_EMAIL || email) : email;
-
-      console.log("[EMAIL] Attempting to send email to:", sendToEmail);
-      if (resendTestingMode) {
-        console.log("[EMAIL] Using test mode - original recipient was:", email);
-      }
-
+      console.log("[EMAIL] Sending confirmation email to investor...");
       const { data, error } = await resend.emails.send({
-        from: fromAddress(),
-        to: sendToEmail,
+        from: "ABZ Capital <onboarding@resend.dev>",
+        to: email,
         subject: `Welcome to Our Investment Platform 🎉`,
         html: emailHtml,
       });
 
-      // CRITICAL: Check for Resend error response (not thrown exception)
       if (error) {
-        console.error("[EMAIL ERROR] Resend API error:", error);
-        // Still return success since investor was saved to DB
+        console.error("[EMAIL ERROR] Confirmation email failed:", error);
       } else {
-        console.log("[EMAIL SUCCESS] Email sent. Message ID:", data?.id);
+        console.log("[EMAIL SUCCESS] Confirmation email sent. Message ID:", data?.id);
       }
     } catch (emailError) {
       console.error("[EMAIL CATCH ERROR]:", emailError);
