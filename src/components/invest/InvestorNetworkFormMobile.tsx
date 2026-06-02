@@ -60,19 +60,24 @@ export function InvestorNetworkFormMobile() {
 
       const result = await response.json();
 
-      if (response.ok && result.success) {
-        // Store investor data
+      console.log("=== CHECKING RESPONSE ===");
+      console.log("response.ok:", response.ok);
+      console.log("result.success:", result.success);
+      console.log("Full result:", result);
+
+      // ✅ FIXED: Check result.success directly
+      if (result.success === true) {
+        console.log("✅ SUCCESS BLOCK ENTERED - Setting isSuccess to true");
         setInvestorData(result);
-        // Show success view
-        setIsSuccess(true);
+        setIsSuccess(true);  // This shows the success view
         setIsSubmitting(false);
 
-        // Clear form
         if (formRef.current) {
           formRef.current.reset();
           setSelectedSectors([]);
         }
       } else {
+        console.log("❌ SUCCESS BLOCK NOT ENTERED");
         throw new Error(result.message || result.error || "Failed to register");
       }
     } catch (error) {
