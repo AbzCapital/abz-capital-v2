@@ -41,6 +41,7 @@ export function FundingOpportunityFormHTML() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [apiResponse, setApiResponse] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
@@ -52,7 +53,10 @@ export function FundingOpportunityFormHTML() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("🔵 Form submit handler called!");
+    alert("✅ Form submitted! Processing...");
     setError("");
+    setApiResponse("");
     setLoading(true);
 
     try {
@@ -70,6 +74,9 @@ export function FundingOpportunityFormHTML() {
         formData.append("files", file);
       });
 
+      console.log("🔵 FormData prepared, sending to API...");
+      setApiResponse("Sending to API...");
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000);
 
@@ -81,18 +88,28 @@ export function FundingOpportunityFormHTML() {
       });
       clearTimeout(timeoutId);
 
+      console.log("🔵 API Response Status:", response.status);
+      setApiResponse(`API Response: ${response.status}`);
+
       const data = await response.json();
+      console.log("🔵 API Response Data:", data);
+      setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
 
       if (response.ok && data.ok) {
+        console.log("✅ Success! Redirecting...");
         setSuccess(true);
         setTimeout(() => {
           window.location.href = "/fundraise";
         }, 2000);
       } else {
-        setError(data.error || "Submission failed");
+        const errorMsg = data.error || "Submission failed";
+        console.log("❌ Error:", errorMsg);
+        setError(errorMsg);
       }
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
+      console.log("❌ Catch Error:", errorMsg);
+      setApiResponse(`ERROR: ${errorMsg}`);
       setError(`Network error: ${errorMsg}`);
     } finally {
       setLoading(false);
@@ -123,6 +140,12 @@ export function FundingOpportunityFormHTML() {
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
             {error}
+          </div>
+        )}
+
+        {apiResponse && (
+          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-4 text-xs font-mono break-words">
+            <strong>API Debug:</strong> {apiResponse}
           </div>
         )}
 
