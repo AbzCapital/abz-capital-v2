@@ -5,6 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   console.log("[API] Investor registration request received");
   console.log("[API] Prisma client available?", !!prisma);
+  console.log("[API] DATABASE_URL configured?", !!process.env.DATABASE_URL);
+  console.log("[API] RESEND_API_KEY configured?", !!process.env.RESEND_API_KEY);
+  console.log("[API] NODE_ENV:", process.env.NODE_ENV);
   try {
     // Detect device type from User-Agent header
     const userAgent = request.headers.get('user-agent') || '';
@@ -203,12 +206,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(redirectUrl, { status: 303 });
   } catch (error) {
     console.error("[API ERROR] Full error object:", error);
+    console.error("[API ERROR] Error type:", error instanceof Error ? error.constructor.name : typeof error);
+
+    let errorDetails = "Unknown error";
     if (error instanceof Error) {
       console.error("[API ERROR] Error message:", error.message);
       console.error("[API ERROR] Error stack:", error.stack);
+      errorDetails = error.message;
+    } else if (typeof error === 'object' && error !== null) {
+      console.error("[API ERROR] Error as JSON:", JSON.stringify(error, null, 2));
+      errorDetails = JSON.stringify(error);
     }
+
+    // Check for common issues
+    if (errorDetails.includes('DATABASE_URL') || errorDetails.includes('database') || errorDetails.includes('ECONNREFUSED')) {
+      console.error("[API ERROR] DATABASE CONNECTION ISSUE - Check DATABASE_URL in Vercel environment variables");
+    }
+
     return NextResponse.json(
-      { error: "Failed to register investor. Please try again." },
+      {
+        error: "Failed to register investor. Please try again.",
+        debug: process.env.NODE_ENV === 'development' ? errorDetails : undefined
+      },
       { status: 500 }
     );
   }
