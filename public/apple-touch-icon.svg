@@ -1,0 +1,11 @@
+<svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="180" height="180" fill="#ffffff" rx="40"/>
+
+  <!-- Chevrons -->
+  <path d="M30 50 L60 90 L30 130 L50 130 L80 90 L50 50 Z" fill="#ffbd59"/>
+  <path d="M60 50 L90 90 L60 130 L80 130 L110 90 L80 50 Z" fill="#1800ad"/>
+
+  <!-- ABZ text -->
+  <text x="130" y="105" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="32" fill="#1800ad" text-anchor="middle">ABZ</text>
+</svg>

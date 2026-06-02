@@ -1,0 +1,18 @@
+<svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="360" height="360" fill="#ffffff" rx="80"/>
+
+  <!-- Outer ring for brand emphasis -->
+  <circle cx="180" cy="180" r="170" fill="none" stroke="#1800ad" stroke-width="2" opacity="0.1"/>
+
+  <!-- Chevrons -->
+  <path d="M80 120 L140 180 L80 240 L120 240 L180 180 L120 120 Z" fill="#ffbd59"/>
+  <path d="M140 120 L200 180 L140 240 L180 240 L240 180 L180 120 Z" fill="#1800ad"/>
+
+  <!-- ABZ CAPITAL text -->
+  <text x="280" y="200" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="56" fill="#1800ad" text-anchor="middle">ABZ</text>
+  <text x="280" y="250" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="24" fill="#1800ad" text-anchor="middle" letter-spacing="4">CAP</text>
+
+  <!-- Tagline -->
+  <text x="180" y="330" font-family="Inter, system-ui, sans-serif" font-weight="500" font-size="14" fill="#1800ad" text-anchor="middle" letter-spacing="2">UNLOCKING OPPORTUNITIES</text>
+</svg>
