@@ -41,6 +41,7 @@ export function LendingPoolFormMobile() {
         data.investment_amount = parseFloat(data.investment_amount);
 
         setMessage("📡 Calling API...");
+        console.log("[FORM] Starting fetch to /api/investors/register");
 
         const response = await fetch("/api/investors/register", {
           method: "POST",
@@ -49,17 +50,22 @@ export function LendingPoolFormMobile() {
           redirect: "follow",
         });
 
-        alert(`🔍 API Response: Status=${response.status}, Redirected=${response.redirected}, URL=${response.url}`);
+        console.log("[FORM] Got response:", { status: response.status, redirected: response.redirected, url: response.url });
+        setMessage(`📊 Response: Status=${response.status}, Redirected=${response.redirected}`);
 
         if (response.redirected) {
-          alert(`✅ REDIRECT DETECTED: Going to ${response.url}`);
-          setMessage("✅ Success! Redirecting...");
+          console.log("[FORM] REDIRECTED to:", response.url);
+          setMessage(`✅ REDIRECT DETECTED! Going to ${response.url}`);
           setTimeout(() => {
+            console.log("[FORM] Executing redirect...");
             window.location.href = response.url;
           }, 500);
         } else {
+          console.log("[FORM] No redirect, parsing JSON...");
           const result = await response.json();
-          alert(`📊 NON-REDIRECT RESPONSE: OK=${response.ok}, Result=${JSON.stringify(result)}`);
+          console.log("[FORM] JSON result:", result);
+          setMessage(`📊 Response OK=${response.ok}, Result=${JSON.stringify(result).substring(0, 50)}...`);
+
           if (response.ok) {
             setMessage("✅ Success!");
             setSuccess(true);
