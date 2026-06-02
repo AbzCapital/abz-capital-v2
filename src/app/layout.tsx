@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     url: "https://www.abzcapital.co.ke",
     images: [
       {
-        url: "https://www.abzcapital.co.ke/logo.svg",
+        url: "https://www.abzcapital.co.ke/logo.png",
         width: 360,
         height: 360,
         alt: "ABZ Capital Logo",
@@ -48,6 +48,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/logo.png", type: "image/png" },
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
     apple: "/apple-touch-icon.svg",
@@ -69,6 +70,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <head>
         {/* Favicon Links */}
+        <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
         <link rel="manifest" href="/site.webmanifest" />

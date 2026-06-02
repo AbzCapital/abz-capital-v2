@@ -13,8 +13,8 @@ export function OrganizationSchema() {
     description:
       "Structured financing, investment, and insurance solutions for individuals, SMEs and institutions across emerging markets.",
     url: "https://www.abzcapital.co.ke",
-    logo: "https://www.abzcapital.co.ke/logo.svg",
-    image: "https://www.abzcapital.co.ke/logo.svg",
+    logo: "https://www.abzcapital.co.ke/logo.png",
+    image: "https://www.abzcapital.co.ke/logo.png",
     sameAs: [],
     contact: {
       "@type": "ContactPoint",
