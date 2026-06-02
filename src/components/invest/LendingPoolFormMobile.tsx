@@ -55,37 +55,35 @@ export function LendingPoolFormMobile() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-        redirect: "follow",
+        redirect: "manual",
       });
 
-      console.log("[FORM] Got response:", { status: response.status, redirected: response.redirected, url: response.url });
-      setMessage(`📊 Response: Status=${response.status}, Redirected=${response.redirected}`);
+      console.log("[FORM] Got response:", { status: response.status, statusText: response.statusText });
 
-      // Small delay to ensure DOM is ready
-      await new Promise(resolve => setTimeout(resolve, 50));
+      // Check for redirect status codes (303, 302, 301, 307, 308)
+      if ([301, 302, 303, 307, 308].includes(response.status)) {
+        const redirectUrl = response.headers.get("location");
+        console.log("[FORM] Redirect detected - Status:", response.status, "URL:", redirectUrl);
 
-      if (response.redirected) {
-        console.log("[FORM] REDIRECTED to:", response.url);
-        setMessage(`✅ REDIRECT DETECTED! Redirecting...`);
-        // Delay redirect to ensure message shows
-        setTimeout(() => {
-          console.log("[FORM] Executing redirect...");
-          window.location.href = response.url;
-        }, 300);
-      } else {
-        console.log("[FORM] No redirect, parsing JSON...");
-        const result = await response.json();
-        console.log("[FORM] JSON result:", result);
-
-        if (response.ok) {
-          setMessage("✅ Success! Loading details...");
-          setTimeout(() => {
-            setSuccess(true);
-            setSuccessData(result);
-          }, 100);
-        } else {
-          throw new Error(result.error || "Failed to register");
+        if (redirectUrl) {
+          // Immediately redirect without waiting
+          console.log("[FORM] Executing redirect now...");
+          window.location.href = redirectUrl;
+          return; // Stop execution
         }
+      }
+
+      // If not a redirect, try to parse response
+      console.log("[FORM] No redirect detected, parsing JSON...");
+      const result = await response.json();
+      console.log("[FORM] JSON result:", result);
+
+      if (response.ok && result.success) {
+        setMessage("✅ Success!");
+        setSuccess(true);
+        setSuccessData(result);
+      } else if (!response.ok) {
+        throw new Error(result.error || "Failed to register");
       }
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Unknown error";
