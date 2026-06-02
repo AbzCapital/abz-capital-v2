@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CalendarDays, FileText, MessageCircle } from "lucide-react";
 import { Container } from "@/components/shared/Container";
 import { Section } from "@/components/shared/Section";
-import { FundingOpportunityFormWrapper } from "@/components/fundraise/FundingOpportunityFormWrapper";
+import { FundingOpportunityFormHTML } from "@/components/fundraise/FundingOpportunityFormHTML";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
 import { PRODUCT_WA_MESSAGES } from "@/lib/whatsapp";
 
@@ -122,7 +122,7 @@ export default async function FundingPage({
                   </div>
                 </div>
                 <div className="mt-6">
-                  <FundingOpportunityFormWrapper />
+                  <FundingOpportunityFormHTML />
                 </div>
               </div>
             </div>
