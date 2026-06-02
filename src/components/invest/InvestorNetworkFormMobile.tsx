@@ -62,22 +62,23 @@ export function InvestorNetworkFormMobile() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok || response.status === 303) {
-        // Success - show message and clear form
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // ✅ SUCCESS - Handle the JSON response
         setMessage("✅ Your details have been submitted! We'll be in touch soon.");
         setIsSubmitting(false);
 
-        // Clear form after 1 second
+        // Clear form after 3 seconds
         setTimeout(() => {
           if (formRef.current) {
             formRef.current.reset();
             setSelectedSectors([]);
             setMessage("");
           }
-        }, 1000);
+        }, 3000);
       } else {
-        const result = await response.json();
-        throw new Error(result.error || "Failed to register");
+        throw new Error(result.message || result.error || "Failed to register");
       }
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Unknown error";
