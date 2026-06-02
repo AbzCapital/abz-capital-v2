@@ -225,10 +225,17 @@ export async function POST(request: NextRequest) {
       // Don't fail the registration if email fails
     }
 
-    console.log("[API] Redirecting to success page with investor ID:", investor.id);
-    const baseUrl = request.headers.get('origin') || 'http://localhost:3000';
-    const redirectUrl = new URL(`/investor/welcome?id=${investor.id}&email=${encodeURIComponent(email)}&type=${investor_type}`, baseUrl);
-    return NextResponse.redirect(redirectUrl, { status: 303 });
+    console.log("[API] Investor registration successful:", investor.id);
+    return NextResponse.json(
+      {
+        success: true,
+        investor_id: investor.id,
+        email: email,
+        type: investor_type,
+        message: "Registration successful. Check your email for confirmation."
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("[API ERROR] Full error object:", error);
     console.error("[API ERROR] Error type:", error instanceof Error ? error.constructor.name : typeof error);
