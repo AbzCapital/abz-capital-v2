@@ -17,69 +17,82 @@ export function LendingPoolFormMobile() {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleClick = () => {
-    if (isSubmitting) return;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // CRITICAL: Prevent default AND stop propagation immediately
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Guard against double submission
+    if (isSubmitting) {
+      console.log("[FORM] Already submitting, ignoring duplicate submit");
+      return;
+    }
+
     setIsSubmitting(true);
     setMessage("📤 Submitting form...");
 
-    setTimeout(async () => {
-      try {
-        const form = formRef.current;
-        if (!form) {
-          throw new Error("Form not found");
-        }
+    try {
+      const form = formRef.current;
+      if (!form) {
+        throw new Error("Form not found");
+      }
 
-        const formData = new FormData(form);
-        const data: any = { investor_type: "lending_pool" };
+      const formData = new FormData(form);
+      const data: any = { investor_type: "lending_pool" };
 
-        formData.forEach((value, key) => {
-          data[key] = value;
-        });
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
 
-        data.investment_preferences = [data.loan_category || "logbook_loans"];
-        delete data.loan_category;
-        data.investment_amount = parseFloat(data.investment_amount);
+      data.investment_preferences = [data.loan_category || "logbook_loans"];
+      delete data.loan_category;
+      data.investment_amount = parseFloat(data.investment_amount);
 
-        setMessage("📡 Calling API...");
-        console.log("[FORM] Starting fetch to /api/investors/register");
+      setMessage("📡 Calling API...");
+      console.log("[FORM] Starting fetch to /api/investors/register");
 
-        const response = await fetch("/api/investors/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-          redirect: "follow",
-        });
+      const response = await fetch("/api/investors/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        redirect: "follow",
+      });
 
-        console.log("[FORM] Got response:", { status: response.status, redirected: response.redirected, url: response.url });
-        setMessage(`📊 Response: Status=${response.status}, Redirected=${response.redirected}`);
+      console.log("[FORM] Got response:", { status: response.status, redirected: response.redirected, url: response.url });
+      setMessage(`📊 Response: Status=${response.status}, Redirected=${response.redirected}`);
 
-        if (response.redirected) {
-          console.log("[FORM] REDIRECTED to:", response.url);
-          setMessage(`✅ REDIRECT DETECTED! Going to ${response.url}`);
+      // Small delay to ensure DOM is ready
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      if (response.redirected) {
+        console.log("[FORM] REDIRECTED to:", response.url);
+        setMessage(`✅ REDIRECT DETECTED! Redirecting...`);
+        // Delay redirect to ensure message shows
+        setTimeout(() => {
+          console.log("[FORM] Executing redirect...");
+          window.location.href = response.url;
+        }, 300);
+      } else {
+        console.log("[FORM] No redirect, parsing JSON...");
+        const result = await response.json();
+        console.log("[FORM] JSON result:", result);
+
+        if (response.ok) {
+          setMessage("✅ Success! Loading details...");
           setTimeout(() => {
-            console.log("[FORM] Executing redirect...");
-            window.location.href = response.url;
-          }, 500);
-        } else {
-          console.log("[FORM] No redirect, parsing JSON...");
-          const result = await response.json();
-          console.log("[FORM] JSON result:", result);
-          setMessage(`📊 Response OK=${response.ok}, Result=${JSON.stringify(result).substring(0, 50)}...`);
-
-          if (response.ok) {
-            setMessage("✅ Success!");
             setSuccess(true);
             setSuccessData(result);
-          } else {
-            throw new Error(result.error || "Failed to register");
-          }
+          }, 100);
+        } else {
+          throw new Error(result.error || "Failed to register");
         }
-      } catch (error) {
-        const msg = error instanceof Error ? error.message : "Unknown error";
-        setMessage("❌ Error: " + msg);
-        setIsSubmitting(false);
       }
-    }, 100);
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Unknown error";
+      console.log("[FORM] Error caught:", msg);
+      setMessage("❌ Error: " + msg);
+      setIsSubmitting(false);
+    }
   };
 
   if (success && successData) {
@@ -107,7 +120,7 @@ export function LendingPoolFormMobile() {
           </div>
         )}
 
-        <form ref={formRef} className="space-y-4">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">First Name *</label>
             <input type="text" name="first_name" required className="w-full px-3 py-2 border rounded" />
@@ -150,8 +163,7 @@ export function LendingPoolFormMobile() {
           </div>
 
           <button
-            type="button"
-            onClick={handleClick}
+            type="submit"
             disabled={isSubmitting}
             className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-700-700"}`}
           >
