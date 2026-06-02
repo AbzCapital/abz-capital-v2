@@ -38,53 +38,98 @@ const COUNTRIES = [
 ];
 
 export function FundingOpportunityFormHTML() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState({ text: "", type: "" });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [countryCode, setCountryCode] = useState("+254");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [category, setCategory] = useState("");
+  const [opportunityType, setOpportunityType] = useState("");
+  const [description, setDescription] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    e.stopPropagation();
-
-    setIsSubmitting(true);
-    setMessage({ text: "Submitting...", type: "info" });
-
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      countryCode: formData.get("countryCode"),
-      phoneNumber: formData.get("phoneNumber"),
-      category: formData.get("category"),
-      opportunityType: formData.get("opportunityType"),
-      description: formData.get("description"),
-    };
+    setError("");
+    setLoading(true);
 
     try {
       const response = await fetch("/api/submit/funding-opportunity", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name,
+          email,
+          countryCode,
+          phoneNumber,
+          category,
+          opportunityType,
+          description,
+        }),
+        redirect: "follow",
       });
 
-      const result = await response.json();
+      // Check if we were redirected (success)
+      if (response.redirected) {
+        alert("✅ Opportunity submitted successfully!");
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.href = response.url;
+        }, 500);
+        return;
+      }
 
-      if (response.ok && result.ok) {
-        setMessage({ text: "✅ Success! Your opportunity has been submitted. Check your email.", type: "success" });
-        e.currentTarget.reset();
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        setError("Failed to parse API response");
+        return;
+      }
+
+      if (response.ok && data.ok) {
+        alert("✅ Opportunity submitted successfully!");
+        setSuccess(true);
       } else {
-        throw new Error(result.error || "Submission failed");
+        alert("❌ API Error: " + JSON.stringify(data));
+        setError(data.error || "Submission failed");
       }
     } catch (error) {
-      setMessage({ text: `❌ Error: ${error instanceof Error ? error.message : "Unknown error"}`, type: "error" });
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      alert("❌ Fetch error: " + errorMsg);
+      setError(`Network error: ${errorMsg}`);
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
+
+  if (success) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
+        <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
+          <p className="text-muted-ink mb-6 font-semibold">
+            Your funding opportunity has been submitted.
+          </p>
+          <p className="text-muted-ink">
+            Our investor team will review it and be in touch shortly.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-md mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-ink mb-6">Submit Opportunity</h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -93,8 +138,9 @@ export function FundingOpportunityFormHTML() {
             </label>
             <input
               type="text"
-              name="name"
               required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             />
           </div>
@@ -105,8 +151,9 @@ export function FundingOpportunityFormHTML() {
             </label>
             <input
               type="email"
-              name="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             />
           </div>
@@ -117,8 +164,8 @@ export function FundingOpportunityFormHTML() {
             </label>
             <div className="flex gap-2">
               <select
-                name="countryCode"
-                defaultValue="+254"
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
               >
                 {COUNTRIES.map((country) => (
@@ -129,8 +176,9 @@ export function FundingOpportunityFormHTML() {
               </select>
               <input
                 type="tel"
-                name="phoneNumber"
                 required
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="700000000"
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
               />
@@ -142,8 +190,9 @@ export function FundingOpportunityFormHTML() {
               Category *
             </label>
             <select
-              name="category"
               required
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             >
               <option value="">Select a category</option>
@@ -159,8 +208,9 @@ export function FundingOpportunityFormHTML() {
               Opportunity Type *
             </label>
             <select
-              name="opportunityType"
               required
+              value={opportunityType}
+              onChange={(e) => setOpportunityType(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo"
             >
               <option value="">Select opportunity type</option>
@@ -176,8 +226,9 @@ export function FundingOpportunityFormHTML() {
               Description *
             </label>
             <textarea
-              name="description"
               required
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               rows={5}
               placeholder="Describe the deal, its size, sector, and what you're looking for"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
@@ -186,25 +237,11 @@ export function FundingOpportunityFormHTML() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={loading}
             className="w-full bg-indigo text-white font-bold py-3 rounded-xl disabled:opacity-50 transition"
           >
-            {isSubmitting ? "Submitting..." : "Submit Opportunity"}
+            {loading ? "Submitting..." : "Submit Opportunity"}
           </button>
-
-          {message.text && (
-            <div
-              className={`mt-4 p-3 rounded-lg ${
-                message.type === "success"
-                  ? "bg-green-50 border border-green-200 text-green-700"
-                  : message.type === "error"
-                  ? "bg-red-50 border border-red-200 text-red-700"
-                  : "bg-blue-50 border border-blue-200 text-blue-700"
-              }`}
-            >
-              {message.text}
-            </div>
-          )}
         </form>
       </div>
     </div>

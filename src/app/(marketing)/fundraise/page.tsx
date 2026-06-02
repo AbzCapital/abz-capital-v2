@@ -12,7 +12,35 @@ export const metadata: Metadata = {
     "Book a pitch with ABZ Capital's investor team or submit a funding opportunity for review. We respond within one business day.",
 };
 
-export default function FundingPage() {
+export default function FundingPage({
+  searchParams,
+}: {
+  searchParams: { submitted?: string };
+}) {
+  const showSuccess = searchParams.submitted === "true";
+
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-6 flex items-center justify-center">
+        <div className="text-center max-w-md bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-4xl font-bold text-green-600 mb-4">✅ Success!</h2>
+          <p className="text-muted-ink mb-6 font-semibold">
+            Your funding opportunity has been submitted.
+          </p>
+          <p className="text-muted-ink mb-8">
+            Our investor team will review it and be in touch shortly.
+          </p>
+          <a
+            href="/fundraise"
+            className="inline-block px-6 py-3 bg-indigo text-white font-bold rounded-lg hover:bg-indigo/90 transition"
+          >
+            Submit Another
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <section className="bg-mesh pt-20 pb-12 sm:pt-28 sm:pb-16">
