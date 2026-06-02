@@ -1,23 +1,11 @@
 import { MetadataRoute } from "next";
-import { readdirSync, statSync } from "fs";
-import { join } from "path";
+import { readdirSync } from "fs";
+import { join, relative } from "path";
 
 /**
- * Dynamically discovers all public routes from the app directory
- * and generates a production-ready XML sitemap
+ * Dynamically discovers ALL public routes from the app directory
+ * and generates a production-ready XML sitemap with proper route discovery
  */
-
-// Routes to exclude from the sitemap (protected pages, admin, etc.)
-const EXCLUDED_PATTERNS = [
-  /^\/(admin|investor|api|auth)/,
-  /\/\(protected\)/,
-  /\/\[/,
-];
-
-// Manual overrides for important routes that might not be in /app structure
-const MANUAL_ROUTES = [
-  { path: "/", priority: 1.0 },
-];
 
 interface RouteEntry {
   path: string;
@@ -25,113 +13,239 @@ interface RouteEntry {
 }
 
 /**
- * Recursively find all page.tsx routes in the app directory
+ * Extract route path from file system path
+ * Handles route groups (parentheses), dynamic segments, and nested directories
  */
-function findPageRoutes(
-  dir: string,
-  basePath: string = "",
-  routes: RouteEntry[] = []
-): RouteEntry[] {
+function extractRoutePath(filePath: string, appDir: string): string | null {
+  // Get relative path from app directory
+  const relativePath = relative(appDir, filePath);
+
+  // Split into parts
+  const parts = relativePath.split(/[\\/]/);
+
+  // Remove "page.tsx" or "page.jsx" at the end
+  if (!parts[parts.length - 1].startsWith("page.")) {
+    return null;
+  }
+  parts.pop();
+
+  // Process each part to build the route
+  const routeParts: string[] = [];
+
+  for (const part of parts) {
+    // Skip hidden directories and layout files
+    if (part.startsWith(".") || part.startsWith("_")) {
+      continue;
+    }
+
+    // Route groups (parentheses) don't contribute to the URL
+    if (part.startsWith("(") && part.endsWith(")")) {
+      continue;
+    }
+
+    // Dynamic segments with brackets - exclude these from sitemap
+    if (part.startsWith("[") && part.endsWith("]")) {
+      return null;
+    }
+
+    // Add regular path segments
+    routeParts.push(part);
+  }
+
+  // Build final route
+  const routePath = routeParts.length > 0 ? "/" + routeParts.join("/") : "/";
+
+  return routePath;
+}
+
+/**
+ * Recursively find all page files in the app directory
+ */
+function findAllPageFiles(dir: string, pageFiles: string[] = []): string[] {
   try {
     const entries = readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
       const fullPath = join(dir, entry.name);
 
-      // Skip certain directories and patterns
-      if (
-        entry.name.startsWith(".") ||
-        entry.name === "node_modules" ||
-        entry.name.startsWith("(") ||
-        entry.name === "[" ||
-        entry.name.startsWith("_")
-      ) {
+      // Skip hidden directories and node_modules
+      if (entry.name.startsWith(".") || entry.name === "node_modules") {
         continue;
       }
 
       if (entry.isDirectory()) {
-        // Recursively search subdirectories
-        const newBasePath = basePath ? `${basePath}/${entry.name}` : `/${entry.name}`;
-        findPageRoutes(fullPath, newBasePath, routes);
+        // Recursively search all directories (including route groups)
+        findAllPageFiles(fullPath, pageFiles);
       } else if (entry.name === "page.tsx" || entry.name === "page.jsx") {
-        // Found a page file - extract the route
-        const routePath = basePath || "/";
-
-        // Skip excluded patterns
-        const shouldExclude = EXCLUDED_PATTERNS.some((pattern) =>
-          pattern.test(routePath)
-        );
-
-        if (!shouldExclude) {
-          routes.push({
-            path: routePath,
-            priority: getPriorityForRoute(routePath),
-          });
-        }
+        // Found a page file
+        pageFiles.push(fullPath);
       }
     }
   } catch (error) {
     console.error(`Error reading directory ${dir}:`, error);
   }
 
-  return routes;
+  return pageFiles;
+}
+
+/**
+ * Check if a route should be excluded from sitemap
+ */
+function shouldExcludeRoute(routePath: string): boolean {
+  // Exclude admin routes
+  if (routePath.startsWith("/admin")) {
+    return true;
+  }
+
+  // Exclude protected investor routes (but not public /invest pages)
+  if (routePath.startsWith("/investor")) {
+    return true;
+  }
+
+  // Exclude API routes
+  if (routePath.startsWith("/api")) {
+    return true;
+  }
+
+  // Exclude auth routes
+  if (routePath.startsWith("/auth")) {
+    return true;
+  }
+
+  return false;
 }
 
 /**
  * Determine priority for a route based on its importance
  */
 function getPriorityForRoute(path: string): number {
-  // Home page gets highest priority
+  // Home page
   if (path === "/") return 1.0;
 
   // Main product/service pages
-  if (["/products", "/invest", "/funding", "/about", "/contact"].includes(path)) {
+  const mainPages = [
+    "/products",
+    "/invest",
+    "/funding",
+    "/fundraise",
+    "/about",
+    "/contact",
+  ];
+  if (mainPages.includes(path)) {
     return 0.9;
   }
 
+  // Investment-related pages
+  if (
+    path.includes("/invest") ||
+    path.includes("/lending") ||
+    path.includes("/investor-network") ||
+    path.includes("/lending-pool")
+  ) {
+    return 0.85;
+  }
+
   // Legal/informational pages
-  if (["/terms", "/privacy", "/risk-disclosure", "/cookies"].includes(path)) {
+  const legalPages = [
+    "/terms",
+    "/privacy",
+    "/risk-disclosure",
+    "/cookies",
+  ];
+  if (legalPages.includes(path)) {
     return 0.7;
   }
 
-  // Specific investment/product pages
-  if (path.includes("/invest") || path.includes("/lending") || path.includes("/investor")) {
-    return 0.8;
+  // Other informational pages
+  if (path.includes("/alert") || path.includes("/simulator")) {
+    return 0.65;
   }
 
-  // Other pages
+  // Default priority for other pages
   return 0.6;
 }
 
 /**
- * Get the last modified date for a file
+ * Determine change frequency for a route
  */
-function getLastModDate(filePath: string): string {
-  try {
-    const stats = statSync(filePath);
-    return new Date(stats.mtime).toISOString().split("T")[0];
-  } catch {
-    return new Date().toISOString().split("T")[0];
+function getChangeFrequency(path: string): string {
+  // Frequently updated pages
+  if (
+    path === "/invest" ||
+    path === "/funding" ||
+    path === "/fundraise" ||
+    path === "/products" ||
+    path.includes("/invest") ||
+    path.includes("/lending") ||
+    path.includes("/investor-network")
+  ) {
+    return "weekly";
   }
+
+  // Monthly updates
+  if (
+    path === "/about" ||
+    path === "/contact" ||
+    path === "/alert" ||
+    path === "/simulator"
+  ) {
+    return "monthly";
+  }
+
+  // Static legal pages
+  if (
+    path.includes("/terms") ||
+    path.includes("/privacy") ||
+    path.includes("/risk-disclosure") ||
+    path.includes("/cookies")
+  ) {
+    return "yearly";
+  }
+
+  // Default
+  return "monthly";
 }
 
 /**
- * Generate the sitemap
+ * Generate the sitemap with all public routes
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const appDir = join(process.cwd(), "src/app");
-  const routes = findPageRoutes(appDir);
+  const appDir = join(process.cwd(), "src", "app");
 
-  // Combine manual routes with discovered routes
-  const allRoutes = [
-    ...MANUAL_ROUTES,
-    ...routes.filter((route) => route.path !== "/"), // Avoid duplicates
-  ];
+  // Find all page files
+  const pageFiles = findAllPageFiles(appDir);
 
-  // Remove duplicate routes and sort
+  // Convert page files to routes
+  const discoveredRoutes: RouteEntry[] = pageFiles
+    .map((filePath) => {
+      const routePath = extractRoutePath(filePath, appDir);
+      return routePath
+        ? {
+            path: routePath,
+            priority: getPriorityForRoute(routePath),
+          }
+        : null;
+    })
+    .filter(
+      (route): route is RouteEntry =>
+        route !== null && !shouldExcludeRoute(route.path)
+    );
+
+  // Ensure home page is included
+  const allRoutes = discoveredRoutes.length > 0
+    ? discoveredRoutes
+    : [{ path: "/", priority: 1.0 }];
+
+  // Remove duplicates and sort
   const uniqueRoutes = Array.from(
     new Map(allRoutes.map((item) => [item.path, item])).values()
   ).sort((a, b) => a.path.localeCompare(b.path));
+
+  // Log discovered routes for debugging (remove in production if needed)
+  console.log(
+    `[Sitemap] Discovered ${uniqueRoutes.length} public routes`,
+    uniqueRoutes.map((r) => r.path)
+  );
 
   // Generate sitemap entries
   const sitemapEntries: MetadataRoute.Sitemap = uniqueRoutes.map((route) => ({
@@ -149,27 +263,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   return sitemapEntries;
-}
-
-/**
- * Determine change frequency for a route
- */
-function getChangeFrequency(path: string): string {
-  // Frequently updated pages
-  if (["/invest", "/funding", "/products"].includes(path)) {
-    return "weekly";
-  }
-
-  // Less frequently updated
-  if (["/about", "/contact"].includes(path)) {
-    return "monthly";
-  }
-
-  // Static legal pages
-  if (["/terms", "/privacy", "/risk-disclosure", "/cookies"].includes(path)) {
-    return "yearly";
-  }
-
-  // Default
-  return "monthly";
 }
