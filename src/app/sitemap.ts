@@ -16,7 +16,7 @@ const EXCLUDED_PATTERNS = [
 
 // Manual overrides for important routes that might not be in /app structure
 const MANUAL_ROUTES = [
-  { url: "/", priority: 1.0 },
+  { path: "/", priority: 1.0 },
 ];
 
 interface RouteEntry {

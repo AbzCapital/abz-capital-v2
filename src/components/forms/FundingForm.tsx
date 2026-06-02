@@ -57,7 +57,7 @@ const COUNTRIES = [
 export function FundingForm() {
   const [token, setToken] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  const [countryCode, setCountryCode] = useState("+254");
+  const [countryCode, setCountryCode] = useState<string | null>("+254");
 
   const {
     register,
@@ -85,7 +85,8 @@ export function FundingForm() {
       Object.entries(values).forEach(([k, v]) => {
         if (k === "phone") {
           // Combine country code with phone number
-          fd.append(k, `${countryCode}${v}`);
+          const code = countryCode || "+254";
+          fd.append(k, `${code}${v}`);
         } else if (typeof v === "string") {
           fd.append(k, v);
         }
