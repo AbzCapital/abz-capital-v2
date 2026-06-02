@@ -22,6 +22,9 @@ const QUICK_LINKS = [
 const LEGAL_LINKS = [
   { href: "/about", label: "About ABZ" },
   { href: "/contact", label: "Contact" },
+  { href: "/terms", label: "Terms & Conditions" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 export function Footer() {
