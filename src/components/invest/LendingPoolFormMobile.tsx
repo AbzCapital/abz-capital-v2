@@ -155,6 +155,7 @@ export function LendingPoolFormMobile() {
               onSubmit={handleSubmit}
               className="space-y-4"
             >
+              <input type="hidden" name="investor_type" value="lending_pool" />
               <div>
                 <label className="block text-sm font-semibold mb-1">First Name *</label>
                 <input type="text" name="first_name" required className="w-full px-3 py-2 border rounded" />
