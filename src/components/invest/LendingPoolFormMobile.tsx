@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 
 const COUNTRIES = [
@@ -84,29 +84,6 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
 
   const showMessage = message && !isSuccess;
 
-  useEffect(() => {
-    const form = formRef.current;
-    if (!form) return;
-
-    console.log("✅ useEffect: Form found, attaching listener");
-
-    const handleFormSubmit = (event: Event) => {
-      console.log("🔵 LISTENER FIRED - event.preventDefault() called");
-      event.preventDefault();
-      event.stopPropagation();
-      alert("✅ LISTENER WORKED - handleSubmit being called");
-      handleSubmit(event as any);
-      return false;
-    };
-
-    form.addEventListener("submit", handleFormSubmit);
-    console.log("✅ useEffect: Listener attached");
-
-    return () => {
-      form.removeEventListener("submit", handleFormSubmit);
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-white p-4">
       <div className="bg-yellow-100 border-2 border-yellow-500 p-3 rounded mb-4 text-yellow-900 font-bold">
@@ -173,6 +150,7 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
 
             <form
               ref={formRef}
+              onSubmit={handleSubmit}
               className="space-y-4"
             >
               <div>
