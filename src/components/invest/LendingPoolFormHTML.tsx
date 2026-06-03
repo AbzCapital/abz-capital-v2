@@ -68,11 +68,14 @@ export function LendingPoolFormHTML() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("[FORM] handleSubmit CALLED");
     e.preventDefault();
     e.stopPropagation();
+    console.log("[FORM] preventDefault done, isSubmitting:", isSubmitting, "isSuccess:", isSuccess);
 
     if (isSubmitting || isSuccess) return;
     setIsSubmitting(true);
+    console.log("[FORM] setIsSubmitting(true)");
 
     try {
       const formData = new FormData(e.currentTarget);
@@ -97,10 +100,12 @@ export function LendingPoolFormHTML() {
       const result = await response.json();
 
       if (result.success === true) {
+        console.log("[FORM] SUCCESS! Setting isSuccess=true");
         setIsSuccess(true);
         setIsSubmitting(false);
         if (formRef.current) formRef.current.reset();
       } else {
+        console.log("[FORM] API returned success=false:", result);
         throw new Error(result.message || "Registration failed");
       }
     } catch (error) {
