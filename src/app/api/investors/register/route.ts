@@ -226,16 +226,11 @@ export async function POST(request: NextRequest) {
     }
 
     console.log("[API] Investor registration successful:", investor.id);
-    return NextResponse.json(
-      {
-        success: true,
-        investor_id: investor.id,
-        email: email,
-        type: investor_type,
-        message: "Registration successful. Check your email for confirmation."
-      },
-      { status: 200 }
-    );
+
+    // Redirect to success page instead of returning JSON
+    return NextResponse.redirect(new URL("/registration-success", request.url), {
+      status: 303
+    });
   } catch (error) {
     console.error("[API ERROR] Full error object:", error);
     console.error("[API ERROR] Error type:", error instanceof Error ? error.constructor.name : typeof error);
