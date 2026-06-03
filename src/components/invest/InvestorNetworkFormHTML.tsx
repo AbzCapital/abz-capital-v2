@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const COUNTRIES = [
@@ -80,76 +81,47 @@ const SECTORS = [
 ];
 
 export function InvestorNetworkFormHTML() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    e.stopPropagation();
-
-    if (isSubmitting || isSuccess) return;
-    setIsSubmitting(true);
+    console.log("[FORM] Submission intercepted");
+    setLoading(true);
+    setError("");
 
     try {
       const formData = new FormData(e.currentTarget);
-      const preferences = formData.getAll("investment_preferences");
-
-      const data = {
-        investor_type: "investor_network",
-        first_name: formData.get("first_name") || "",
-        last_name: formData.get("last_name") || "",
-        country_code: formData.get("country_code") || "+254",
-        phone_number: formData.get("phone_number") || "",
-        email: formData.get("email") || "",
-        investment_amount: 0,
-        investment_preferences: preferences.length > 0 ? preferences : [],
-        investor_note: formData.get("investor_note") || "",
-      };
 
       const response = await fetch("/api/investors/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
-      const result = await response.json();
+      console.log("[FORM] Response status:", response.status);
 
-      if (result.success === true) {
-        setIsSuccess(true);
-        setIsSubmitting(false);
-        if (formRef.current) formRef.current.reset();
-      } else {
-        throw new Error(result.message || "Registration failed");
+      const data = await response.json();
+
+      console.log("[FORM] Response data:", data);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed");
       }
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : "Unknown error";
-      alert("Error: " + msg);
-      setIsSubmitting(false);
+
+      if (data.success) {
+        router.push("/registration-success");
+        return;
+      }
+
+      throw new Error("Unexpected response received");
+    } catch (err: any) {
+      console.error("[FORM ERROR]", err);
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
-
-  if (isSuccess) {
-    return (
-      <div className="min-h-screen bg-white p-4">
-        <div className="max-w-md mx-auto py-8 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <p className="text-green-800 text-lg font-medium mb-2">Success!</p>
-          <p className="text-gray-700 mb-6">Your details have been saved. Check your email for confirmation.</p>
-          <a href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1" target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg w-full mb-4">
-            Join WhatsApp Group
-          </a>
-          <button onClick={() => window.location.href = "/invest"} className="text-blue-700 hover:text-blue-800 font-semibold">
-            ← Back to Opportunities
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -159,7 +131,8 @@ export function InvestorNetworkFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Investor Network</h1>
 
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input type="hidden" name="investor_type" value="investor_network" />
 
           <div>
             <label className="block text-sm font-semibold mb-1">
@@ -220,10 +193,23 @@ export function InvestorNetworkFormHTML() {
           </div>
 
           <div>
+            <label className="block text-sm font-semibold mb-1">
+              How much are you planning to invest? (KES) *
+            </label>
+            <input
+              type="number"
+              name="investment_amount"
+              required
+              placeholder="Enter amount e.g. 600000"
+              className="w-full px-3 py-2 border rounded"
+            />
+          </div>
+
+          <div>
             <label className="block text-sm font-semibold mb-2">
               Investment Sectors * (Select one or more)
             </label>
-            <div className="grid grid-cols-2 gap-2 mb-4">
+            <div className="grid grid-cols-2 gap-2">
               {SECTORS.map((sector) => (
                 <label key={sector} className="flex items-center gap-2">
                   <input
@@ -235,16 +221,6 @@ export function InvestorNetworkFormHTML() {
                 </label>
               ))}
             </div>
-
-            <label className="block text-sm font-semibold mb-1">
-              Or enter a specific sector if not listed:
-            </label>
-            <input
-              type="text"
-              name="investment_preferences"
-              placeholder="e.g., Biotech, Media, Tourism"
-              className="w-full px-3 py-2 border rounded mb-2"
-            />
           </div>
 
           <div>
@@ -256,11 +232,18 @@ export function InvestorNetworkFormHTML() {
             />
           </div>
 
+          {error && (
+            <div className="p-3 rounded bg-red-50 text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="w-full py-3 font-bold rounded text-white bg-blue-700 hover:bg-blue-700-700"
+            disabled={loading}
+            className="w-full py-3 font-bold rounded text-white bg-blue-700 disabled:opacity-50"
           >
-            Join Investor Network
+            {loading ? "Submitting..." : "Join Investor Network"}
           </button>
         </form>
       </div>

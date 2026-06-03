@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const COUNTRIES = [
@@ -62,6 +64,47 @@ const COUNTRIES = [
 ];
 
 export function LendingPoolFormHTML() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("[FORM] Submission intercepted");
+    setLoading(true);
+    setError("");
+
+    try {
+      const formData = new FormData(e.currentTarget);
+
+      const response = await fetch("/api/investors/register", {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log("[FORM] Response status:", response.status);
+
+      const data = await response.json();
+
+      console.log("[FORM] Response data:", data);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed");
+      }
+
+      if (data.success) {
+        router.push("/registration-success");
+        return;
+      }
+
+      throw new Error("Unexpected response received");
+    } catch (err: any) {
+      console.error("[FORM ERROR]", err);
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -71,7 +114,7 @@ export function LendingPoolFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Lending Pool</h1>
 
-        <form method="POST" action="/api/investors/register" className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input type="hidden" name="investor_type" value="lending_pool" />
           <div>
             <label className="block text-sm font-semibold mb-1">
@@ -174,11 +217,18 @@ export function LendingPoolFormHTML() {
             />
           </div>
 
+          {error && (
+            <div className="p-3 rounded bg-red-50 text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="w-full py-3 font-bold rounded text-white bg-blue-700 hover:bg-blue-700-700"
+            disabled={loading}
+            className="w-full py-3 font-bold rounded text-white bg-blue-700 disabled:opacity-50"
           >
-            Join Lending Pool
+            {loading ? "Submitting..." : "Join Lending Pool"}
           </button>
         </form>
       </div>
