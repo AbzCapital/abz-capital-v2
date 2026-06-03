@@ -150,7 +150,13 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
 
             <form
               ref={formRef}
-              onSubmit={handleSubmit}
+              onSubmit={(e) => {
+                console.log("DIRECT ONSUBMIT TEST");
+                e.preventDefault();
+                alert("DIRECT ONSUBMIT WORKED");
+                handleSubmit(e);
+                return false;
+              }}
               className="space-y-4"
             >
               <div>
@@ -192,6 +198,10 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
               <div>
                 <label className="block text-sm font-semibold mb-1">Notes</label>
                 <textarea name="investor_note" maxLength={200} className="w-full px-3 py-2 border rounded" />
+              </div>
+
+              <div className="bg-blue-100 p-2 mb-2 text-xs">
+                onSubmit attached: {typeof handleSubmit === 'function' ? 'YES ✅' : 'NO ❌'}
               </div>
 
               <button
