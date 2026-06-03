@@ -150,13 +150,6 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
 
             <form
               ref={formRef}
-              onSubmit={(e) => {
-                console.log("DIRECT ONSUBMIT TEST");
-                e.preventDefault();
-                alert("DIRECT ONSUBMIT WORKED");
-                handleSubmit(e);
-                return false;
-              }}
               className="space-y-4"
             >
               <div>
@@ -205,7 +198,11 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
               </div>
 
               <button
-                type="submit"
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit(e as any);
+                }}
                 disabled={isSubmitting}
                 className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800"}`}
               >
