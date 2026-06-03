@@ -18,6 +18,8 @@ export function LendingPoolFormMobile() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("🔵 FORM HANDLER CALLED");
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -142,7 +144,10 @@ export function LendingPoolFormMobile() {
               </div>
             )}
 
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+            <form
+              ref={formRef}
+              className="space-y-4"
+            >
               <div>
                 <label className="block text-sm font-semibold mb-1">First Name *</label>
                 <input type="text" name="first_name" required className="w-full px-3 py-2 border rounded" />
@@ -185,8 +190,15 @@ export function LendingPoolFormMobile() {
               </div>
 
               <button
-                type="submit"
+                type="button"
                 disabled={isSubmitting}
+                onClick={() => {
+                  const form = formRef.current;
+                  if (form) {
+                    const event = new Event('submit', { bubbles: true, cancelable: true });
+                    handleSubmit(event as any);
+                  }
+                }}
                 className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800"}`}
               >
                 {isSubmitting ? "Submitting..." : "Join Lending Pool"}
