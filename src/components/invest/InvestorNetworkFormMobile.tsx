@@ -28,21 +28,8 @@ export function InvestorNetworkFormMobile() {
 
     setMessage("");
 
-    // Add sectors to form as hidden inputs before submission
+    // Submit the form natively
     if (formRef.current) {
-      // Remove any existing sector inputs
-      Array.from(formRef.current.querySelectorAll('input[name="investment_preferences"]')).forEach(el => el.remove());
-
-      // Add selected sectors as hidden inputs
-      selectedSectors.forEach(sector => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'investment_preferences';
-        input.value = sector;
-        formRef.current?.appendChild(input);
-      });
-
-      // Submit the form natively
       formRef.current.submit();
     }
   };
@@ -99,7 +86,13 @@ export function InvestorNetworkFormMobile() {
             <div className="grid grid-cols-2 gap-2">
               {SECTORS.map(s => (
                 <label key={s} className="flex items-center gap-2">
-                  <input type="checkbox" checked={selectedSectors.includes(s)} onChange={() => setSelectedSectors(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])} />
+                  <input
+                    type="checkbox"
+                    name="investment_preferences"
+                    value={s}
+                    checked={selectedSectors.includes(s)}
+                    onChange={() => setSelectedSectors(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])}
+                  />
                   <span className="text-sm">{s}</span>
                 </label>
               ))}
