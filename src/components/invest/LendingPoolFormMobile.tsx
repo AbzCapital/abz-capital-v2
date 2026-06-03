@@ -13,6 +13,7 @@ export function LendingPoolFormMobile() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [investorData, setInvestorData] = useState<any>(null);
+  const [debugInfo, setDebugInfo] = useState("");
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -50,14 +51,15 @@ export function LendingPoolFormMobile() {
 
       const result = await response.json();
 
-      console.log("=== CHECKING RESPONSE ===");
-      console.log("response.ok:", response.ok);
-      console.log("result.success:", result.success);
+      // ✅ Show debug info on page
+      const debugMsg = `response.ok: ${response.ok} | result.success: ${result.success} | Status: ${response.status}`;
+      setDebugInfo(debugMsg);
+      console.log("DEBUG:", debugMsg);
       console.log("Full result:", result);
 
       // ✅ FIXED: Check result.success directly
       if (result.success === true) {
-        console.log("✅ SUCCESS BLOCK ENTERED - Setting isSuccess to true");
+        console.log("✅ SUCCESS - Setting isSuccess to true");
         setInvestorData(result);
         setIsSuccess(true);  // This shows the success view
         setIsSubmitting(false);
@@ -66,7 +68,8 @@ export function LendingPoolFormMobile() {
           formRef.current.reset();
         }
       } else {
-        console.log("❌ SUCCESS BLOCK NOT ENTERED");
+        console.log("❌ NOT SUCCESS - result.success is:", result.success);
+        setDebugInfo(`Failed: result.success = ${result.success}`);
         throw new Error(result.message || result.error || "Failed to register");
       }
     } catch (error) {
@@ -130,6 +133,12 @@ export function LendingPoolFormMobile() {
             {showMessage && (
               <div className={`p-3 rounded mb-4 ${message.includes("❌") ? "bg-red-50 text-red-700" : "bg-blue-50 text-blue-700"}`}>
                 {message}
+              </div>
+            )}
+
+            {debugInfo && (
+              <div className="p-3 rounded mb-4 bg-yellow-50 text-yellow-800 text-xs border border-yellow-200">
+                <strong>DEBUG:</strong> {debugInfo}
               </div>
             )}
 
