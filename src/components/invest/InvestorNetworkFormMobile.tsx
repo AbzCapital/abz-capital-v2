@@ -128,12 +128,12 @@ export function InvestorNetworkFormMobile() {
               For faster alerts Join WhatsApp Group
             </a>
 
-            {/* Back Button */}
+            {/* Back to Invest Button - PROMINENT */}
             <button
               onClick={() => window.location.href = "/invest"}
-              className="mt-4 text-gray-500 hover:text-gray-700 text-sm underline"
+              className="mt-4 w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition"
             >
-              ← Back to Investment Opportunities
+              Back to Investment Opportunities
             </button>
           </div>
         ) : (
