@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { InvestorNetworkForm } from "./InvestorNetworkForm";
-import { InvestorNetworkFormHTML } from "./InvestorNetworkFormHTML";
+import { InvestorNetworkFormMobile } from "./InvestorNetworkFormMobile";
 
 export function InvestorNetworkFormWrapper() {
   const isMobileUserAgent =
@@ -30,7 +30,7 @@ export function InvestorNetworkFormWrapper() {
   }, []);
 
   if (isMobile) {
-    return <InvestorNetworkFormHTML />;
+    return <InvestorNetworkFormMobile />;
   }
 
   return <InvestorNetworkForm />;
