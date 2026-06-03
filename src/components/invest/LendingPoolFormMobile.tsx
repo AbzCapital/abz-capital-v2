@@ -190,15 +190,8 @@ export function LendingPoolFormMobile() {
               </div>
 
               <button
-                type="button"
+                type="submit"
                 disabled={isSubmitting}
-                onClick={() => {
-                  const form = formRef.current;
-                  if (form) {
-                    const event = new Event('submit', { bubbles: true, cancelable: true });
-                    handleSubmit(event as any);
-                  }
-                }}
                 className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800"}`}
               >
                 {isSubmitting ? "Submitting..." : "Join Lending Pool"}
