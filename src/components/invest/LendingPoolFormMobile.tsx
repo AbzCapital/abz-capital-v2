@@ -88,14 +88,20 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
     const form = formRef.current;
     if (!form) return;
 
+    console.log("✅ useEffect: Form found, attaching listener");
+
     const handleFormSubmit = (event: Event) => {
+      console.log("🔵 LISTENER FIRED - event.preventDefault() called");
       event.preventDefault();
       event.stopPropagation();
+      alert("✅ LISTENER WORKED - handleSubmit being called");
       handleSubmit(event as any);
       return false;
     };
 
     form.addEventListener("submit", handleFormSubmit);
+    console.log("✅ useEffect: Listener attached");
+
     return () => {
       form.removeEventListener("submit", handleFormSubmit);
     };
