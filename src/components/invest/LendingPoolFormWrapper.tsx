@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LendingPoolForm } from "./LendingPoolForm";
-import { LendingPoolFormHTML } from "./LendingPoolFormHTML";
+import { LendingPoolFormMobile } from "./LendingPoolFormMobile";
 
 export function LendingPoolFormWrapper() {
   const isMobileUserAgent =
@@ -30,7 +30,7 @@ export function LendingPoolFormWrapper() {
   }, []);
 
   if (isMobile) {
-    return <LendingPoolFormHTML />;
+    return <LendingPoolFormMobile />;
   }
 
   return <LendingPoolForm />;
