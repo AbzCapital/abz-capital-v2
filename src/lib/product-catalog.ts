@@ -79,8 +79,7 @@ export const PRODUCTS: Product[] = [
     highlights: ["1–6 month terms", "KES 50K – 5M"],
     hasSimulator: true,
     termLabel: "1–6 mo",
-    imageUrl:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Logbook Loan.jpg",
   },
   {
     slug: "title-deed-loan",
@@ -90,8 +89,7 @@ export const PRODUCTS: Product[] = [
       "Unlock equity from your land or property with a registered charge. Competitive rates, structured terms.",
     highlights: ["Up to 60% LTV", "Flexible tenor"],
     termLabel: "3–24 mo",
-    imageUrl:
-      "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Title Deed Loan.jpg",
   },
   {
     slug: "bond-backed-lending",
@@ -101,8 +99,7 @@ export const PRODUCTS: Product[] = [
       "Use Treasury bonds and corporate notes as collateral for liquidity without selling the position.",
     highlights: ["High LTV", "Same-week disbursal"],
     termLabel: "Flexible",
-    imageUrl:
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Bond-backed lending.jpg",
   },
 
   // SME
@@ -114,8 +111,7 @@ export const PRODUCTS: Product[] = [
       "Cover payroll, stock, or short-term gaps with a structured working capital line tailored to your cycle.",
     highlights: ["30–180 day cycles", "Recurring availability"],
     termLabel: "30–180 days",
-    imageUrl:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Working Capital financing.jpg",
   },
   {
     slug: "business-expansion",
@@ -125,8 +121,7 @@ export const PRODUCTS: Product[] = [
       "Scale operations, open new locations, or finance equipment with disciplined growth capital.",
     highlights: ["CAPEX-aligned", "1–4 year tenor"],
     termLabel: "1–4 years",
-    imageUrl:
-      "https://images.unsplash.com/photo-1664575602807-e0fe26a3a0eb?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Business Expansion Finance.jpg",
   },
   {
     slug: "investor-linkage",
@@ -136,8 +131,7 @@ export const PRODUCTS: Product[] = [
       "We connect vetted SMEs with our investor network — equity, debt, or structured rounds.",
     highlights: ["Vetted matchmaking", "Deal structuring support"],
     termLabel: "By deal",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Investor Linkage sevices.jpg",
   },
 
   // Contractor
@@ -149,8 +143,7 @@ export const PRODUCTS: Product[] = [
       "Secure contract performance with bonds underwritten by approved insurers, issued fast.",
     highlights: ["Up to 10% of contract", "Same-week issuance"],
     termLabel: "Per contract",
-    imageUrl:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Performance Bonds.jpg",
   },
   {
     slug: "bid-bonds",
@@ -160,8 +153,7 @@ export const PRODUCTS: Product[] = [
       "Tender-ready bid bonds delivered in days. Strengthen every proposal you submit.",
     highlights: ["Tender-compliant", "Fast turnaround"],
     termLabel: "Tender period",
-    imageUrl:
-      "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Bid Bonds.jpg",
   },
   {
     slug: "advance-payment-guarantees",
@@ -171,8 +163,7 @@ export const PRODUCTS: Product[] = [
       "Unlock mobilisation funds with employer-trusted advance payment guarantees.",
     highlights: ["Mobilisation cover", "Per-employer terms"],
     termLabel: "Project term",
-    imageUrl:
-      "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Advance Payment Guarantee.jpg",
   },
   {
     slug: "contractors-all-risk",
@@ -182,8 +173,7 @@ export const PRODUCTS: Product[] = [
       "Comprehensive cover for works, materials, equipment, and third-party liability on site.",
     highlights: ["Works + plant cover", "Third-party liability"],
     termLabel: "Project term",
-    imageUrl:
-      "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Contractors's All Risk Insurance.jpg",
   },
   {
     slug: "bank-guarantees",
@@ -206,8 +196,7 @@ export const PRODUCTS: Product[] = [
       "Comprehensive and third-party motor cover with seamless claims handling.",
     highlights: ["Comprehensive / TPO", "24/7 claims"],
     termLabel: "12 months",
-    imageUrl:
-      "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Motor Vehicle Insurance.jpg",
   },
   {
     slug: "wiba-insurance",
@@ -217,8 +206,7 @@ export const PRODUCTS: Product[] = [
       "Workplace Injury Benefit Act cover — statutorily required, properly structured.",
     highlights: ["Statutory compliance", "Per-employee pricing"],
     termLabel: "12 months",
-    imageUrl:
-      "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/WIBA Insurance.jpg",
   },
   {
     slug: "medical-insurance",
@@ -228,8 +216,7 @@ export const PRODUCTS: Product[] = [
       "Individual, family, and corporate medical schemes with curated provider networks.",
     highlights: ["Inpatient + outpatient", "Dental &amp; optical add-ons"],
     termLabel: "12 months",
-    imageUrl:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Medical Insurance.jpg",
   },
   {
     slug: "travel-insurance",
@@ -239,8 +226,7 @@ export const PRODUCTS: Product[] = [
       "Schengen-compliant and global travel cover for business, leisure, and study trips.",
     highlights: ["Schengen-compliant", "Single &amp; multi-trip"],
     termLabel: "Per trip",
-    imageUrl:
-      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Travel Insurance.jpg",
   },
   {
     slug: "personal-accident-cover",
@@ -250,8 +236,7 @@ export const PRODUCTS: Product[] = [
       "24/7 personal accident cover — income protection if life takes an unexpected turn.",
     highlights: ["24/7 worldwide", "Lump-sum payouts"],
     termLabel: "12 months",
-    imageUrl:
-      "https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Personal Accident Cover.jpg",
   },
 ];
 
