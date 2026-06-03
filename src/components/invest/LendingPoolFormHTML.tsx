@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef } from "react";
 import Link from "next/link";
 
 const COUNTRIES = [
@@ -62,6 +63,74 @@ const COUNTRIES = [
 ];
 
 export function LendingPoolFormHTML() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isSubmitting || isSuccess) return;
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      const data = {
+        investor_type: "lending_pool",
+        first_name: formData.get("first_name") || "",
+        last_name: formData.get("last_name") || "",
+        country_code: formData.get("country_code") || "+254",
+        phone_number: formData.get("phone_number") || "",
+        email: formData.get("email") || "",
+        investment_amount: parseFloat((formData.get("investment_amount") as string) || "0"),
+        investment_preferences: [formData.get("loan_category") || "logbook_loans"],
+        investor_note: formData.get("investor_note") || "",
+      };
+
+      const response = await fetch("/api/investors/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.success === true) {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+        if (formRef.current) formRef.current.reset();
+      } else {
+        throw new Error(result.message || "Registration failed");
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : "Unknown error";
+      alert("Error: " + msg);
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-white p-4">
+        <div className="max-w-md mx-auto py-8 text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="text-green-800 text-lg font-medium mb-2">Success!</p>
+          <p className="text-gray-700 mb-6">Your details have been saved. Check your email for confirmation.</p>
+          <a href="https://chat.whatsapp.com/CUtQEf4CkNI1zeYyo7cUVs?s=cl&p=i&mlu=1" target="_blank" rel="noopener noreferrer" className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg w-full mb-4">
+            Join WhatsApp Group
+          </a>
+          <button onClick={() => window.location.href = "/invest"} className="text-blue-700 hover:text-blue-800 font-semibold">
+            ← Back to Opportunities
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -71,8 +140,7 @@ export function LendingPoolFormHTML() {
         </Link>
         <h1 className="text-3xl font-bold mb-6">Join Lending Pool</h1>
 
-        <form method="POST" action="/api/investors/register" className="space-y-4">
-          <input type="hidden" name="investor_type" value="lending_pool" />
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold mb-1">
               First Name *
