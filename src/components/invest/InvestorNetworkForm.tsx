@@ -60,7 +60,6 @@ export function InvestorNetworkForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [apiResponse, setApiResponse] = useState<string>("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("+254");
@@ -83,8 +82,6 @@ export function InvestorNetworkForm() {
     setLoading(true);
 
     try {
-      setApiResponse("Sending request...");
-
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000);
 
@@ -108,12 +105,8 @@ export function InvestorNetworkForm() {
 
       // Check if we were redirected (success)
       if (response.redirected) {
-        alert("✅ Registration successful! Your details have been saved.");
-        setApiResponse(`Status: ${response.status} | Redirected to: ${response.url}`);
-        setSuccess(true);
-        setTimeout(() => {
-          window.location.href = response.url;
-        }, 500);
+        // Silently redirect to success page without alert
+        window.location.href = response.url;
         return;
       }
 
@@ -121,25 +114,18 @@ export function InvestorNetworkForm() {
       try {
         data = await response.json();
       } catch (parseError) {
-        setApiResponse(`Status: ${response.status} | Parse Error: ${String(parseError)}`);
         setError("Failed to parse API response");
         return;
       }
 
-      setApiResponse(`Status: ${response.status} | Response: ${JSON.stringify(data)}`);
-
       if (response.ok) {
-        alert("✅ Server response: " + JSON.stringify(data));
-        alert("✅ Registration successful! Your details have been saved.");
-        setSuccess(true);
+        // Redirect to success page silently
+        window.location.href = "/investor-network-success";
       } else {
-        alert("❌ API Error: " + JSON.stringify(data));
         setError(data.error || "Registration failed");
       }
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
-      alert("❌ Fetch error: " + errorMsg);
-      setApiResponse(`ERROR: ${errorMsg}`);
       setError(`Network error: ${errorMsg}`);
     } finally {
       setLoading(false);
@@ -180,12 +166,6 @@ export function InvestorNetworkForm() {
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
             {error}
-          </div>
-        )}
-
-        {apiResponse && (
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-4 text-xs font-mono break-words">
-            <strong>API Debug:</strong> {apiResponse}
           </div>
         )}
 
