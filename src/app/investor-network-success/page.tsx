@@ -10,23 +10,23 @@ export default function InvestorNetworkSuccessPage() {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-green-800 mb-4">Registration Successful ✅</h1>
+        <h1 className="text-3xl font-bold text-green-800 mb-4">Welcome to the Network! 🎉</h1>
 
         <div className="space-y-4 mb-8">
           <p className="text-lg text-gray-700 font-semibold">
-            Your details have been saved successfully.
+            Congratulations! You've successfully joined our Investor Network.
           </p>
 
           <p className="text-gray-600">
-            You will receive alerts when a matching opportunity becomes available.
+            You're now part of an exclusive community of investors with access to curated SME and innovation opportunities.
           </p>
 
           <p className="text-gray-600">
-            Our investment team will review your information and contact you when suitable investment opportunities match your preferences.
+            Our investment team will carefully review your profile and match you with opportunities that align with your investment preferences.
           </p>
 
           <p className="text-gray-600">
-            Please check your email for confirmation and future updates.
+            Watch your email for exclusive deal notifications and investment alerts tailored to your interests.
           </p>
         </div>
 
