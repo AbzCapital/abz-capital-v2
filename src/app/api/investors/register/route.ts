@@ -227,11 +227,16 @@ export async function POST(request: NextRequest) {
 
     console.log("[API] Investor registration successful:", investor.id);
 
-    // Redirect to success page instead of returning JSON
+    // Redirect to appropriate success page based on investor type
     // Use the request host to construct the proper redirect URL
     const host = request.headers.get('host') || 'localhost:3000';
     const protocol = request.headers.get('x-forwarded-proto') || 'http';
-    const redirectUrl = new URL(`/registration-success`, `${protocol}://${host}`);
+
+    const successPath = investor_type === 'lending_pool'
+      ? '/registration-success'
+      : '/investor-network-success';
+
+    const redirectUrl = new URL(successPath, `${protocol}://${host}`);
 
     return NextResponse.redirect(redirectUrl, {
       status: 303
