@@ -29,9 +29,6 @@ export function LendingPoolFormWrapper() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (isMobile) {
-    return <LendingPoolFormMobile />;
-  }
-
-  return <LendingPoolForm />;
+  // Always use FormMobile - it has proper React fetch handling
+  return <LendingPoolFormMobile />;
 }

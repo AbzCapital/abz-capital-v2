@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { InvestorNetworkForm } from "./InvestorNetworkForm";
-import { InvestorNetworkFormHTML } from "./InvestorNetworkFormHTML";
+import { InvestorNetworkFormMobile } from "./InvestorNetworkFormMobile";
 
 export function InvestorNetworkFormWrapper() {
   const isMobileUserAgent =
@@ -29,9 +29,6 @@ export function InvestorNetworkFormWrapper() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (isMobile) {
-    return <InvestorNetworkFormHTML />;
-  }
-
-  return <InvestorNetworkForm />;
+  // Always use FormMobile - it has proper React fetch handling
+  return <InvestorNetworkFormMobile />;
 }
