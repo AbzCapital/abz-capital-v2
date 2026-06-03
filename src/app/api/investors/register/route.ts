@@ -228,7 +228,12 @@ export async function POST(request: NextRequest) {
     console.log("[API] Investor registration successful:", investor.id);
 
     // Redirect to success page instead of returning JSON
-    return NextResponse.redirect(new URL("/registration-success", request.url), {
+    // Use the request host to construct the proper redirect URL
+    const host = request.headers.get('host') || 'localhost:3000';
+    const protocol = request.headers.get('x-forwarded-proto') || 'http';
+    const redirectUrl = new URL(`/registration-success`, `${protocol}://${host}`);
+
+    return NextResponse.redirect(redirectUrl, {
       status: 303
     });
   } catch (error) {
