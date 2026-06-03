@@ -146,6 +146,7 @@ export function LendingPoolFormMobile() {
 
             <form
               ref={formRef}
+              onSubmit={handleSubmit}
               className="space-y-4"
             >
               <div>
