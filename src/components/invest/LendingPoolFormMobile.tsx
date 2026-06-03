@@ -18,6 +18,7 @@ export function LendingPoolFormMobile() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+alert("NEW VERSION RUNNING - CHECKING FORM");
     console.log("🔵 FORM HANDLER CALLED");
 
     e.preventDefault();
@@ -85,6 +86,9 @@ export function LendingPoolFormMobile() {
 
   return (
     <div className="min-h-screen bg-white p-4">
+      <div className="bg-yellow-100 border-2 border-yellow-500 p-3 rounded mb-4 text-yellow-900 font-bold">
+        🔴 LendingPoolFormMobile LOADED - Check console for handleSubmit
+      </div>
       <div className="max-w-md mx-auto py-8">
         <Link href="/invest" className="text-blue-700 mb-6 inline-block">← Back</Link>
 
