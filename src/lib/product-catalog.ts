@@ -183,8 +183,7 @@ export const PRODUCTS: Product[] = [
       "Bank-backed guarantees structured for tenders, performance, payment, or retention.",
     highlights: ["Flexible structures", "Tier-1 issuance"],
     termLabel: "Per use",
-    imageUrl:
-      "https://images.unsplash.com/photo-1554224154-26032cdc0f25?auto=format&fit=crop&w=800&q=70",
+    imageUrl: "/images/products/Bank Guarantees.jpg",
   },
 
   // Insurance
