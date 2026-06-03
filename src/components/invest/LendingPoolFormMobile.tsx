@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 const COUNTRIES = [
@@ -83,6 +83,23 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
   };
 
   const showMessage = message && !isSuccess;
+
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const handleFormSubmit = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      handleSubmit(event as any);
+      return false;
+    };
+
+    form.addEventListener("submit", handleFormSubmit);
+    return () => {
+      form.removeEventListener("submit", handleFormSubmit);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white p-4">
@@ -198,15 +215,7 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
               </div>
 
               <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (formRef.current) {
-                    const event = new Event('submit', { bubbles: true, cancelable: true }) as any;
-                    formRef.current.dispatchEvent(event);
-                    handleSubmit(event);
-                  }
-                }}
+                type="submit"
                 disabled={isSubmitting}
                 className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800"}`}
               >
