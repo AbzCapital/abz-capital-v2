@@ -67,16 +67,27 @@ export function LendingPoolFormHTML() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [investorData, setInvestorData] = useState<any>(null);
+  const [debugLog, setDebugLog] = useState<string[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
 
+  const addDebug = (msg: string) => {
+    setDebugLog(prev => [...prev, msg]);
+    console.log(msg);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    addDebug("✅ Form handler called!");
     e.preventDefault();
     e.stopPropagation();
 
-    if (isSubmitting || isSuccess) return;
+    if (isSubmitting || isSuccess) {
+      addDebug("⚠️ Already submitting or success");
+      return;
+    }
 
     setIsSubmitting(true);
     setMessage("📤 Submitting your details...");
+    addDebug("Starting form submission...");
 
     try {
       const form = formRef.current;
@@ -93,15 +104,20 @@ export function LendingPoolFormHTML() {
       delete data.loan_category;
       data.investment_amount = parseFloat(data.investment_amount);
 
+      addDebug(`Sending data: ${JSON.stringify(data).substring(0, 50)}...`);
+
       const response = await fetch("/api/investors/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
+      addDebug(`Response status: ${response.status}`);
       const result = await response.json();
+      addDebug(`Response success: ${result.success}`);
 
       if (result.success === true) {
+        addDebug("✅ SUCCESS! Setting success view...");
         setInvestorData(result);
         setIsSuccess(true);
         setIsSubmitting(false);
@@ -109,10 +125,12 @@ export function LendingPoolFormHTML() {
           formRef.current.reset();
         }
       } else {
+        addDebug(`❌ Not success: ${result.message}`);
         throw new Error(result.message || result.error || "Failed to register");
       }
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Unknown error";
+      addDebug(`❌ ERROR: ${msg}`);
       setMessage("❌ Error: " + msg + ". Please try again.");
       setIsSubmitting(false);
     }
@@ -154,6 +172,15 @@ export function LendingPoolFormHTML() {
             {showMessage && (
               <div className={`p-3 rounded mb-4 ${message.includes("❌") ? "bg-red-50 text-red-700" : "bg-blue-50 text-blue-700"}`}>
                 {message}
+              </div>
+            )}
+
+            {debugLog.length > 0 && (
+              <div className="p-3 rounded mb-4 bg-purple-50 border border-purple-200 text-xs text-purple-800">
+                <strong>DEBUG LOG:</strong>
+                {debugLog.map((log, i) => (
+                  <div key={i}>{log}</div>
+                ))}
               </div>
             )}
 
