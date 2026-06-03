@@ -7,7 +7,6 @@ import { OfferingCardsSection } from "@/components/invest/OfferingCardsSection";
 import { WhyChooseSection } from "@/components/invest/WhyChooseSection";
 import { OpportunitiesTypesSection } from "@/components/invest/OpportunitiesTypesSection";
 import { SimpleInvestorAlert } from "@/components/invest/SimpleInvestorAlert";
-import { InvestorInterestForm } from "@/components/forms/InvestorInterestForm";
 
 export function InvestPageClient() {
   return (
@@ -23,52 +22,6 @@ export function InvestPageClient() {
 
       {/* Types of Opportunities Available */}
       <OpportunitiesTypesSection />
-
-      {/* Register Interest Form Section */}
-      <Section id="invest-interest" spacing="lg" background="white">
-        <Container size="lg">
-          <div className="grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <span className="text-xs font-semibold uppercase tracking-widest text-blue-700 mb-3">
-                Next Step
-              </span>
-              <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl mb-4">
-                Register Your Interest
-              </h2>
-              <p className="text-base leading-relaxed text-muted-ink mb-6">
-                Our investor team will reach out within 24 hours to schedule a one-on-one conversation about active opportunities aligned with your ticket size and risk tolerance.
-              </p>
-
-              <ul className="grid gap-3 text-sm text-muted-ink">
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[10px] font-bold text-white">
-                    1
-                  </span>
-                  <span>Tell us your preferred track and ticket size</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[10px] font-bold text-white">
-                    2
-                  </span>
-                  <span>We&rsquo;ll share a tailored opportunity brief</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[10px] font-bold text-white">
-                    3
-                  </span>
-                  <span>Schedule a call &amp; co-design your position</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-7">
-              <div className="rounded-3xl border border-line bg-white p-8 shadow-card sm:p-10">
-                <InvestorInterestForm />
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
 
       {/* Final CTA Section */}
       <Section spacing="lg" background="indigo">
