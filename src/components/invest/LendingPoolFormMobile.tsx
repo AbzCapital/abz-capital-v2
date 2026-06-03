@@ -150,6 +150,8 @@ export function LendingPoolFormMobile() {
 
             <form
               ref={formRef}
+              method="POST"
+              action="/api/investors/register"
               onSubmit={handleSubmit}
               className="space-y-4"
             >
