@@ -201,7 +201,11 @@ alert("NEW VERSION RUNNING - CHECKING FORM");
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleSubmit(e as any);
+                  if (formRef.current) {
+                    const event = new Event('submit', { bubbles: true, cancelable: true }) as any;
+                    formRef.current.dispatchEvent(event);
+                    handleSubmit(event);
+                  }
                 }}
                 disabled={isSubmitting}
                 className={`w-full py-3 font-bold rounded text-white ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-700 hover:bg-blue-800"}`}
