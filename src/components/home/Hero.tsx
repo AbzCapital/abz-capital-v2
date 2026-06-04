@@ -108,15 +108,15 @@ function HeroVisual() {
           <span className="rounded-full bg-peach-50 px-2 py-0.5 text-[10px] text-blue-700">Logbook</span>
         </div>
         <div className="mt-3 text-2xl font-extrabold text-ink">KES 500,000</div>
-        <div className="mt-1 text-xs text-muted-ink">4-month reducing balance</div>
+        <div className="mt-1 text-xs text-muted-ink">6% monthly on reducing balance</div>
         <div className="mt-4 grid grid-cols-3 gap-3 border-t border-line pt-3 text-[10px] text-muted-ink">
           <div>
-            <div className="text-[9px] uppercase tracking-wide">Monthly</div>
-            <div className="text-sm font-bold text-ink">KES 144,300</div>
+            <div className="text-[9px] uppercase tracking-wide">Monthly Avg</div>
+            <div className="text-sm font-bold text-ink">KES 143,750</div>
           </div>
           <div>
             <div className="text-[9px] uppercase tracking-wide">Total</div>
-            <div className="text-sm font-bold text-ink">577,200</div>
+            <div className="text-sm font-bold text-ink">575,000</div>
           </div>
           <div>
             <div className="text-[9px] uppercase tracking-wide">Term</div>
