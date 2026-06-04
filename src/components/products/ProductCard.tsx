@@ -26,9 +26,6 @@ export function ProductCard({ product, category }: ProductCardProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
         />
-        <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-700 backdrop-blur">
-          {product.termLabel}
-        </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
