@@ -76,9 +76,9 @@ export const PRODUCTS: Product[] = [
     category: "asset-backed",
     description:
       "Borrow against your vehicle logbook. Keep driving while you repay.",
-    highlights: ["1–6 month terms", "KES 50K – 5M"],
+    highlights: ["Flexible terms", "KES 50K – 5M"],
     hasSimulator: true,
-    termLabel: "1–6 mo",
+    termLabel: "Flexible",
     imageUrl: "/images/products/Logbook Loan.jpg",
   },
   {
