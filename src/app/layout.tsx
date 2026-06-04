@@ -69,6 +69,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <head>
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2RNR682VT"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-H2RNR682VT');
+            `,
+          }}
+        />
+
         {/* Favicon Links */}
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
