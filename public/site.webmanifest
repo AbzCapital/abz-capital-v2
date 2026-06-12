@@ -22,24 +22,24 @@
       "purpose": "any"
     },
     {
-      "src": "/logo.svg",
+      "src": "/logo.png",
       "sizes": "360x360",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
   "categories": ["finance", "business"],
   "screenshots": [
     {
-      "src": "/logo.svg",
+      "src": "/logo.png",
       "sizes": "540x720",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "form_factor": "narrow"
     },
     {
-      "src": "/logo.svg",
+      "src": "/logo.png",
       "sizes": "1280x720",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "form_factor": "wide"
     }
   ]
